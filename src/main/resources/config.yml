@@ -1,0 +1,7 @@
+countdown-time: 3
+game-time: 200
+warp-block-type: DIAMOND_BLOCK
+tp-location:
+  x: 0.0
+  y: 0.0
+  z: 0.0
