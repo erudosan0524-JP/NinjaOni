@@ -3,6 +3,8 @@ package jp.ne.sakura.erudoblog.ninjaoni.ninjaoni;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.command.CommandManager;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.listener.JoinQuitListener;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.listener.NinjaMoveListener;
+import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.listener.NinjaOniListener;
+import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.listener.NinjaPlayerListener;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.runnable.CountDown;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.utils.*;
@@ -57,6 +59,8 @@ public final class NinjaOni extends JavaPlugin {
         //リスナーのセットアップ
         new NinjaMoveListener(getInstance());
         new JoinQuitListener(getInstance());
+        new NinjaOniListener(getInstance());
+        new NinjaPlayerListener(getInstance());
     }
 
     @Override
@@ -94,6 +98,7 @@ public final class NinjaOni extends JavaPlugin {
 
     //ゲーム終了時の処理
     public void gameEnd() {
+        teamManager.reset();
         setGameState(GameState.NONE);
 
         for(NinjaPlayer np : getNinjaPlayers()) {

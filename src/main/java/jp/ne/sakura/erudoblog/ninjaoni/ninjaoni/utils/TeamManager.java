@@ -57,4 +57,16 @@ public class TeamManager {
             }
         }
     }
+
+    public void reset() {
+        for(String name : oni.getEntries()) {
+            oni.removeEntry(name);
+        }
+        for(String name : player.getEntries()) {
+            player.removeEntry(name);
+        }
+        for(String name : spectator.getEntries()) {
+            spectator.removeEntry(name);
+        }
+    }
 }
