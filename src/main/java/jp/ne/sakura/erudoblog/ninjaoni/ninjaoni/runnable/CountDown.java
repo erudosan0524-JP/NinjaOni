@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.NinjaOni;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.utils.GameState;
+import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.utils.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -33,9 +34,7 @@ public class CountDown extends BukkitRunnable {
 
             if (count == 0) {
                 plugin.setGameState(GameState.INGAME);
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    player.sendTitle("GAME START!", null, 10, 70, 2);
-                }
+                MessageManager.sendTitleAll("GAME START!", null, 10, 70, 2);
             } else {
                 StringBuilder sb = new StringBuilder();
                 for(int i=0; i < count; i++) {

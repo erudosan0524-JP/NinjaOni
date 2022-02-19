@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.NinjaOni;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.utils.GameState;
+import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.utils.MessageManager;
 import jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.utils.NinjaPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -32,9 +33,7 @@ public class GameTask extends BukkitRunnable {
 
             if (count == 0) {
                 plugin.gameEnd();
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    player.sendTitle("GAME OVER!", null, 10, 70, 2);
-                }
+                MessageManager.sendTitleAll("GAME OVER!", null, 10, 70, 2);
             } else {
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if(NinjaOni.getNinjaPlayer(player) != null) {

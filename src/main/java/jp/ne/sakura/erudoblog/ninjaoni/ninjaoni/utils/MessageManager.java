@@ -9,4 +9,10 @@ public class MessageManager {
             player.sendMessage(message);
         }
     }
+
+    public static void sendTitleAll(String title, String subtitle, int fadein, int stay, int fadeout) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            player.sendTitle(title, subtitle, fadein, stay, fadeout);
+        }
+    }
 }
