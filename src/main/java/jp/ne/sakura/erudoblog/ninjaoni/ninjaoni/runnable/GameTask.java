@@ -31,7 +31,7 @@ public class GameTask extends BukkitRunnable {
             }
 
             if (count == 0) {
-                plugin.setGameState(GameState.NONE);
+                plugin.gameEnd();
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     player.sendTitle("GAME OVER!", null, 10, 70, 2);
                 }

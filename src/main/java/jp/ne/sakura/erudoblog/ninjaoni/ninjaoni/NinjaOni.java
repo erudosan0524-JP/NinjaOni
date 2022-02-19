@@ -10,12 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
@@ -56,7 +52,7 @@ public final class NinjaOni extends JavaPlugin {
         command.setup();
 
         //チームのセットアップ
-        teamManager.load();
+        teamManager = new TeamManager(getInstance());
 
         //リスナーのセットアップ
         new NinjaMoveListener(getInstance());
@@ -79,14 +75,16 @@ public final class NinjaOni extends JavaPlugin {
                 //スペクテイターモードの人
                 ninja.setStatus(PlayerStatus.SPECTATOR);
                 ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
+
             } else if(ninja.getStatus() == PlayerStatus.ONI){
                 //鬼の人
                 Player player = ninja.getPlayer();
-
+                player.teleport(getMyConfig().getTPLocationOni());
             } else {
                 //通常プレイヤーの人
                 ninja.setStatus(PlayerStatus.PLAYER);
                 Player player = ninja.getPlayer();
+                player.teleport(getMyConfig().getTPLocationPlayer());
             }
         }
 
@@ -96,41 +94,44 @@ public final class NinjaOni extends JavaPlugin {
 
     //ゲーム終了時の処理
     public void gameEnd() {
+        setGameState(GameState.NONE);
 
+        for(NinjaPlayer np : getNinjaPlayers()) {
+            Player player = np.getPlayer();
+            updateNinjaPlayer(player, PlayerStatus.NONE);
+        }
     }
 
-    //存在しない場合-1, 存在する場合そのインデックス値
-    public static int contains(Player player) {
-        int result = -1;
+    //存在しない場合null, 存在する場合NinjaPlayer
+    public static NinjaPlayer contains(Player player) {
+        NinjaPlayer np = null;
 
-        for(int i = 0; i < ninja.size(); i++) {
-            NinjaPlayer np = ninja.get(i);
+        for(NinjaPlayer p : ninja) {
             if(np.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
-                result = i;
+                np = p;
             }
         }
-
-        return result;
+        return np;
     }
 
     public static void addNinjaPlayer(Player player) {
-        if(contains(player) < 0) {
+        if(contains(player) == null) {
             ninja.add(new NinjaPlayer(player));
         }
     }
 
-    public static void updateNinjaPlayer(NinjaPlayer np) {
-        if(contains(np.getPlayer()) >= 0) {
-            ninja.remove(contains(np.getPlayer()));
-
-            ninja.add(np);
+    public static void updateNinjaPlayer(Player player, PlayerStatus status) {
+        if(contains(player) != null) {
+            NinjaPlayer np = contains(player);
+            np.setPlayer(player);
+            np.setStatus(status);
         }
     }
 
     public static NinjaPlayer getNinjaPlayer(Player player) {
         NinjaPlayer result = null;
-        if(contains(player) >= 0) {
-            result = ninja.get(contains(player));
+        if(contains(player) != null) {
+            result = contains(player);
         }
         return result;
     }

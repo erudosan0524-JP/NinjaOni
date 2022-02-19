@@ -19,7 +19,7 @@ public class Config {
     private Material warpBlockTypeOni, warpBlockTypeSpec;
 
     @Getter
-    private Location TPLocation;
+    private Location TPLocationOni, TPLocationPlayer;
 
     public Config(Plugin plugin) {
         this.plugin = plugin;
@@ -44,10 +44,15 @@ public class Config {
         temp = config.getString("warp-block-type-spec");
         warpBlockTypeSpec = Material.valueOf(temp);
 
-        double x = config.getDouble("tp-location.x");
-        double y = config.getDouble(("tp-location.y"));
-        double z = config.getDouble(("tp-location.z"));
-        TPLocation = new Location(null, x,y,z);
+        double ox = config.getDouble("tp-location.oni.x");
+        double oy = config.getDouble(("tp-location.oni.y"));
+        double oz = config.getDouble(("tp-location.oni.z"));
+        TPLocationOni = new Location(null, ox,oy,oz);
+
+        double px = config.getDouble("tp-location.player.x");
+        double py = config.getDouble(("tp-location.player.y"));
+        double pz = config.getDouble(("tp-location.player.z"));
+        TPLocationPlayer = new Location(null, px,py,pz);
 
     }
 

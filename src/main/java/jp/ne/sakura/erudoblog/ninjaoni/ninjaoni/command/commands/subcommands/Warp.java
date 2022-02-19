@@ -20,12 +20,11 @@ public class Warp extends SubCommand {
             for(Player p : Bukkit.getServer().getOnlinePlayers()) {
                 System.out.println(p.getName());
                 if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeOni()) {
-                    NinjaPlayer ninja = new NinjaPlayer(p, PlayerStatus.ONI);
                     p.getInventory().setHelmet(ItemManager.getOniHelmet());
                     p.getInventory().setChestplate(ItemManager.getOniChestplate());
                     p.getInventory().setLeggings(ItemManager.getOniLeggings());
                     p.getInventory().setBoots(ItemManager.getOniBoots());
-                    NinjaOni.updateNinjaPlayer(ninja);
+                    NinjaOni.updateNinjaPlayer(p, PlayerStatus.ONI);
                     p.sendMessage("あなたは鬼になりました");
                 }
             }
@@ -33,8 +32,7 @@ public class Warp extends SubCommand {
             for(Player p : Bukkit.getServer().getOnlinePlayers()) {
                 System.out.println(p.getName());
                 if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeSpec()) {
-                    NinjaPlayer ninja = new NinjaPlayer(p, PlayerStatus.SPECTATOR);
-                    NinjaOni.updateNinjaPlayer(ninja);
+                    NinjaOni.updateNinjaPlayer(p, PlayerStatus.SPECTATOR);
                     p.sendMessage("あなたは観戦者になりました");
                 }
             }

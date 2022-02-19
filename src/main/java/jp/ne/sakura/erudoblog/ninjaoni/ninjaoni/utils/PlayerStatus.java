@@ -12,7 +12,7 @@ public enum PlayerStatus {
     private String prefix;
     private String suffix;
 
-    private PlayerStatus(String teamName, String prefix, String suffix) {
+    PlayerStatus(String teamName, String prefix, String suffix) {
         this.teamName = teamName;
         this.prefix = prefix;
         this.suffix = suffix;
