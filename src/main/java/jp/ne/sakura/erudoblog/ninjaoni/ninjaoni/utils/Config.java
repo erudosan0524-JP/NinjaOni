@@ -16,7 +16,7 @@ public class Config {
     private int countdownTime, gameTime;
 
     @Getter
-    private Material warpBlockType;
+    private Material warpBlockTypeOni, warpBlockTypeSpec;
 
     @Getter
     private Location TPLocation;
@@ -39,8 +39,10 @@ public class Config {
         countdownTime = config.getInt("countdown-time");
         gameTime = config.getInt("game-time");
 
-        String temp = config.getString("warp-block-type");
-        warpBlockType = Material.valueOf(temp);
+        String temp = config.getString("warp-block-type-oni");
+        warpBlockTypeOni = Material.valueOf(temp);
+        temp = config.getString("warp-block-type-spec");
+        warpBlockTypeSpec = Material.valueOf(temp);
 
         double x = config.getDouble("tp-location.x");
         double y = config.getDouble(("tp-location.y"));
