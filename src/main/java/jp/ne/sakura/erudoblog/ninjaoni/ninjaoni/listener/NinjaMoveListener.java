@@ -33,10 +33,6 @@ public class NinjaMoveListener implements Listener {
     //忍者着地
     @EventHandler
     public void onDamageEntity(EntityDamageEvent e) {
-        if (NinjaOni.getInstance().getGameState() != GameState.INGAME) {
-            return;
-        }
-
         if (!(e.getEntity() instanceof Player)) {
             return;
         }
@@ -47,6 +43,10 @@ public class NinjaMoveListener implements Listener {
             e.setCancelled(true);
 
             if (player.isSneaking()) {
+                if (NinjaOni.getInstance().getGameState() != GameState.INGAME) {
+                    return;
+                }
+
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);
                 player.spawnParticle(Particle.CRIT_MAGIC, player.getLocation().subtract(0, 0.3, 0), 20);
             } else {

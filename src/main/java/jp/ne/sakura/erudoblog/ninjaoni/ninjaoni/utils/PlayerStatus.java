@@ -3,9 +3,9 @@ package jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.utils;
 import org.bukkit.ChatColor;
 
 public enum PlayerStatus {
-    ONI("鬼",ChatColor.RED.toString(), ChatColor.WHITE.toString()),
-    PLAYER("逃走者", ChatColor.BLUE.toString(), ChatColor.WHITE.toString()),
-    SPECTATOR("観戦者", ChatColor.GRAY.toString(), ChatColor.WHITE.toString()),
+    ONI("oni","§c", "§f"),
+    PLAYER("player", "§9", "§f"),
+    SPECTATOR("spectator", "§7", "§f"),
     NONE("","","");
 
     private String teamName;

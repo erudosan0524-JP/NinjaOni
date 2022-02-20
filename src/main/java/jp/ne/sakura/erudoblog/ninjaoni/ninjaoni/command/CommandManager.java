@@ -16,7 +16,7 @@ import java.util.*;
 
 public class CommandManager implements CommandExecutor {
     private NinjaOni plugin;
-    private final String mainCommand = "nw";
+    private final String mainCommand = "ninja";
     private final List<SubCommand> commands = new ArrayList<>();
 
     public CommandManager(NinjaOni plugin) {
@@ -24,7 +24,10 @@ public class CommandManager implements CommandExecutor {
     }
 
     public void setup() {
-        if(plugin.getCommand(mainCommand) == null) return;
+        if(plugin.getCommand(mainCommand) == null) {
+            System.out.println("Command null");
+            return;
+        }
 
         plugin.getCommand(mainCommand).setExecutor(this);
 

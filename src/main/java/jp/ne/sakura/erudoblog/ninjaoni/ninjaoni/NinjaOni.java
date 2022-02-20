@@ -12,8 +12,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
@@ -36,8 +39,10 @@ public final class NinjaOni extends JavaPlugin {
     @Getter
     private CommandManager command;
 
-    @Getter
-    private TeamManager teamManager;
+    private ScoreboardManager sm;
+    private Scoreboard board;
+
+    private Team oni,player,spectator;
 
     @Override
     public void onEnable() {
@@ -54,7 +59,7 @@ public final class NinjaOni extends JavaPlugin {
         command.setup();
 
         //チームのセットアップ
-        teamManager = new TeamManager(getInstance());
+        setupTeams();
 
         //リスナーのセットアップ
         new NinjaMoveListener(getInstance());
@@ -69,9 +74,42 @@ public final class NinjaOni extends JavaPlugin {
         ninja.removeAll(ninja);
     }
 
+
+    private void setupTeams() {
+        sm = Bukkit.getServer().getScoreboardManager();
+        board = sm.getMainScoreboard();
+
+        this.oni = board.registerNewTeam(PlayerStatus.ONI.getTeamName());
+        oni.setPrefix(PlayerStatus.ONI.getPrefix());
+        oni.setSuffix(PlayerStatus.ONI.getSuffix());
+        oni.setAllowFriendlyFire(false);
+
+        this.player = board.registerNewTeam(PlayerStatus.PLAYER.getTeamName());
+        player.setPrefix(PlayerStatus.PLAYER.getPrefix());
+        player.setSuffix(PlayerStatus.PLAYER.getSuffix());
+        player.setAllowFriendlyFire(false);
+
+        this.spectator = board.registerNewTeam(PlayerStatus.SPECTATOR.getTeamName());
+        spectator.setPrefix(PlayerStatus.SPECTATOR.getPrefix());
+        spectator.setSuffix(PlayerStatus.SPECTATOR.getSuffix());
+        spectator.setAllowFriendlyFire(false);
+    }
+
     //ゲームスタート時の処理
     public void gameStart(int countdownTime, int gameTime) {
-        teamManager.load();
+        for(NinjaPlayer np : NinjaOni.getNinjaPlayers()) {
+            if(np.getStatus() == PlayerStatus.ONI) {
+                System.out.println(np.getPlayer().getName() + "add Oni team");
+                oni.addEntry(np.getPlayer().getName());
+            } else if(np.getStatus() == PlayerStatus.PLAYER) {
+                System.out.println(np.getPlayer().getName() + "add Player team");
+                player.addEntry(np.getPlayer().getName());
+            } else if(np.getStatus() == PlayerStatus.SPECTATOR) {
+                System.out.println(np.getPlayer().getName() + "add Spectator team");
+                spectator.addEntry(np.getPlayer().getName());
+            }
+        }
+
         gameState = GameState.COUNTDOWN;
 
         for (NinjaPlayer ninja : ninja) {
@@ -80,14 +118,18 @@ public final class NinjaOni extends JavaPlugin {
                 ninja.setStatus(PlayerStatus.SPECTATOR);
                 ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
 
-            } else if(ninja.getStatus() == PlayerStatus.ONI){
+            } else if (ninja.getStatus() == PlayerStatus.ONI) {
                 //鬼の人
                 Player player = ninja.getPlayer();
+                Location loc = getMyConfig().getTPLocationOni();
+                loc.setWorld(player.getWorld());
                 player.teleport(getMyConfig().getTPLocationOni());
             } else {
                 //通常プレイヤーの人
                 ninja.setStatus(PlayerStatus.PLAYER);
                 Player player = ninja.getPlayer();
+                Location loc = getMyConfig().getTPLocationPlayer();
+                loc.setWorld(player.getWorld());
                 player.teleport(getMyConfig().getTPLocationPlayer());
             }
         }
@@ -98,10 +140,19 @@ public final class NinjaOni extends JavaPlugin {
 
     //ゲーム終了時の処理
     public void gameEnd() {
-        teamManager.reset();
+        for(String name : oni.getEntries()) {
+            oni.removeEntry(name);
+        }
+        for(String name : player.getEntries()) {
+            player.removeEntry(name);
+        }
+        for(String name : spectator.getEntries()) {
+            spectator.removeEntry(name);
+        }
+
         setGameState(GameState.NONE);
 
-        for(NinjaPlayer np : getNinjaPlayers()) {
+        for (NinjaPlayer np : getNinjaPlayers()) {
             Player player = np.getPlayer();
             updateNinjaPlayer(player, PlayerStatus.NONE);
         }
@@ -111,31 +162,36 @@ public final class NinjaOni extends JavaPlugin {
     public static NinjaPlayer contains(Player player) {
         NinjaPlayer np = null;
 
-        for(NinjaPlayer p : ninja) {
-            if(np.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
+        for (NinjaPlayer p : ninja) {
+            if (p.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
                 np = p;
             }
         }
+
         return np;
     }
 
     public static void addNinjaPlayer(Player player) {
-        if(contains(player) == null) {
-            ninja.add(new NinjaPlayer(player));
-        }
+        ninja.add(new NinjaPlayer(player));
+    }
+
+    public static void addNinjaPlayer(NinjaPlayer player) {
+        ninja.add(player);
     }
 
     public static void updateNinjaPlayer(Player player, PlayerStatus status) {
-        if(contains(player) != null) {
+        if (contains(player) != null) {
             NinjaPlayer np = contains(player);
             np.setPlayer(player);
             np.setStatus(status);
+        } else {
+            addNinjaPlayer(new NinjaPlayer(player,status));
         }
     }
 
     public static NinjaPlayer getNinjaPlayer(Player player) {
         NinjaPlayer result = null;
-        if(contains(player) != null) {
+        if (contains(player) != null) {
             result = contains(player);
         }
         return result;

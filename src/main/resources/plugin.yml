@@ -4,3 +4,6 @@ main: jp.ne.sakura.erudoblog.ninjaoni.ninjaoni.NinjaOni
 api-version: 1.17
 authors: [ erudo ]
 website: https://github.com/erudosan0524-JP
+commands:
+  ninja:
+    description: Ninja-Oni Command
