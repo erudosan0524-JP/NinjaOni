@@ -99,13 +99,13 @@ public final class NinjaOni extends JavaPlugin {
     public void gameStart(int countdownTime, int gameTime) {
         for(NinjaPlayer np : NinjaOni.getNinjaPlayers()) {
             if(np.getStatus() == PlayerStatus.ONI) {
-                System.out.println(np.getPlayer().getName() + "add Oni team");
+                System.out.println(np.getPlayer().getName() + " add Oni team");
                 oni.addEntry(np.getPlayer().getName());
             } else if(np.getStatus() == PlayerStatus.PLAYER) {
-                System.out.println(np.getPlayer().getName() + "add Player team");
+                System.out.println(np.getPlayer().getName() + " add Player team");
                 player.addEntry(np.getPlayer().getName());
             } else if(np.getStatus() == PlayerStatus.SPECTATOR) {
-                System.out.println(np.getPlayer().getName() + "add Spectator team");
+                System.out.println(np.getPlayer().getName() + " add Spectator team");
                 spectator.addEntry(np.getPlayer().getName());
             }
         }
