@@ -5,7 +5,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.NinjaPlayer;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,7 @@ public final class NinjaOni2 extends JavaPlugin {
     private CommandManager command;
 
     @Getter
-    private static final List<NinjaPlayer> ninjaPlayers = new ArrayList<>();
+    private static final List<Ninja> ninjas = new ArrayList<>();
 
     //スコアボード
     private ScoreboardManager sm;
@@ -77,7 +77,7 @@ public final class NinjaOni2 extends JavaPlugin {
     public void gameStart(int countdownTime, int gameTime) {
         setGameState(GameState.COUNTDOWN);
 
-        for(NinjaPlayer ninja : ninjaPlayers) {
+        for(Ninja ninja : ninjas) {
             if(ninja.getTeam() == SPECTATOR) {
                 //観戦者チームにいた場合
                 ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
@@ -116,8 +116,8 @@ public final class NinjaOni2 extends JavaPlugin {
         //ゲーム状態変更
         setGameState(GameState.NONE);
 
-        for(NinjaPlayer np : getNinjaPlayers()) {
-            NinjaPlayer ninja = new NinjaPlayer(np.getPlayer(), NONE);
+        for(Ninja np : getNinjas()) {
+            Ninja ninja = new Ninja(np.getPlayer(), NONE);
             updateNinjaPlayer(ninja);
         }
     }
@@ -195,7 +195,7 @@ public final class NinjaOni2 extends JavaPlugin {
     public static boolean containsNinja(Player player) {
         boolean result = false;
 
-        for(NinjaPlayer np : ninjaPlayers) {
+        for(Ninja np : ninjas) {
             if(np.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
                 result = true;
             }
@@ -204,34 +204,44 @@ public final class NinjaOni2 extends JavaPlugin {
         return result;
     }
 
-    public static void addNinjaPlayer(NinjaPlayer ninja) {
+    public static void addNinjaPlayer(Ninja ninja) {
         if(containsNinja(ninja.getPlayer())) {
             updateNinjaPlayer(ninja);
         } else {
-            ninjaPlayers.add(ninja);
+            ninjas.add(ninja);
         }
     }
 
-    public static void updateNinjaPlayer(NinjaPlayer ninja) {
+    public static void updateNinjaPlayer(Ninja ninja) {
         if(!containsNinja(ninja.getPlayer())) {
             return;
         }
 
-        NinjaPlayer oldNinja = getNinjaPlayer(ninja.getPlayer());
+        Ninja oldNinja = getNinjaPlayer(ninja.getPlayer());
         oldNinja.setClimbing(ninja.isClimbing());
-        oldNinja.setLocked(ninja.isLocked());
         oldNinja.setTeam(ninja.getTeam());
     }
 
-    public static NinjaPlayer getNinjaPlayer(Player player) {
-        NinjaPlayer result = null;
+    public static Ninja getNinjaPlayer(Player player) {
+        Ninja result = null;
 
         if(containsNinja(player)) {
-            for(int i=0; i < ninjaPlayers.size(); i++) {
-                NinjaPlayer np = ninjaPlayers.get(i);
+            for(int i = 0; i < ninjas.size(); i++) {
+                Ninja np = ninjas.get(i);
                 if(np.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
                     result = np;
                 }
+            }
+        }
+
+        return result;
+    }
+
+    public static int countNinja(Teams team) {
+        int result = 0;
+        for(Ninja ninja : ninjas) {
+            if(ninja.getTeam() == team) {
+                result++;
             }
         }
 

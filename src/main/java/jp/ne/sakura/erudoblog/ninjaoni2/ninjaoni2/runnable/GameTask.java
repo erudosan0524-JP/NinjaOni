@@ -2,7 +2,8 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.NinjaPlayer;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -38,12 +39,17 @@ public class GameTask extends BukkitRunnable {
             } else {
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (NinjaOni2.getNinjaPlayer(player) != null) {
-                        NinjaPlayer ninja = NinjaOni2.getNinjaPlayer(player);
+                        Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+
                         StringBuilder sb = new StringBuilder();
                         sb.append("残り時間:");
                         sb.append(count);
                         sb.append(" | ");
                         sb.append("残り逃走者: ");
+                        sb.append(NinjaOni2.countNinja(Teams.PLAYER));
+                        sb.append(" | ");
+                        sb.append("残り鬼： ");
+                        sb.append(NinjaOni2.countNinja(Teams.ONI));
 
                         TextComponent component = new TextComponent();
                         component.setText(sb.toString());
