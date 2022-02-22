@@ -94,17 +94,17 @@ public final class NinjaOni2 extends JavaPlugin {
                 //鬼チームにいた場合
                 Player player = ninja.getPlayer();
                 addPlayerToTeam(ninja.getPlayer(), ONI);
-                Location loc = getMyConfig().getTPLocationOni();
+                Location loc = getMyConfig().getTPLocationOni().clone();
                 loc.setWorld(player.getWorld());
-                player.teleport(getMyConfig().getTPLocationOni());
+                player.teleport(loc);
             } else {
                 //プレイヤーの場合
                 ninja.setTeam(Teams.PLAYER);
                 Player player = ninja.getPlayer();
                 addPlayerToTeam(ninja.getPlayer(), PLAYER);
-                Location loc = getMyConfig().getTPLocationPlayer();
+                Location loc = getMyConfig().getTPLocationPlayer().clone();
                 loc.setWorld(player.getWorld());
-                player.teleport(getMyConfig().getTPLocationPlayer());
+                player.teleport(loc);
             }
         }
 

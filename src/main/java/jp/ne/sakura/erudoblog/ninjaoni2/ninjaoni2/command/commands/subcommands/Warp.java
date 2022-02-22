@@ -5,6 +5,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.NinjaOni;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.NinjaPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
@@ -17,32 +18,25 @@ public class Warp extends SubCommand {
 
     @Override
     public void onCommand(Player player, String[] args) {
-        if(args[0].equals("oni")) {
-            for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-                System.out.println(p.getName());
-                if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeOni()) {
-                    p.getInventory().setHelmet(ItemManager.getOniHelmet());
-                    p.getInventory().setChestplate(ItemManager.getOniChestplate());
-                    p.getInventory().setLeggings(ItemManager.getOniLeggings());
-                    p.getInventory().setBoots(ItemManager.getOniBoots());
-                    NinjaOni2.updateNinjaPlayer(new NinjaPlayer(p, false, false));
-                    p.sendMessage("あなたは鬼になりました");
-                }
-            }
-        } else if(args[0].equals("spectator")) {
-            for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-                System.out.println(p.getName());
-                if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeSpec()) {
-                    NinjaOni2.updateNinjaPlayer(new Ninja(p, Teams.SPECTATOR));
-                    p.sendMessage("あなたは観戦者になりました");
-                }
+        for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+            System.out.println(p.getName());
+            if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeOni()) {
+                p.getInventory().setHelmet(ItemManager.getOniHelmet());
+                p.getInventory().setChestplate(ItemManager.getOniChestplate());
+                p.getInventory().setLeggings(ItemManager.getOniLeggings());
+                p.getInventory().setBoots(ItemManager.getOniBoots());
+                NinjaOni2.updateNinjaPlayer(new NinjaOni(p, false, false));
+                p.sendMessage("あなたは鬼になりました");
+            } else if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeSpec()) {
+                NinjaOni2.updateNinjaPlayer(new Ninja(p, Teams.SPECTATOR));
+                p.sendMessage("あなたは観戦者になりました");
             }
         }
     }
 
     @Override
     public String name() {
-        return "warp";
+        return "wp";
     }
 
     @Override
