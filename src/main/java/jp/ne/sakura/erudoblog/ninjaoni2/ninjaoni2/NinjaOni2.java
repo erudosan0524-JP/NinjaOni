@@ -1,6 +1,9 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.JoinQuitListener;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaMoveListener;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaOniListener;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
@@ -65,6 +68,11 @@ public final class NinjaOni2 extends JavaPlugin {
         command = new CommandManager(getInstance());
         command.setup();
 
+        //リスナーの設定
+        new JoinQuitListener(getInstance());
+        new NinjaMoveListener(getInstance());
+        new NinjaOniListener(getInstance());
+
 
     }
 
@@ -80,10 +88,12 @@ public final class NinjaOni2 extends JavaPlugin {
         for(Ninja ninja : ninjas) {
             if(ninja.getTeam() == SPECTATOR) {
                 //観戦者チームにいた場合
+                addPlayerToTeam(ninja.getPlayer(), SPECTATOR);
                 ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
             }else if(ninja.getTeam() == ONI) {
                 //鬼チームにいた場合
                 Player player = ninja.getPlayer();
+                addPlayerToTeam(ninja.getPlayer(), ONI);
                 Location loc = getMyConfig().getTPLocationOni();
                 loc.setWorld(player.getWorld());
                 player.teleport(getMyConfig().getTPLocationOni());
@@ -91,6 +101,7 @@ public final class NinjaOni2 extends JavaPlugin {
                 //プレイヤーの場合
                 ninja.setTeam(Teams.PLAYER);
                 Player player = ninja.getPlayer();
+                addPlayerToTeam(ninja.getPlayer(), PLAYER);
                 Location loc = getMyConfig().getTPLocationPlayer();
                 loc.setWorld(player.getWorld());
                 player.teleport(getMyConfig().getTPLocationPlayer());

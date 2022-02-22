@@ -25,8 +25,6 @@ public class Warp extends SubCommand {
                     p.getInventory().setChestplate(ItemManager.getOniChestplate());
                     p.getInventory().setLeggings(ItemManager.getOniLeggings());
                     p.getInventory().setBoots(ItemManager.getOniBoots());
-
-
                     NinjaOni2.updateNinjaPlayer(new NinjaPlayer(p, false, false));
                     p.sendMessage("あなたは鬼になりました");
                 }
@@ -44,12 +42,12 @@ public class Warp extends SubCommand {
 
     @Override
     public String name() {
-        return null;
+        return "warp";
     }
 
     @Override
     public String info() {
-        return null;
+        return "";
     }
 
     @Override

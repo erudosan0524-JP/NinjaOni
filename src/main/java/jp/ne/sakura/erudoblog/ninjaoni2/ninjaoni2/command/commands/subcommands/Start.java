@@ -12,17 +12,29 @@ public class Start extends SubCommand {
 
     @Override
     public void onCommand(Player player, String[] args) {
+        int countdownTime = 5;
+        int gameTime = 300;
 
+        if(args.length == 2) {
+            try {
+                countdownTime = Integer.parseInt(args[0]);
+                gameTime = Integer.parseInt(args[1]);
+            }catch(NumberFormatException e) {
+                player.sendMessage("引数には数値を入力してください");
+            }
+        }
+
+        getPlugin().gameStart(countdownTime,gameTime);
     }
 
     @Override
     public String name() {
-        return null;
+        return "start";
     }
 
     @Override
     public String info() {
-        return null;
+        return "";
     }
 
     @Override
