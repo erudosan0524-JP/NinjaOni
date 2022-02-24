@@ -27,14 +27,25 @@ public class GameTask extends BukkitRunnable {
     @Override
     public void run() {
         if (plugin.getGameState() == GameState.INGAME) {
+            int oniCount = NinjaOni2.countNinja(Teams.ONI);
+            int playerCount = NinjaOni2.countNinja(Teams.PLAYER);
+
             if (count < 0) {
                 this.cancel();
             }
 
-            if (count == 0) {
+            if (count == 0 || oniCount == 0 || playerCount == 0) {
+                String subTitle = "";
+
+                if(oniCount > playerCount) {
+                    subTitle = "鬼の勝利！";
+                } else if(oniCount < playerCount) {
+                    subTitle = "プレイヤーの勝利";
+                }
+
                 plugin.gameEnd();
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    player.sendTitle("GAME OVER!", null, 10, 70, 2);
+                    player.sendTitle("GAME OVER!", subTitle, 10, 70, 2);
                 }
             } else {
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
@@ -46,10 +57,10 @@ public class GameTask extends BukkitRunnable {
                         sb.append(count);
                         sb.append(" | ");
                         sb.append("残り逃走者: ");
-                        sb.append(NinjaOni2.countNinja(Teams.PLAYER));
+                        sb.append(playerCount);
                         sb.append(" | ");
                         sb.append("残り鬼： ");
-                        sb.append(NinjaOni2.countNinja(Teams.ONI));
+                        sb.append(oniCount);
 
                         TextComponent component = new TextComponent();
                         component.setText(sb.toString());

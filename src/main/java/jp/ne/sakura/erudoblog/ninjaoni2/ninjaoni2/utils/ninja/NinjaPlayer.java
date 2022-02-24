@@ -12,9 +12,14 @@ public class NinjaPlayer extends Ninja {
     @Setter
     private boolean isLocked; //捕まっているか
 
+    @Getter
+    @Setter
+    private int hp;
+
     public NinjaPlayer(Player player, boolean isClimbing, boolean isLocked) {
         super(player, isClimbing, Teams.PLAYER);
         this.isLocked = isLocked;
+        this.hp = 40;
     }
 
 

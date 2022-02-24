@@ -66,10 +66,7 @@ public class NinjaOniListener implements Listener {
             return;
         }
         e.setCancelled(true);
-
-        if (!lockedPlayers.contains(player)) {
-            lockedPlayers.add(player);
-        }
+        ((NinjaPlayer) playerNinja).setLocked(true);
 
     }
 
@@ -87,18 +84,8 @@ public class NinjaOniListener implements Listener {
             return;
         }
 
-        if (lockedPlayers.contains(player)) {
+        if(((NinjaPlayer) playerNinja).isLocked()) {
             e.setCancelled(true);
-        }
-
-        if (player.isSneaking()) {
-            Location loc = player.getLocation();
-
-            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                if (loc.distance(p.getLocation()) <= RELEASE_RANGE) {
-                    lockedPlayers.add(p);
-                }
-            }
         }
     }
 }
