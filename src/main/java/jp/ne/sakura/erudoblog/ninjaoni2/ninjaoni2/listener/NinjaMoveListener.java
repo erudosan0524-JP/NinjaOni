@@ -182,57 +182,51 @@ public class NinjaMoveListener implements Listener {
 
         if (!wxblock.getType().equals(Material.AIR)) {
             if (yaw >= 50 && yaw <= 130) {
-                if (veloy >= 0.23) {
-                    if (!np.isClimbing()) {
-                        Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
-                        player.setVelocity(vector);
-                        Location location = player.getLocation().subtract(1, 0, 0);
-                        player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
-                        np.setClimbing(true);
-                    }
+                if (!np.isClimbing()) {
+                    Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
+                    player.setVelocity(vector);
+                    Location location = player.getLocation().subtract(1, 0, 0);
+                    player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
+                    np.setClimbing(true);
                 }
 
 
             }
         } else if (!nxblock.getType().equals(Material.AIR)) {
             if (yaw >= 140 && yaw <= 220) {
-                if (veloy >= 0.23) {
-                    if (!np.isClimbing()) {
-                        Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
-                        player.setVelocity(vector);
-                        Location location = player.getLocation().subtract(1, 0, 0);
-                        player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
-                        np.setClimbing(true);
-                    }
-
+                if (!np.isClimbing()) {
+                    Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
+                    player.setVelocity(vector);
+                    Location location = player.getLocation().subtract(1, 0, 0);
+                    player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
+                    np.setClimbing(true);
                 }
+
 
             }
         } else if (!exblock.getType().equals(Material.AIR)) {
             if (yaw >= 230 && yaw <= 310) {
-                if (veloy >= 0.23) {
-                    if (!np.isClimbing()) {
-                        Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
-                        player.setVelocity(vector);
-                        Location location = player.getLocation().subtract(1, 0, 0);
-                        player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
-                        np.setClimbing(true);
-                    }
-
+                if (!np.isClimbing()) {
+                    Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
+                    player.setVelocity(vector);
+                    Location location = player.getLocation().subtract(1, 0, 0);
+                    player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
+                    np.setClimbing(true);
                 }
+
+
             }
         } else if (!sxblock.getType().equals(Material.AIR)) {
             if (yaw >= 320 && yaw <= 360 || yaw >= 0 && yaw <= 40) {
-                if (veloy >= 0.23) {
-                    if (!np.isClimbing()) {
-                        Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
-                        player.setVelocity(vector);
-                        Location location = player.getLocation().subtract(1, 0, 0);
-                        player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
-                        np.setClimbing(true);
-                    }
-
+                if (!np.isClimbing()) {
+                    Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
+                    player.setVelocity(vector);
+                    Location location = player.getLocation().subtract(1, 0, 0);
+                    player.playSound(location, Sound.BLOCK_LADDER_STEP, 1, 1);
+                    np.setClimbing(true);
                 }
+
+
             }
         }
     }
