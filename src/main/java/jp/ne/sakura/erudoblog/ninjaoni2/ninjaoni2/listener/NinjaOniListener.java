@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,6 @@ import java.util.List;
 public class NinjaOniListener implements Listener {
 
     private NinjaOni2 plugin;
-
-    private static final List<Player> lockedPlayers = new ArrayList<>(); //捕まったプレイヤーが入るリスト
     private final double RELEASE_RANGE = 3.0; //シフト押したときに開放できる範囲
 
     public NinjaOniListener(NinjaOni2 plugin) {
@@ -32,60 +31,45 @@ public class NinjaOniListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (!(e.getDamager() instanceof Player)) {
-            return;
-        }
-
-        if (!(e.getEntity() instanceof Player)) {
-            return;
-        }
-
         if (plugin.getGameState() != GameState.INGAME) {
             return;
         }
 
-        Player damager = (Player) e.getDamager();
-        Player player = (Player) e.getEntity();
+        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
+            Player damager = (Player) e.getDamager();
+            Player player = (Player) e.getEntity();
 
-        if (!NinjaOni2.containsNinja(damager)) {
-            return;
+            if (!NinjaOni2.containsNinja(damager) && !NinjaOni2.containsNinja(player)) {
+                return;
+            }
+
+            Ninja damagerNinja = NinjaOni2.getNinjaPlayer(damager);
+            Ninja playerNinja = NinjaOni2.getNinjaPlayer(player);
+
+            if (!(damagerNinja instanceof NinjaOni)) {
+                return;
+            }
+
+            if (!(playerNinja instanceof NinjaPlayer)) {
+                return;
+            }
+
+            NinjaOni damagerNin = (NinjaOni) damagerNinja;
+            NinjaPlayer playerNin = (NinjaPlayer) playerNinja;
+
+            if(!playerNin.isLocked()) {
+                //捕まった時の処理
+                e.setCancelled(true);
+                playerNin.setLocked(true);
+
+            }
         }
-
-        if (!NinjaOni2.containsNinja(player)) {
-            return;
-        }
-
-        Ninja damagerNinja = NinjaOni2.getNinjaPlayer(damager);
-        Ninja playerNinja = NinjaOni2.getNinjaPlayer(player);
-
-        if (!(damagerNinja instanceof NinjaOni)) {
-            return;
-        }
-
-        if (!(playerNinja instanceof NinjaPlayer)) {
-            return;
-        }
-        e.setCancelled(true);
-        ((NinjaPlayer) playerNinja).setLocked(true);
-
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
 
-        if (!NinjaOni2.containsNinja(player)) {
-            return;
-        }
 
-        Ninja playerNinja = NinjaOni2.getNinjaPlayer(player);
-
-        if (!(playerNinja instanceof NinjaPlayer)) {
-            return;
-        }
-
-        if(((NinjaPlayer) playerNinja).isLocked()) {
-            e.setCancelled(true);
-        }
     }
 }

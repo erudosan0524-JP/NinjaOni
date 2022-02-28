@@ -2,10 +2,12 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.JoinQuitListener;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaItemListener;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaMoveListener;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaOniListener;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.MovementTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
@@ -17,6 +19,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
@@ -72,7 +75,7 @@ public final class NinjaOni2 extends JavaPlugin {
         new JoinQuitListener(getInstance());
         new NinjaMoveListener(getInstance());
         new NinjaOniListener(getInstance());
-
+        new NinjaItemListener(getInstance());
 
     }
 
@@ -110,6 +113,7 @@ public final class NinjaOni2 extends JavaPlugin {
 
         new CountDownTask(countdownTime).runTaskTimer(this, 0L, 20L);
         new GameTask(gameTime).runTaskTimer(this, 0L, 20L);
+        new MovementTask().runTaskTimer(this,0L,20L);
     }
 
     public void gameEnd() {
@@ -146,6 +150,7 @@ public final class NinjaOni2 extends JavaPlugin {
         oni.setSuffix(ONI.getSuffix());
         oni.setDisplayName(ONI.getTeamName());
         oni.setAllowFriendlyFire(false);
+        oni.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
 
         if(board.getTeam(PLAYER.getTeamName()) == null) {
             pl = board.registerNewTeam(PLAYER.getTeamName());
@@ -156,6 +161,7 @@ public final class NinjaOni2 extends JavaPlugin {
         pl.setSuffix(PLAYER.getSuffix());
         pl.setDisplayName(PLAYER.getTeamName());
         pl.setAllowFriendlyFire(false);
+        pl.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
 
         if(board.getTeam(SPECTATOR.getTeamName()) == null) {
             spectator = board.registerNewTeam(SPECTATOR.getTeamName());
@@ -166,6 +172,7 @@ public final class NinjaOni2 extends JavaPlugin {
         spectator.setSuffix(SPECTATOR.getSuffix());
         spectator.setDisplayName(SPECTATOR.getTeamName());
         spectator.setAllowFriendlyFire(false);
+        spectator.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
     }
 
     public void addPlayerToTeam(Player player, Teams team) {

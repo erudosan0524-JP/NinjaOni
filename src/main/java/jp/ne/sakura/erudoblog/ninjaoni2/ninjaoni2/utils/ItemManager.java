@@ -2,12 +2,24 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 
 public class ItemManager {
+
+    public static ItemStack createItem(Material material, String name) {
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+        item.setItemMeta(meta);
+
+        return item;
+    }
+
+
     public static ItemStack createItem(Material material, String name, HashMap<Enchantment,Integer> enchants) {
         ItemStack item = new ItemStack(material);
         for(Enchantment enchant : enchants.keySet()) {
@@ -50,4 +62,15 @@ public class ItemManager {
         return createItem(Material.DIAMOND_BOOTS, "鬼ブーツ", Enchantment.BINDING_CURSE, 1);
     }
 
+    public static ItemStack getKunai() {
+        return createItem(Material.ARROW, "クナイ");
+    }
+
+    public static ItemStack getKemuri() {
+        return createItem(Material.FIREWORK_STAR, "煙玉");
+    }
+
+    public static ItemStack getKakure() {
+        return createItem(Material.SLIME_BALL, "隠れ玉");
+    }
 }
