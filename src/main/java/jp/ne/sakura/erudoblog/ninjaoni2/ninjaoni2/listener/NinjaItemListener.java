@@ -39,7 +39,7 @@ public class NinjaItemListener implements Listener {
         ItemStack item = ((PlayerInventory) inv).getItemInMainHand();
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
             //クナイ
-            if (item.getType() == Material.ARROW) {
+            if (item.getType() == ItemManager.getKunai().getType()) {
                 if (inv.contains(ItemManager.getKunai())) {
                     int index = inv.first(ItemManager.getKunai());
                     if (index > -1) {
@@ -58,13 +58,13 @@ public class NinjaItemListener implements Listener {
             }
 
             //煙玉
-            if (item.getType() == Material.FIREWORK_STAR) {
-//                if(inv.contains(ItemManager.getKunai()) ){
-//                    inv.remove(ItemManager.getKunai());
-//                }
-
+            if (item.getType() == ItemManager.getKemuri().getType()) {
+                if(inv.contains(ItemManager.getKemuri()) ){
+                    inv.remove(ItemManager.getKemuri());
+                }
 
                 player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 0.5f, 1);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 2, 0));
 
                 new BukkitRunnable() {
 
@@ -72,7 +72,7 @@ public class NinjaItemListener implements Listener {
 
                     @Override
                     public void run() {
-                        if(count >= 30) {
+                        if(count >= 40) {
                             this.cancel();
                         } else {
                             Location location1 = player.getEyeLocation();
@@ -89,15 +89,15 @@ public class NinjaItemListener implements Listener {
 
                                 location1.add(x, 0, z);
                                 location2.add(x, -0.66, z);
-                                location3.add(x, -0.33, z);
+                                location3.add(x, -1.33, z);
 
                                 player.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location1, 5, 0, 0, 0);
                                 player.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location2, 5, 0, 0, 0);
                                 player.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location3, 5, 0, 0, 0);
 
                                 location1.subtract(x, 0, z);
-                                location2.subtract(x, -0.10, z);
-                                location3.subtract(x, -0.20, z);
+                                location2.subtract(x, -0.66, z);
+                                location3.subtract(x, -1.33, z);
 
                             }
                             count++;
@@ -107,7 +107,7 @@ public class NinjaItemListener implements Listener {
             }
 
             //隠れ玉
-            if (item.getType() == Material.SLIME_BALL) {
+            if (item.getType() == ItemManager.getKakure().getType()) {
                 if (inv.contains(ItemManager.getKakure())) {
                     inv.remove(ItemManager.getKakure());
                 }

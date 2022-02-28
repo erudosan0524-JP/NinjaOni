@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.GetItem;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.Help;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.Start;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.Warp;
@@ -33,6 +34,7 @@ public class CommandManager implements CommandExecutor {
         this.commands.add(new Help(plugin));
         this.commands.add(new Start(plugin));
         this.commands.add(new Warp(plugin));
+        this.commands.add(new GetItem(plugin));
     }
 
     @Override

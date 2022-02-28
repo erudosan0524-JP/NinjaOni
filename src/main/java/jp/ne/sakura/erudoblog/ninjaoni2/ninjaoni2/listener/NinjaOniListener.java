@@ -4,19 +4,11 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.NinjaOni;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.NinjaPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 //プレイヤーと鬼に関するリスナー
 public class NinjaOniListener implements Listener {
@@ -39,23 +31,22 @@ public class NinjaOniListener implements Listener {
             Player damager = (Player) e.getDamager();
             Player player = (Player) e.getEntity();
 
-            if (!NinjaOni2.containsNinja(damager) && !NinjaOni2.containsNinja(player)) {
+            if (!NinjaOni2.containsNinja(damager) || !NinjaOni2.containsNinja(player)) {
                 return;
             }
 
             Ninja damagerNinja = NinjaOni2.getNinjaPlayer(damager);
             Ninja playerNinja = NinjaOni2.getNinjaPlayer(player);
 
-            if (!(damagerNinja instanceof NinjaOni)) {
+            if (damagerNinja.getTeam() != Teams.ONI) {
                 return;
             }
 
-            if (!(playerNinja instanceof NinjaPlayer)) {
+            if (playerNinja.getTeam() != Teams.PLAYER) {
                 return;
             }
 
-            NinjaOni damagerNin = (NinjaOni) damagerNinja;
-            NinjaPlayer playerNin = (NinjaPlayer) playerNinja;
+            Ninja playerNin = (Ninja) playerNinja;
 
             if(!playerNin.isLocked()) {
                 //捕まった時の処理
@@ -63,13 +54,8 @@ public class NinjaOniListener implements Listener {
                 playerNin.setLocked(true);
 
             }
+        }else if(e.getDamager() instanceof Arrow && e.getEntity() instanceof Player) {
+
         }
-    }
-
-    @EventHandler
-    public void onMove(PlayerMoveEvent e) {
-        Player player = e.getPlayer();
-
-
     }
 }

@@ -5,8 +5,6 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.NinjaOni;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.NinjaPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -25,7 +23,7 @@ public class Warp extends SubCommand {
                 p.getInventory().setChestplate(ItemManager.getOniChestplate());
                 p.getInventory().setLeggings(ItemManager.getOniLeggings());
                 p.getInventory().setBoots(ItemManager.getOniBoots());
-                NinjaOni2.updateNinjaPlayer(new NinjaOni(p, false, false));
+                NinjaOni2.updateNinjaPlayer(new Ninja(p, Teams.ONI));
                 p.sendMessage("あなたは鬼になりました");
             } else if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeSpec()) {
                 NinjaOni2.updateNinjaPlayer(new Ninja(p, Teams.SPECTATOR));
