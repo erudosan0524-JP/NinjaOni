@@ -19,10 +19,6 @@ public class Warp extends SubCommand {
         for(Player p : Bukkit.getServer().getOnlinePlayers()) {
             System.out.println(p.getName());
             if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeOni()) {
-                p.getInventory().setHelmet(ItemManager.getOniHelmet());
-                p.getInventory().setChestplate(ItemManager.getOniChestplate());
-                p.getInventory().setLeggings(ItemManager.getOniLeggings());
-                p.getInventory().setBoots(ItemManager.getOniBoots());
                 NinjaOni2.updateNinjaPlayer(new Ninja(p, Teams.ONI));
                 p.sendMessage("あなたは鬼になりました");
             } else if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeSpec()) {

@@ -1,15 +1,13 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.JoinQuitListener;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaItemListener;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaMoveListener;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.NinjaOniListener;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.MovementTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;
@@ -18,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Scoreboard;
@@ -97,10 +96,8 @@ public final class NinjaOni2 extends JavaPlugin {
     public void gameStart(int countdownTime, int gameTime) {
         setGameState(GameState.COUNTDOWN);
 
-
+        //チームの設定
         for (Ninja ninja : ninjas) {
-            System.out.println(ninja.getPlayer().getName() + " チーム：" + ninja.getTeam().name());
-
             if (ninja.getTeam() == SPECTATOR) {
                 //観戦者チームにいた場合
                 addPlayerToTeam(ninja.getPlayer(), SPECTATOR);
@@ -123,6 +120,24 @@ public final class NinjaOni2 extends JavaPlugin {
             }
         }
 
+        //インベントリの設定
+        for(Ninja ninja : ninjas) {
+            ninja.getPlayer().getInventory().clear(); //インベントリ初期化
+
+            PlayerInventory inv = ninja.getPlayer().getInventory();
+            if(ninja.getTeam() != ONI) {
+                inv.setItem(20, ItemManager.getKemuri());
+                inv.setItem(21, ItemManager.getKakure());
+            } else {
+                inv.setHelmet(ItemManager.getOniHelmet());
+                inv.setChestplate(ItemManager.getOniChestplate());
+                inv.setLeggings(ItemManager.getOniLeggings());
+                inv.setBoots(ItemManager.getOniBoots());
+                inv.setItem(20,ItemManager.getKunai());
+            }
+        }
+
+        //Taskの実行
         new CountDownTask(countdownTime).runTaskTimer(this, 0L, 20L);
         new GameTask(gameTime).runTaskTimer(this, 0L, 20L);
         new MovementTask().runTaskTimer(this, 0L, 20L);

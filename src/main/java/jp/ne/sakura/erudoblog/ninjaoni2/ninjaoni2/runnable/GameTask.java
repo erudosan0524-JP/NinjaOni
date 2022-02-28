@@ -41,6 +41,8 @@ public class GameTask extends BukkitRunnable {
                     subTitle = "鬼の勝利！";
                 } else if(oniCount < playerCount) {
                     subTitle = "プレイヤーの勝利";
+                } else {
+                    subTitle = "引き分け！";
                 }
 
                 plugin.gameEnd();

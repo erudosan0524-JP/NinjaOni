@@ -27,7 +27,7 @@ public class NinjaOniListener implements Listener {
             return;
         }
 
-        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
+        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) { //鬼が逃走者を殴った時
             Player damager = (Player) e.getDamager();
             Player player = (Player) e.getEntity();
 
@@ -54,7 +54,7 @@ public class NinjaOniListener implements Listener {
                 playerNin.setLocked(true);
 
             }
-        }else if(e.getDamager() instanceof Arrow && e.getEntity() instanceof Player) {
+        }else if(e.getDamager() instanceof Arrow && e.getEntity() instanceof Player) { //クナイが逃走者に当たった時
 
         }
     }
