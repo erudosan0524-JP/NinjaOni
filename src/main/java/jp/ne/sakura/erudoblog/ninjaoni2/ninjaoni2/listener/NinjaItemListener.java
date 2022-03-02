@@ -10,11 +10,14 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -77,6 +80,11 @@ public class NinjaItemListener implements Listener {
                             inv.remove(ItemManager.getKemuri());
                         }
 
+                        Slime slime = (Slime) player.getWorld().spawnEntity(player.getLocation(), EntityType.SLIME);
+                        slime.setSize(1);
+                        slime.setCanPickupItems(false);
+                        slime.setInvisible(true);
+
                         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 0.5f, 1);
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 2, 0));
 
@@ -89,9 +97,9 @@ public class NinjaItemListener implements Listener {
                                 if (count >= 40) {
                                     this.cancel();
                                 } else {
-                                    Location location1 = player.getEyeLocation();
-                                    Location location2 = player.getEyeLocation();
-                                    Location location3 = player.getEyeLocation();
+                                    Location location1 = slime.getEyeLocation();
+                                    Location location2 = slime.getEyeLocation();
+                                    Location location3 = slime.getEyeLocation();
                                     int particles = 30;
                                     float radius = 0.7f;
                                     for (int i = 0; i < particles; i++) {
@@ -105,9 +113,9 @@ public class NinjaItemListener implements Listener {
                                         location2.add(x, -0.66, z);
                                         location3.add(x, -1.33, z);
 
-                                        player.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location1, 5, 0, 0, 0);
-                                        player.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location2, 5, 0, 0, 0);
-                                        player.spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location3, 5, 0, 0, 0);
+                                        slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location1, 5, 0, 0, 0);
+                                        slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location2, 5, 0, 0, 0);
+                                        slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location3, 5, 0, 0, 0);
 
                                         location1.subtract(x, 0, z);
                                         location2.subtract(x, -0.66, z);
@@ -164,9 +172,6 @@ public class NinjaItemListener implements Listener {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
             if(ninja.getTeam() == Teams.PLAYER || ninja.getTeam() == Teams.ONI) {
-                System.out.println("slot: " + e.getSlot());
-
-
                 if (e.getCurrentItem().getType() == ItemManager.getKunai().getType() && e.getSlot() == 20) {
                     e.setCancelled(true);
                     inv.addItem(ItemManager.getKunai());
@@ -186,8 +191,26 @@ public class NinjaItemListener implements Listener {
 
     @EventHandler
     public void onItemPickUp(EntityPickupItemEvent e) {
-        if(e.getItem() instanceof Arrow && e.getEntity() instanceof Player) {
+        if(plugin.getGameState() != GameState.INGAME) {
+            return;
+        }
+
+        if(e.getItem().getItemStack().getType() == Material.ARROW && e.getEntity() instanceof Player) {
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onProjectileHit(ProjectileHitEvent e) {
+        if(plugin.getGameState() != GameState.INGAME) {
+            return;
+        }
+
+        if(e.getEntity() instanceof Arrow) {
+            if(e.getHitEntity() == null) {
+                e.getEntity().remove();
+                e.setCancelled(true);
+            }
         }
     }
 

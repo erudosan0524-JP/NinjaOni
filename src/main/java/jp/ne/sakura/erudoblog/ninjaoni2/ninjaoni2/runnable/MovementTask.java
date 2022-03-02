@@ -5,8 +5,8 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,7 +16,7 @@ public class MovementTask extends BukkitRunnable {
 
     private final NinjaOni2 plugin = NinjaOni2.getInstance();
 
-    private int count = 0;
+    private int count = 3;
 
     @Override
     public void run() {
@@ -30,10 +30,49 @@ public class MovementTask extends BukkitRunnable {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
             if(ninja.getTeam() == Teams.PLAYER) {
-                if(ninja.isLocked()) {
+                if(ninja.isLocked()) { //捕まっている時の処理
                     ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20 * 2, 4));
                     ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 2, -100), true);
                     ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 2, 3));
+                } else {
+                    if(ninja.getPlayer().isSneaking()) { //ロック解除処理
+                        Ninja lockedNinja = null;
+
+                        for(Ninja nin : NinjaOni2.getNinjas()) {
+                            if(nin.getTeam() == Teams.PLAYER) {
+                                if(nin.isLocked()) {
+                                    if(ninja.getPlayer().getLocation().distance(nin.getPlayer().getLocation()) <= 3) {
+                                        lockedNinja = nin;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if(lockedNinja == null) {
+                            return;
+                        }
+
+                        if(count < 0) {
+                            lockedNinja.setLocked(false);
+                            count = 3;
+                        } else {
+                            String frame = ChatColor.RED + "◆";
+                            StringBuilder sb = new StringBuilder();
+                            for(int i = count; i > 0; i--) {
+                                sb.append(frame);
+                            }
+                            sb.append("解除中");
+                            for(int i = count; i > 0; i--) {
+                                sb.append(frame);
+                            }
+
+                            ninja.getPlayer().sendTitle(sb.toString(),null,10, 70, 2);
+                            lockedNinja.getPlayer().sendTitle(sb.toString(),null,10, 70, 2);
+                        }
+
+                        count--;
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -38,20 +39,28 @@ public class NinjaMoveListener implements Listener {
 
         Player player = (Player) e.getEntity();
 
-        if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
-            e.setCancelled(true);
+        if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
+            return;
+        }
 
-            if (player.isSneaking()) {
-                if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
-                    return;
+        if(NinjaOni2.containsNinja(player)) {
+            Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+
+            if(ninja.getTeam() == Teams.PLAYER) {
+                if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+                    e.setCancelled(true);
+
+                    if (ninja.getPlayer().isSneaking()) {
+                        ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);
+                        ninja.getPlayer().spawnParticle(Particle.CRIT_MAGIC, ninja.getPlayer().getLocation().subtract(0, 0.3, 0), 20);
+                    } else {
+                        ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 3));
+                    }
                 }
-
-                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);
-                player.spawnParticle(Particle.CRIT_MAGIC, player.getLocation().subtract(0, 0.3, 0), 20);
-            } else {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 3));
             }
         }
+
+
     }
 
     //壁ジャンプ

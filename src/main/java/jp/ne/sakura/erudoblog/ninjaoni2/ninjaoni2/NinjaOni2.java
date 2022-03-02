@@ -13,9 +13,11 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.NameTagVisibility;
@@ -126,14 +128,23 @@ public final class NinjaOni2 extends JavaPlugin {
 
             PlayerInventory inv = ninja.getPlayer().getInventory();
             if(ninja.getTeam() != ONI) {
-                inv.setItem(20, ItemManager.getKemuri());
-                inv.setItem(21, ItemManager.getKakure());
+                ItemStack kemuri = ItemManager.getKemuri();
+                ItemStack kakure = ItemManager.getKakure();
+
+                kemuri.setAmount(64);
+                kakure.setAmount(64);
+
+                inv.setItem(20, kakure);
+                inv.setItem(21, kemuri);
             } else {
                 inv.setHelmet(ItemManager.getOniHelmet());
                 inv.setChestplate(ItemManager.getOniChestplate());
                 inv.setLeggings(ItemManager.getOniLeggings());
                 inv.setBoots(ItemManager.getOniBoots());
-                inv.setItem(20,ItemManager.getKunai());
+
+                ItemStack item = ItemManager.getKunai();
+                item.setAmount(64);
+                inv.setItem(20,item);
             }
         }
 
@@ -177,6 +188,7 @@ public final class NinjaOni2 extends JavaPlugin {
         oni.setSuffix(ONI.getSuffix());
         oni.setDisplayName(ONI.getTeamName());
         oni.setAllowFriendlyFire(false);
+        oni.setColor(ChatColor.DARK_AQUA);
         oni.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
 
         if (board.getTeam(PLAYER.getTeamName()) == null) {
@@ -187,6 +199,7 @@ public final class NinjaOni2 extends JavaPlugin {
         pl.setPrefix(PLAYER.getPrefix());
         pl.setSuffix(PLAYER.getSuffix());
         pl.setDisplayName(PLAYER.getTeamName());
+        pl.setColor(ChatColor.RED);
         pl.setAllowFriendlyFire(false);
         pl.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
 
