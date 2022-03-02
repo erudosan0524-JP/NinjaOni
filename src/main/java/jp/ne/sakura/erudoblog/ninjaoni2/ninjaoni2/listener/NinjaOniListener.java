@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -59,34 +60,48 @@ public class NinjaOniListener implements Listener {
                 playerNinja.setLocked(true);
 
             }
-        }else if(e.getDamager() instanceof Arrow && e.getEntity() instanceof Player) { //クナイが逃走者に当たった時
-            Arrow arrow = (Arrow) e.getDamager();
-            Player player = (Player) e.getEntity();
+        }
+    }
 
-            if(arrow.getShooter() == null) {
-                return;
-            }
+    @EventHandler
+    public void onProjectileHit(ProjectileHitEvent e) {
+        if (plugin.getGameState() != GameState.INGAME) {
+            return;
+        }
 
-            if(!(arrow.getShooter() instanceof Player)) {
-                return;
-            }
-
-            if(!NinjaOni2.containsNinja(player)) {
-                return;
-            }
-
-            Player shooter = (Player) arrow.getShooter();
-            Ninja ninja =NinjaOni2.getNinjaPlayer(player);
-
-            if(ninja.getTeam() != Teams.PLAYER) {
-                return;
-            }
-
-            if(!ninja.isLocked()) {
+        if (e.getEntity() instanceof Arrow) {
+            if (e.getHitEntity() == null) {
+                e.getEntity().remove();
                 e.setCancelled(true);
-                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, 0.3F, 1);
-                MessageManager.sendAll(ChatColor.RED + ninja.getPlayer().getName() + ChatColor.WHITE + "は" + ChatColor.DARK_AQUA + shooter.getName() + ChatColor.WHITE + "に確保された！");
-                ninja.setLocked(true);
+            } else {
+                Arrow arrow = (Arrow) e.getEntity();
+                Player player = (Player) e.getHitEntity();
+
+                if(arrow.getShooter() == null) {
+                    return;
+                }
+
+                if(!(arrow.getShooter() instanceof Player)) {
+                    return;
+                }
+
+                if(!NinjaOni2.containsNinja(player)) {
+                    return;
+                }
+
+                Player shooter = (Player) arrow.getShooter();
+                Ninja ninja =NinjaOni2.getNinjaPlayer(player);
+
+                if(ninja.getTeam() != Teams.PLAYER) {
+                    return;
+                }
+
+                if(!ninja.isLocked()) {
+                    e.setCancelled(true);
+                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, 0.3F, 1);
+                    MessageManager.sendAll(ChatColor.RED + ninja.getPlayer().getName() + ChatColor.WHITE + "は" + ChatColor.DARK_AQUA + shooter.getName() + ChatColor.WHITE + "に確保された！");
+                    ninja.setLocked(true);
+                }
             }
         }
     }

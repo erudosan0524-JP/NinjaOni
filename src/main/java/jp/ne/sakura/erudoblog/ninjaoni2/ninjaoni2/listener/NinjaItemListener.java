@@ -28,7 +28,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import javax.swing.*;
+import java.util.HashMap;
 
 public class NinjaItemListener implements Listener {
 
@@ -48,36 +48,52 @@ public class NinjaItemListener implements Listener {
         Inventory inv = player.getInventory();
         ItemStack item = ((PlayerInventory) inv).getItemInMainHand();
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-            if(NinjaOni2.containsNinja(player)) {
+            if (NinjaOni2.containsNinja(player)) {
 
                 Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
                 //クナイ
-                if(ninja.getTeam() == Teams.ONI) {
+                if (ninja.getTeam() == Teams.ONI) {
                     if (item.getType() == ItemManager.getKunai().getType()) {
-                        if (inv.contains(ItemManager.getKunai())) {
-                            int index = inv.first(ItemManager.getKunai());
-                            if (index > -1) {
-                                int amount = inv.getItem(index).getAmount();
-
-                                if (amount > 1) {
-                                    inv.getItem(index).setAmount(inv.getItem(index).getAmount() - 1);
-                                } else {
-                                    inv.remove(inv.getItem(index));
+                        if (inv.contains(ItemManager.getKunai().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKunai().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key >= 0 && key <= 8) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
                                 }
+
                             }
+
                         }
 
-                        Vector vec = player.getEyeLocation().getDirection().multiply(1.4);
+
+                        Vector vec = player.getEyeLocation().getDirection().multiply(1.6);
                         player.launchProjectile(Arrow.class, vec);
                     }
                 }
 
-                if(ninja.getTeam() == Teams.PLAYER) {
+                if (ninja.getTeam() == Teams.PLAYER) {
                     //煙玉
                     if (item.getType() == ItemManager.getKemuri().getType()) {
-                        if (inv.contains(ItemManager.getKemuri())) {
-                            inv.remove(ItemManager.getKemuri());
+                        if (inv.contains(ItemManager.getKemuri().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKemuri().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key >= 0 && key <= 8) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
                         }
 
                         Slime slime = (Slime) player.getWorld().spawnEntity(player.getLocation(), EntityType.SLIME);
@@ -130,8 +146,20 @@ public class NinjaItemListener implements Listener {
 
                     //隠れ玉
                     if (item.getType() == ItemManager.getKakure().getType()) {
-                        if (inv.contains(ItemManager.getKakure())) {
-                            inv.remove(ItemManager.getKakure());
+                        if (inv.contains(ItemManager.getKakure().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKakure().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key >= 0 && key <= 8) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
                         }
 
                         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 10, 1));
@@ -160,7 +188,7 @@ public class NinjaItemListener implements Listener {
             return;
         }
 
-        if(plugin.getGameState() != GameState.INGAME) {
+        if (plugin.getGameState() != GameState.INGAME) {
             return;
         }
 
@@ -171,7 +199,7 @@ public class NinjaItemListener implements Listener {
         if (NinjaOni2.containsNinja(player)) {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
-            if(ninja.getTeam() == Teams.PLAYER || ninja.getTeam() == Teams.ONI) {
+            if (ninja.getTeam() == Teams.PLAYER || ninja.getTeam() == Teams.ONI) {
                 if (e.getCurrentItem().getType() == ItemManager.getKunai().getType() && e.getSlot() == 20) {
                     e.setCancelled(true);
                     inv.addItem(ItemManager.getKunai());
@@ -191,26 +219,12 @@ public class NinjaItemListener implements Listener {
 
     @EventHandler
     public void onItemPickUp(EntityPickupItemEvent e) {
-        if(plugin.getGameState() != GameState.INGAME) {
+        if (plugin.getGameState() != GameState.INGAME) {
             return;
         }
 
-        if(e.getItem().getItemStack().getType() == Material.ARROW && e.getEntity() instanceof Player) {
+        if (e.getItem().getItemStack().getType() == Material.ARROW && e.getEntity() instanceof Player) {
             e.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onProjectileHit(ProjectileHitEvent e) {
-        if(plugin.getGameState() != GameState.INGAME) {
-            return;
-        }
-
-        if(e.getEntity() instanceof Arrow) {
-            if(e.getHitEntity() == null) {
-                e.getEntity().remove();
-                e.setCancelled(true);
-            }
         }
     }
 

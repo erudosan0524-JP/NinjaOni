@@ -43,12 +43,13 @@ public class NinjaMoveListener implements Listener {
             return;
         }
 
+        e.setCancelled(true);
+
         if(NinjaOni2.containsNinja(player)) {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
             if(ninja.getTeam() == Teams.PLAYER) {
                 if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
-                    e.setCancelled(true);
 
                     if (ninja.getPlayer().isSneaking()) {
                         ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);

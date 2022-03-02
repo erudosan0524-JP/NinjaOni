@@ -6,6 +6,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -31,6 +32,8 @@ public class MovementTask extends BukkitRunnable {
 
             if(ninja.getTeam() == Teams.PLAYER) {
                 if(ninja.isLocked()) { //捕まっている時の処理
+                    ninja.decHP();
+                    ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_HURT, 0.3F, 1);
                     ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20 * 2, 4));
                     ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 2, -100), true);
                     ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 2, 3));
@@ -54,6 +57,9 @@ public class MovementTask extends BukkitRunnable {
                         }
 
                         if(count < 0) {
+                            ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);
+                            ninja.getPlayer().sendTitle(ChatColor.RED + "解除完了",null,10, 70, 2);
+                            lockedNinja.getPlayer().sendTitle(ChatColor.RED + "解除完了",null,10, 70, 2);
                             lockedNinja.setLocked(false);
                             count = 3;
                         } else {
@@ -62,11 +68,12 @@ public class MovementTask extends BukkitRunnable {
                             for(int i = count; i > 0; i--) {
                                 sb.append(frame);
                             }
-                            sb.append("解除中");
+                            sb.append(ChatColor.RED + "解除中");
                             for(int i = count; i > 0; i--) {
                                 sb.append(frame);
                             }
 
+                            ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 0.3f, 10);
                             ninja.getPlayer().sendTitle(sb.toString(),null,10, 70, 2);
                             lockedNinja.getPlayer().sendTitle(sb.toString(),null,10, 70, 2);
                         }

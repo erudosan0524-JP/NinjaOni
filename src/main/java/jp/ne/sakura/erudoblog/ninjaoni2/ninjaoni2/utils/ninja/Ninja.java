@@ -24,6 +24,10 @@ public class Ninja {
     }
 
     public Ninja(Player player, Teams team) {
-        this(player,false,false, 40, team);
+        this(player,false,false, 60, team);
+    }
+
+    public void decHP() {
+        this.hp -= 1;
     }
 }
