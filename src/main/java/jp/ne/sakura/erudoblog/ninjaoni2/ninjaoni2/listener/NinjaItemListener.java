@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
@@ -19,7 +20,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -31,7 +31,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class NinjaItemListener implements Listener {
 
@@ -54,6 +56,68 @@ public class NinjaItemListener implements Listener {
             if (NinjaOni2.containsNinja(player)) {
 
                 Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+
+                if (item.getType() == ItemManager.getKageoi().getType()) {
+                    if (inv.contains(ItemManager.getKageoi().getType())) {
+                        HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKageoi().getType());
+                        for (int key : indexs.keySet()) {
+                            if (key >= 0 && key <= 8) {
+                                int amount = inv.getItem(key).getAmount();
+                                if (amount > 1) {
+                                    inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                } else {
+                                    inv.remove(inv.getItem(key));
+                                }
+                            }
+
+                        }
+
+                    }
+
+                    List<Player> glowPlayers = new ArrayList<>();
+
+                    for (Ninja nin : NinjaOni2.getNinjas()) {
+                        if (nin.getTeam() == Teams.PLAYER) {
+                            if(!glowPlayers.contains(nin.getPlayer())) {
+                                glowPlayers.add(nin.getPlayer());
+                            }
+                        }
+                    }
+
+                    //影追玉の処理
+                    new BukkitRunnable() {
+
+                        int count = 10;
+
+                        @Override
+                        public void run() {
+                            if(count < 0) {
+                                this.cancel();
+                            } else {
+                                for (Player p : glowPlayers) {
+                                    PacketContainer packet = plugin.getProtocol().createPacket(PacketType.Play.Server.ENTITY_METADATA);
+                                    packet.getIntegers().write(0, p.getEntityId()); //光らせるプレイヤーのID
+                                    WrappedDataWatcher watcher = new WrappedDataWatcher(); //Create data watcher, the Entity Metadata packet requires this
+                                    WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class); //Found this through google, needed for some stupid reason
+                                    WrappedDataWatcher.Serializer serializer2 = WrappedDataWatcher.Registry.get(Integer.class);
+                                    watcher.setEntity(p); //光らせるプレイヤーを指定
+                                    watcher.setObject(0, serializer, (byte) (0x40)); //Set status to glowing, found on protocol page
+
+                                    packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects()); //Make the packet's datawatcher the one we created
+
+                                    try {
+                                        plugin.getProtocol().sendServerPacket(player, packet);
+                                    } catch (InvocationTargetException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            count--;
+                        }
+
+                    }.runTaskTimer(plugin, 0L, 20L);
+                }
 
                 //クナイ
                 if (ninja.getTeam() == Teams.ONI) {
@@ -79,35 +143,7 @@ public class NinjaItemListener implements Listener {
                         player.launchProjectile(Arrow.class, vec);
                     }
 
-                    if(item.getType() == ItemManager.getKageoi().getType()) {
-                        if (inv.contains(ItemManager.getKageoi().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKageoi().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key >= 0 && key <= 8) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
 
-                            }
-
-                        }
-
-                        //影追玉の処理
-                        PacketContainer packet = plugin.getProtocol().createPacket(PacketType.Play.Server.ENTITY_EFFECT);
-                        packet.getBytes().write(0, (byte) 24);
-                        packet.getIntegers().write(1,1);
-
-                        try {
-                            plugin.getProtocol().sendServerPacket(ninja.getPlayer(), packet);
-                        } catch (InvocationTargetException invocationTargetException) {
-                            invocationTargetException.printStackTrace();
-                        }
-
-                    }
                 }
 
                 if (ninja.getTeam() == Teams.PLAYER) {

@@ -1,7 +1,14 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
@@ -69,6 +76,7 @@ public final class NinjaOni2 extends JavaPlugin {
 
         //ProtocolLibの設定
         protocol = ProtocolLibrary.getProtocolManager();
+        initPacketListener();
 
         //チームの設定
         initTeams();
@@ -186,6 +194,9 @@ public final class NinjaOni2 extends JavaPlugin {
             Ninja ninja = new Ninja(np.getPlayer(), NONE);
             updateNinjaPlayer(ninja);
         }
+    }
+
+    private void initPacketListener() {
     }
 
     private void initTeams() {
