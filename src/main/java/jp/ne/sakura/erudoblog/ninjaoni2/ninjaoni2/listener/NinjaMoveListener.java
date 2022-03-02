@@ -39,10 +39,6 @@ public class NinjaMoveListener implements Listener {
 
         Player player = (Player) e.getEntity();
 
-        if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
-            return;
-        }
-
         e.setCancelled(true);
 
         if(NinjaOni2.containsNinja(player)) {

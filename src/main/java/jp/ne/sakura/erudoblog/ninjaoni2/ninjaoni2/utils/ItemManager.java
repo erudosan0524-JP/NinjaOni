@@ -73,4 +73,8 @@ public class ItemManager {
     public static ItemStack getKakure() {
         return createItem(Material.SLIME_BALL, "隠れ玉");
     }
+
+    public static ItemStack getKageoi() {
+        return createItem(Material.HEART_OF_THE_SEA, "影追玉");
+    }
 }

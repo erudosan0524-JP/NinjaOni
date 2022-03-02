@@ -29,6 +29,10 @@ public class GetItem extends SubCommand {
                     player.sendMessage("煙玉をインベントリに追加しました");
                     player.getInventory().addItem(ItemManager.getKemuri());
                     break;
+                case "kageoi":
+                    player.sendMessage("影追玉をインベントリに追加しました");
+                    player.getInventory().addItem(ItemManager.getKageoi());
+                    break;
             }
         } else {
             player.getInventory().addItem(new ItemStack(Material.AIR));

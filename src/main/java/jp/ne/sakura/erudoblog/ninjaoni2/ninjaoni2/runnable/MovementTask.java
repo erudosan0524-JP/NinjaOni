@@ -2,10 +2,12 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -32,11 +34,23 @@ public class MovementTask extends BukkitRunnable {
 
             if(ninja.getTeam() == Teams.PLAYER) {
                 if(ninja.isLocked()) { //捕まっている時の処理
-                    ninja.decHP();
-                    ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_HURT, 0.3F, 1);
-                    ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20 * 2, 4));
-                    ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 2, -100), true);
-                    ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 2, 3));
+                    if(ninja.getHp() > 0) {
+                        ninja.decHP();
+                        ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_HURT, 0.3F, 1);
+                        ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20 * 2, 4));
+                        ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20 * 2, -100), true);
+                        ninja.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 2, 3));
+                    } else {
+                        for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+                            p.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 0.5F,1);
+                        }
+
+                        MessageManager.sendAll(ChatColor.RED + ninja.getPlayer().getName() + "が脱落した");
+                        ninja.setTeam(Teams.SPECTATOR);
+                        NinjaOni2.updateNinjaPlayer(ninja);
+                        NinjaOni2.getInstance().addPlayerToTeam(ninja.getPlayer(), Teams.SPECTATOR);
+                        ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
+                    }
                 } else {
                     if(ninja.getPlayer().isSneaking()) { //ロック解除処理
                         Ninja lockedNinja = null;

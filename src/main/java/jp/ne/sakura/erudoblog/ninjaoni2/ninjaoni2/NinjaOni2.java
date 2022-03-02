@@ -1,5 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
@@ -46,6 +48,9 @@ public final class NinjaOni2 extends JavaPlugin {
     private CommandManager command;
 
     @Getter
+    private ProtocolManager protocol;
+
+    @Getter
     private static final List<Ninja> ninjas = new ArrayList<>();
 
     //スコアボード
@@ -61,6 +66,9 @@ public final class NinjaOni2 extends JavaPlugin {
 
         //ゲーム状態の設定
         gameState = GameState.NONE;
+
+        //ProtocolLibの設定
+        protocol = ProtocolLibrary.getProtocolManager();
 
         //チームの設定
         initTeams();
@@ -168,6 +176,11 @@ public final class NinjaOni2 extends JavaPlugin {
 
         //ゲーム状態変更
         setGameState(GameState.NONE);
+
+        //全員のゲームモード変更
+        for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+            player.setGameMode(GameMode.ADVENTURE);
+        }
 
         for (Ninja np : getNinjas()) {
             Ninja ninja = new Ninja(np.getPlayer(), NONE);

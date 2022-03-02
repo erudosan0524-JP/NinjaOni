@@ -1,5 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketContainer;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
@@ -28,6 +30,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class NinjaItemListener implements Listener {
@@ -74,6 +77,36 @@ public class NinjaItemListener implements Listener {
 
                         Vector vec = player.getEyeLocation().getDirection().multiply(1.6);
                         player.launchProjectile(Arrow.class, vec);
+                    }
+
+                    if(item.getType() == ItemManager.getKageoi().getType()) {
+                        if (inv.contains(ItemManager.getKageoi().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKageoi().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key >= 0 && key <= 8) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        //影追玉の処理
+                        PacketContainer packet = plugin.getProtocol().createPacket(PacketType.Play.Server.ENTITY_EFFECT);
+                        packet.getBytes().write(0, (byte) 24);
+                        packet.getIntegers().write(1,1);
+
+                        try {
+                            plugin.getProtocol().sendServerPacket(ninja.getPlayer(), packet);
+                        } catch (InvocationTargetException invocationTargetException) {
+                            invocationTargetException.printStackTrace();
+                        }
+
                     }
                 }
 
