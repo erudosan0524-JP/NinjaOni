@@ -63,9 +63,10 @@ public final class NinjaOni2 extends JavaPlugin {
     //スコアボード
     private ScoreboardManager sm;
     private Scoreboard board;
-    private Team oni;
-    private Team pl;
-    private Team spectator;
+    private static Team oni;
+    private static Team pl;
+    private static Team lockedpl;
+    private static Team spectator;
 
     @Override
     public void onEnable() {
@@ -138,6 +139,13 @@ public final class NinjaOni2 extends JavaPlugin {
             }
         }
 
+        //鬼の見た目の設定
+        for(Ninja ninja : ninjas) {
+            if(ninja.getTeam() == ONI) {
+
+            }
+        }
+
         //インベントリの設定
         for(Ninja ninja : ninjas) {
             ninja.getPlayer().getInventory().clear(); //インベントリ初期化
@@ -161,6 +169,10 @@ public final class NinjaOni2 extends JavaPlugin {
                 ItemStack item = ItemManager.getKunai();
                 item.setAmount(64);
                 inv.setItem(20,item);
+
+                ItemStack kageoi = ItemManager.getKageoi();
+                kageoi.setAmount(64);
+                inv.setItem(21, kageoi);
             }
         }
 
@@ -191,8 +203,9 @@ public final class NinjaOni2 extends JavaPlugin {
         }
 
         for (Ninja np : getNinjas()) {
-            Ninja ninja = new Ninja(np.getPlayer(), NONE);
-            updateNinjaPlayer(ninja);
+            np.setHp(60);
+            np.setLocked(false);
+            np.setTeam(NONE);
         }
     }
 
@@ -223,9 +236,19 @@ public final class NinjaOni2 extends JavaPlugin {
         pl.setPrefix(PLAYER.getPrefix());
         pl.setSuffix(PLAYER.getSuffix());
         pl.setDisplayName(PLAYER.getTeamName());
-        pl.setColor(ChatColor.RED);
         pl.setAllowFriendlyFire(false);
         pl.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
+
+        if(board.getTeam(LOCKEDPLAYER.getTeamName()) == null) {
+            lockedpl = board.registerNewTeam(LOCKEDPLAYER.getTeamName());
+        } else {
+            lockedpl = board.getTeam(LOCKEDPLAYER.getTeamName());
+        }
+        lockedpl.setPrefix(LOCKEDPLAYER.getPrefix());
+        lockedpl.setSuffix(LOCKEDPLAYER.getSuffix());
+        lockedpl.setDisplayName(LOCKEDPLAYER.getTeamName());
+        lockedpl.setAllowFriendlyFire(false);
+        lockedpl.setColor(ChatColor.RED);
 
         if (board.getTeam(SPECTATOR.getTeamName()) == null) {
             spectator = board.registerNewTeam(SPECTATOR.getTeamName());
@@ -239,7 +262,7 @@ public final class NinjaOni2 extends JavaPlugin {
         spectator.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
     }
 
-    public void addPlayerToTeam(Player player, Teams team) {
+    public static void addPlayerToTeam(Player player, Teams team) {
         switch (team) {
             case ONI:
                 oni.addEntry(player.getName());
@@ -247,33 +270,12 @@ public final class NinjaOni2 extends JavaPlugin {
             case SPECTATOR:
                 spectator.addEntry(player.getName());
                 break;
+            case LOCKEDPLAYER:
+                lockedpl.addEntry(player.getName());
+                break;
             default:
                 pl.addEntry(player.getName());
                 break;
-        }
-    }
-
-    public void removePlayerFromTeam(Player player, Teams team) {
-        if (!containsTeam(player, team)) return;
-
-        switch (team) {
-            case ONI:
-                oni.removeEntry(player.getName());
-            case SPECTATOR:
-                spectator.addEntry(player.getName());
-            default:
-                pl.removeEntry(player.getName());
-        }
-    }
-
-    public boolean containsTeam(Player player, Teams team) {
-        switch (team) {
-            case ONI:
-                return oni.hasEntry(player.getName());
-            case SPECTATOR:
-                return spectator.hasEntry(player.getName());
-            default:
-                return pl.hasEntry(player.getName());
         }
     }
 
@@ -305,6 +307,7 @@ public final class NinjaOni2 extends JavaPlugin {
         Ninja oldNinja = getNinjaPlayer(ninja.getPlayer());
         oldNinja.setClimbing(ninja.isClimbing());
         oldNinja.setTeam(ninja.getTeam());
+        NinjaOni2.addPlayerToTeam(ninja.getPlayer(), ninja.getTeam());
     }
 
     public static Ninja getNinjaPlayer(Player player) {

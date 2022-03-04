@@ -1,5 +1,6 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Data;
 import lombok.Getter;
@@ -29,5 +30,15 @@ public class Ninja {
 
     public void decHP() {
         this.hp -= 1;
+    }
+
+    public void setLocked(boolean b) {
+        this.isLocked = b;
+
+        if(b) {
+            NinjaOni2.addPlayerToTeam(this.player, Teams.LOCKEDPLAYER);
+        }else {
+            NinjaOni2.addPlayerToTeam(this.player, Teams.PLAYER);
+        }
     }
 }

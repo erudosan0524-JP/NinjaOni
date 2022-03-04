@@ -3,6 +3,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
 public enum Teams {
     ONI("oni","§c", "§f"), //鬼チーム
     PLAYER("player", "§9", "§f"), //プレイヤーチーム
+    LOCKEDPLAYER("lockedplayer", "",""), //捕まっているプレイヤーチーム
     SPECTATOR("spectator", "§7", "§f"), //観戦者チーム
     NONE("","",""); //どこにも所属していない
 

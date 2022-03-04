@@ -7,17 +7,20 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarFlag;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
+import org.bukkit.Location;
+import org.bukkit.boss.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Iterator;
+
 public class GameTask extends BukkitRunnable {
+
+    private final int PACKAGE_TIME = 60;
+
     private int count;
     private final int MAX_COUNT;
+
     private NinjaOni2 plugin;
     private BossBar bar;
 
@@ -49,6 +52,16 @@ public class GameTask extends BukkitRunnable {
                 this.bar.removeAll();
 
                 this.cancel();
+            }
+
+            if(count % PACKAGE_TIME == 0) {
+                //マネパケ（マネーパッケージ）の処理
+                //プレイヤーから10ブロック以内のところに出現
+                for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+                    Location loc = player.getLocation();
+
+                }
+
             }
 
             if (count == 0 || oniCount == 0 || playerCount == 0) {

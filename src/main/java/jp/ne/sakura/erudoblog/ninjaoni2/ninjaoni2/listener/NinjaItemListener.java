@@ -22,7 +22,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -50,77 +49,15 @@ public class NinjaItemListener implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
 
-        Inventory inv = player.getInventory();
-        ItemStack item = ((PlayerInventory) inv).getItemInMainHand();
+        PlayerInventory inv = player.getInventory();
+        ItemStack item = inv.getItemInMainHand();
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
             if (NinjaOni2.containsNinja(player)) {
 
                 Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
-                if (item.getType() == ItemManager.getKageoi().getType()) {
-                    if (inv.contains(ItemManager.getKageoi().getType())) {
-                        HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKageoi().getType());
-                        for (int key : indexs.keySet()) {
-                            if (key >= 0 && key <= 8) {
-                                int amount = inv.getItem(key).getAmount();
-                                if (amount > 1) {
-                                    inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                } else {
-                                    inv.remove(inv.getItem(key));
-                                }
-                            }
-
-                        }
-
-                    }
-
-                    List<Player> glowPlayers = new ArrayList<>();
-
-                    for (Ninja nin : NinjaOni2.getNinjas()) {
-                        if (nin.getTeam() == Teams.PLAYER) {
-                            if(!glowPlayers.contains(nin.getPlayer())) {
-                                glowPlayers.add(nin.getPlayer());
-                            }
-                        }
-                    }
-
-                    //影追玉の処理
-                    new BukkitRunnable() {
-
-                        int count = 10;
-
-                        @Override
-                        public void run() {
-                            if(count < 0) {
-                                this.cancel();
-                            } else {
-                                for (Player p : glowPlayers) {
-                                    PacketContainer packet = plugin.getProtocol().createPacket(PacketType.Play.Server.ENTITY_METADATA);
-                                    packet.getIntegers().write(0, p.getEntityId()); //光らせるプレイヤーのID
-                                    WrappedDataWatcher watcher = new WrappedDataWatcher(); //Create data watcher, the Entity Metadata packet requires this
-                                    WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class); //Found this through google, needed for some stupid reason
-                                    WrappedDataWatcher.Serializer serializer2 = WrappedDataWatcher.Registry.get(Integer.class);
-                                    watcher.setEntity(p); //光らせるプレイヤーを指定
-                                    watcher.setObject(0, serializer, (byte) (0x40)); //Set status to glowing, found on protocol page
-
-                                    packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects()); //Make the packet's datawatcher the one we created
-
-                                    try {
-                                        plugin.getProtocol().sendServerPacket(player, packet);
-                                    } catch (InvocationTargetException ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-                            }
-
-                            count--;
-                        }
-
-                    }.runTaskTimer(plugin, 0L, 20L);
-                }
-
-                //クナイ
                 if (ninja.getTeam() == Teams.ONI) {
+                    //クナイ
                     if (item.getType() == ItemManager.getKunai().getType()) {
                         if (inv.contains(ItemManager.getKunai().getType())) {
                             HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKunai().getType());
@@ -144,6 +81,69 @@ public class NinjaItemListener implements Listener {
                     }
 
 
+                    //影追玉の処理
+                    if (item.getType() == ItemManager.getKageoi().getType()) {
+                        if (inv.contains(ItemManager.getKageoi().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKageoi().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key >= 0 && key <= 8) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        List<Player> glowPlayers = new ArrayList<>();
+
+                        //光らせるプレイヤーの設定
+                        for (Ninja nin : NinjaOni2.getNinjas()) {
+                            if (nin.getTeam() == Teams.PLAYER) {
+                                if(!glowPlayers.contains(nin.getPlayer())) {
+                                    glowPlayers.add(nin.getPlayer());
+                                }
+                            }
+                        }
+
+                        new BukkitRunnable() {
+
+                            int count = 10;
+
+                            @Override
+                            public void run() {
+                                if(count < 0) {
+                                    this.cancel();
+                                } else {
+                                    for (Player p : glowPlayers) {
+
+                                        PacketContainer glowPacket = plugin.getProtocol().createPacket(PacketType.Play.Server.ENTITY_METADATA);
+                                        glowPacket.getIntegers().write(0, p.getEntityId()); //光らせるプレイヤーのID
+                                        WrappedDataWatcher watcher = new WrappedDataWatcher(); //Create data watcher, the Entity Metadata packet requires this
+                                        WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class); //Found this through google, needed for some stupid reason
+                                        WrappedDataWatcher.Serializer serializer2 = WrappedDataWatcher.Registry.get(Integer.class);
+                                        watcher.setEntity(p); //光らせるプレイヤーを指定
+                                        watcher.setObject(0, serializer, (byte) (0x40)); //Set status to glowing, found on protocol page
+
+                                        glowPacket.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects()); //Make the packet's datawatcher the one we created
+
+                                        try {
+                                            plugin.getProtocol().sendServerPacket(player, glowPacket);
+                                        } catch (InvocationTargetException ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                count--;
+                            }
+
+                        }.runTaskTimer(plugin, 0L, 20L);
+                    }
                 }
 
                 if (ninja.getTeam() == Teams.PLAYER) {
@@ -195,16 +195,16 @@ public class NinjaItemListener implements Listener {
                                         z = Math.sin(angle) * radius;
 
                                         location1.add(x, 0, z);
-                                        location2.add(x, -0.66, z);
-                                        location3.add(x, -1.33, z);
+                                        location2.add(x, 2, z);
+                                        location3.add(x, 5, z);
 
                                         slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location1, 5, 0, 0, 0);
                                         slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location2, 5, 0, 0, 0);
                                         slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location3, 5, 0, 0, 0);
 
                                         location1.subtract(x, 0, z);
-                                        location2.subtract(x, -0.66, z);
-                                        location3.subtract(x, -1.33, z);
+                                        location2.subtract(x, 2, z);
+                                        location3.subtract(x, 5, z);
 
                                     }
                                     count++;
@@ -268,18 +268,26 @@ public class NinjaItemListener implements Listener {
         if (NinjaOni2.containsNinja(player)) {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
-            if (ninja.getTeam() == Teams.PLAYER || ninja.getTeam() == Teams.ONI) {
-                if (e.getCurrentItem().getType() == ItemManager.getKunai().getType() && e.getSlot() == 20) {
-                    e.setCancelled(true);
-                    inv.addItem(ItemManager.getKunai());
-                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
-                } else if (e.getCurrentItem().getType() == ItemManager.getKemuri().getType() && e.getSlot() == 21) {
+            if(ninja.getTeam() == Teams.PLAYER) {
+                if (e.getCurrentItem().getType() == ItemManager.getKemuri().getType() && e.getSlot() == 21) {
                     e.setCancelled(true);
                     inv.addItem(ItemManager.getKemuri());
                     player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
                 } else if (e.getCurrentItem().getType() == ItemManager.getKakure().getType() && e.getSlot() == 20) {
                     e.setCancelled(true);
                     inv.addItem(ItemManager.getKakure());
+                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                }
+            }
+
+            if(ninja.getTeam() == Teams.ONI) {
+                if (e.getCurrentItem().getType() == ItemManager.getKunai().getType() && e.getSlot() == 20) {
+                    e.setCancelled(true);
+                    inv.addItem(ItemManager.getKunai());
+                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                } else if (e.getCurrentItem().getType() == ItemManager.getKageoi().getType() && e.getSlot() == 21) {
+                    e.setCancelled(true);
+                    inv.addItem(ItemManager.getKageoi());
                     player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
                 }
             }

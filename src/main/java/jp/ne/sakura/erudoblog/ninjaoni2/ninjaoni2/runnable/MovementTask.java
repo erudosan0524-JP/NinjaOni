@@ -52,7 +52,8 @@ public class MovementTask extends BukkitRunnable {
                         ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
                     }
                 } else {
-                    if(ninja.getPlayer().isSneaking()) { //ロック解除処理
+                    if(ninja.getPlayer().isSneaking()) {
+                        //ロック解除処理
                         Ninja lockedNinja = null;
 
                         for(Ninja nin : NinjaOni2.getNinjas()) {
