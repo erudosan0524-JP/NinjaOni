@@ -45,17 +45,12 @@ public class GameTask extends BukkitRunnable {
             int oniCount = NinjaOni2.countNinja(Teams.ONI);
             int playerCount = NinjaOni2.countNinja(Teams.PLAYER);
 
-            if (count < 0) {
-                this.cancel();
-            }
-
             if(count % PACKAGE_TIME == 0) {
                 //マネパケ（マネーパッケージ）の処理
-                //プレイヤーから10ブロック以内のところに出現
                 for(Player player : Bukkit.getServer().getOnlinePlayers()) {
                     Location loc = player.getLocation();
 
-
+                    
                 }
 
             }
