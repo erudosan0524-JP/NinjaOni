@@ -46,12 +46,6 @@ public class GameTask extends BukkitRunnable {
             int playerCount = NinjaOni2.countNinja(Teams.PLAYER);
 
             if (count < 0) {
-                for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    this.bar.removePlayer(player);
-                }
-                this.bar.setVisible(false);
-                this.bar.removeAll();
-
                 this.cancel();
             }
 

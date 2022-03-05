@@ -23,6 +23,10 @@ public class MovementTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        if(plugin.getGameState() == GameState.NONE) {
+            this.cancel();
+        }
+
         if(plugin.getGameState() != GameState.INGAME) {
             return;
         }
