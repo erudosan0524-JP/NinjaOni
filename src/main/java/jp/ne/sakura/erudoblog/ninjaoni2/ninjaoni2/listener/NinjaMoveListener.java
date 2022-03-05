@@ -3,7 +3,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;

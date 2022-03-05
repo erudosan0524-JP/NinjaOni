@@ -2,11 +2,8 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;

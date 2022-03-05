@@ -4,7 +4,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
@@ -13,8 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 //プレイヤーと鬼に関するリスナー
 public class NinjaOniListener implements Listener {

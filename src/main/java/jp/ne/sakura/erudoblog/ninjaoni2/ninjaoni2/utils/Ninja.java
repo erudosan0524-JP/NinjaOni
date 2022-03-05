@@ -1,4 +1,4 @@
-package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja;
+package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;

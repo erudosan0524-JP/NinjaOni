@@ -4,7 +4,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;

@@ -1,14 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
@@ -18,16 +11,11 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.PlayerSneakTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;
 import lombok.Setter;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.*;
-import org.bukkit.boss.BossBar;
-import org.bukkit.boss.KeyedBossBar;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -38,7 +26,6 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams.*;
@@ -155,8 +142,8 @@ public final class NinjaOni2 extends JavaPlugin {
                 kemuri.setAmount(64);
                 kakure.setAmount(64);
 
-                inv.setItem(0, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
-                inv.setItem(18, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+                inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+                inv.setItem(27, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
                 inv.setItem(20, kakure);
                 inv.setItem(21, kemuri);
             } else {
@@ -166,8 +153,8 @@ public final class NinjaOni2 extends JavaPlugin {
                 item.setAmount(64);
                 kageoi.setAmount(64);
 
-                inv.setItem(0, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
-                inv.setItem(18, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+                inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+                inv.setItem(27, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
                 inv.setItem(20,item);
                 inv.setItem(21, kageoi);
 

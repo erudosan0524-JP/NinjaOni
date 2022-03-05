@@ -3,7 +3,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -11,8 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.boss.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Iterator;
 
 public class GameTask extends BukkitRunnable {
 
@@ -50,7 +48,7 @@ public class GameTask extends BukkitRunnable {
                 for(Player player : Bukkit.getServer().getOnlinePlayers()) {
                     Location loc = player.getLocation();
 
-                    
+
                 }
 
             }
