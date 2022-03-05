@@ -20,7 +20,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class NinjaOniListener implements Listener {
 
     private NinjaOni2 plugin;
-    private final double RELEASE_RANGE = 3.0; //シフト押したときに開放できる範囲
 
     public NinjaOniListener(NinjaOni2 plugin) {
         this.plugin = plugin;
