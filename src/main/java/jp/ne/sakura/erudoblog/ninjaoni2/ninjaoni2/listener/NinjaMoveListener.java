@@ -151,7 +151,7 @@ public class NinjaMoveListener implements Listener {
 
     //壁よじ登り
     @EventHandler
-    public void onMove(PlayerMoveEvent e) {
+    public void onClimb(PlayerMoveEvent e) {
         if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
             return;
         }
@@ -234,6 +234,29 @@ public class NinjaMoveListener implements Listener {
 
             }
         }
+    }
+
+    //トランポリン
+    @EventHandler
+    public void onJump(PlayerMoveEvent e) {
+        if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
+            return;
+        }
+
+        Player player = e.getPlayer();
+
+        if (NinjaOni2.getNinjaPlayer(player) == null) {
+            System.out.println("Ninja is null");
+            return;
+        }
+
+        if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.ORANGE_WOOL) {
+            if(e.getFrom().getY() + 0.42 < e.getTo().getY()) { //Player Jump
+                Vector vec = player.getVelocity().normalize().setY(player.getVelocity().getY() * 3);
+                player.setVelocity(vec);
+            }
+        }
+
     }
 }
 

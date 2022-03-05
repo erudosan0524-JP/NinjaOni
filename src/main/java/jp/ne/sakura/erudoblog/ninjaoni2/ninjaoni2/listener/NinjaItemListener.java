@@ -171,7 +171,7 @@ public class NinjaItemListener implements Listener {
                         slime.setInvisible(true);
 
                         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 0.5f, 1);
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 2, 0));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 2, 1));
 
                         new BukkitRunnable() {
 
@@ -231,6 +231,7 @@ public class NinjaItemListener implements Listener {
 
                         }
 
+                        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 0.5f, 1);
                         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 10, 1));
                     }
                 }

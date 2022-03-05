@@ -14,6 +14,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.MovementTask;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.PlayerSneakTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
@@ -23,10 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.boss.BossBar;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.entity.Item;
@@ -157,21 +155,26 @@ public final class NinjaOni2 extends JavaPlugin {
                 kemuri.setAmount(64);
                 kakure.setAmount(64);
 
+                inv.setItem(0, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+                inv.setItem(18, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
                 inv.setItem(20, kakure);
                 inv.setItem(21, kemuri);
             } else {
+                ItemStack item = ItemManager.getKunai();
+                ItemStack kageoi = ItemManager.getKageoi();
+
+                item.setAmount(64);
+                kageoi.setAmount(64);
+
+                inv.setItem(0, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+                inv.setItem(18, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+                inv.setItem(20,item);
+                inv.setItem(21, kageoi);
+
                 inv.setHelmet(ItemManager.getOniHelmet());
                 inv.setChestplate(ItemManager.getOniChestplate());
                 inv.setLeggings(ItemManager.getOniLeggings());
                 inv.setBoots(ItemManager.getOniBoots());
-
-                ItemStack item = ItemManager.getKunai();
-                item.setAmount(64);
-                inv.setItem(20,item);
-
-                ItemStack kageoi = ItemManager.getKageoi();
-                kageoi.setAmount(64);
-                inv.setItem(21, kageoi);
             }
         }
 
@@ -179,12 +182,10 @@ public final class NinjaOni2 extends JavaPlugin {
         new CountDownTask(countdownTime).runTaskTimer(this, 0L, 20L);
         new GameTask(gameTime).runTaskTimer(this, 0L, 20L);
         new MovementTask().runTaskTimer(this, 0L, 20L);
+        new PlayerSneakTask().runTaskTimer(this, 0L, 1L);
     }
 
     public void gameEnd() {
-        //ボスバーの削除
-
-
         //チームから全員外す
         for (String name : oni.getEntries()) {
             oni.removeEntry(name);

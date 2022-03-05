@@ -14,12 +14,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-//ゲーム中の動きに関するタスク
+
 public class MovementTask extends BukkitRunnable {
 
     private final NinjaOni2 plugin = NinjaOni2.getInstance();
-
-    private int count = 3;
 
     @Override
     public void run() {
@@ -52,52 +50,8 @@ public class MovementTask extends BukkitRunnable {
                         MessageManager.sendAll(ChatColor.RED + ninja.getPlayer().getName() + "が脱落した");
                         ninja.setTeam(Teams.SPECTATOR);
                         NinjaOni2.updateNinjaPlayer(ninja);
-                        NinjaOni2.getInstance().addPlayerToTeam(ninja.getPlayer(), Teams.SPECTATOR);
+                        NinjaOni2.addPlayerToTeam(ninja.getPlayer(), Teams.SPECTATOR);
                         ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
-                    }
-                } else {
-                    if(ninja.getPlayer().isSneaking()) {
-                        //ロック解除処理
-                        Ninja lockedNinja = null;
-
-                        for(Ninja nin : NinjaOni2.getNinjas()) {
-                            if(nin.getTeam() == Teams.PLAYER) {
-                                if(nin.isLocked()) {
-                                    if(ninja.getPlayer().getLocation().distance(nin.getPlayer().getLocation()) <= 3) {
-                                        lockedNinja = nin;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        if(lockedNinja == null) {
-                            return;
-                        }
-
-                        if(count < 0) {
-                            ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);
-                            ninja.getPlayer().sendTitle(ChatColor.RED + "解除完了",null,10, 70, 2);
-                            lockedNinja.getPlayer().sendTitle(ChatColor.RED + "解除完了",null,10, 70, 2);
-                            lockedNinja.setLocked(false);
-                            count = 3;
-                        } else {
-                            String frame = ChatColor.RED + "◆";
-                            StringBuilder sb = new StringBuilder();
-                            for(int i = count; i > 0; i--) {
-                                sb.append(frame);
-                            }
-                            sb.append(ChatColor.RED + "解除中");
-                            for(int i = count; i > 0; i--) {
-                                sb.append(frame);
-                            }
-
-                            ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 0.3f, 10);
-                            ninja.getPlayer().sendTitle(sb.toString(),null,10, 70, 2);
-                            lockedNinja.getPlayer().sendTitle(sb.toString(),null,10, 70, 2);
-                        }
-
-                        count--;
                     }
                 }
             }
