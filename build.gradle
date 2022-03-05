@@ -21,7 +21,10 @@ repositories {
         url = "https://repo.dmulloy2.net/repository/public/"
     }
 
-    maven { url 'https://jitpack.io' }
+    maven {
+        name = "md_5-public"
+        url = "https://repo.md-5.net/content/groups/public/"
+    }
 }
 
 dependencies {
@@ -35,7 +38,7 @@ dependencies {
 
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.7.0"
 
-    implementation 'com.github.libraryaddict:LibsDisguises:10.0.27'
+    implementation 'LibsDisguises:LibsDisguises:10.0.26'
 }
 
 def targetJavaVersion = 8

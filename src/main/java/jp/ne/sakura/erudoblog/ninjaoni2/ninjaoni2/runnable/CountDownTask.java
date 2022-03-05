@@ -36,6 +36,7 @@ public class CountDownTask extends BukkitRunnable {
                 for(Player player : Bukkit.getServer().getOnlinePlayers()) {
                     player.sendTitle("GAME START!", null, 10, 70, 2);
                 }
+                this.cancel();
             } else {
                 StringBuilder sb = new StringBuilder();
                 for(int i=0; i < count; i++) {

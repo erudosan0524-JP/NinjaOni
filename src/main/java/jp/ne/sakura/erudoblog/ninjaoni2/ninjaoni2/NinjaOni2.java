@@ -21,10 +21,15 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ninja.Ninja;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;
 import lombok.Setter;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MobDisguise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.boss.BossBar;
+import org.bukkit.boss.KeyedBossBar;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -35,6 +40,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams.*;
@@ -139,13 +145,6 @@ public final class NinjaOni2 extends JavaPlugin {
             }
         }
 
-        //鬼の見た目の設定
-        for(Ninja ninja : ninjas) {
-            if(ninja.getTeam() == ONI) {
-
-            }
-        }
-
         //インベントリの設定
         for(Ninja ninja : ninjas) {
             ninja.getPlayer().getInventory().clear(); //インベントリ初期化
@@ -183,6 +182,9 @@ public final class NinjaOni2 extends JavaPlugin {
     }
 
     public void gameEnd() {
+        //ボスバーの削除
+
+
         //チームから全員外す
         for (String name : oni.getEntries()) {
             oni.removeEntry(name);
@@ -237,6 +239,7 @@ public final class NinjaOni2 extends JavaPlugin {
         pl.setSuffix(PLAYER.getSuffix());
         pl.setDisplayName(PLAYER.getTeamName());
         pl.setAllowFriendlyFire(false);
+        pl.setColor(ChatColor.WHITE);
         pl.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
 
         if(board.getTeam(LOCKEDPLAYER.getTeamName()) == null) {

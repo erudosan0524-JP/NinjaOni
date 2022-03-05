@@ -36,6 +36,7 @@ public class GameTask extends BukkitRunnable {
         }
 
         this.bar = Bukkit.getServer().createBossBar("残り時間:" + this.MAX_COUNT, BarColor.BLUE, BarStyle.SEGMENTED_10, BarFlag.CREATE_FOG);
+
     }
 
     @Override
@@ -60,6 +61,7 @@ public class GameTask extends BukkitRunnable {
                 for(Player player : Bukkit.getServer().getOnlinePlayers()) {
                     Location loc = player.getLocation();
 
+
                 }
 
             }
@@ -79,6 +81,13 @@ public class GameTask extends BukkitRunnable {
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     player.sendTitle("GAME OVER!", subTitle, 10, 70, 2);
                 }
+
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    bar.removePlayer(player);
+                }
+                bar.removeAll();
+
+                this.cancel();
             } else {
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (NinjaOni2.getNinjaPlayer(player) != null) {
