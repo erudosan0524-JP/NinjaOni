@@ -6,21 +6,21 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
-import org.bukkit.*;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -37,11 +37,18 @@ public class NinjaItemListener implements Listener {
 
     private NinjaOni2 plugin;
 
-    private final int invTime = 5;
 
     public NinjaItemListener(NinjaOni2 plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler
+    public void onInteractArmorStand(PlayerArmorStandManipulateEvent e) {
+        if(plugin.getGameState() == GameState.INGAME) {
+            e.setCancelled(true);
+
+        }
     }
 
     @EventHandler
@@ -50,6 +57,7 @@ public class NinjaItemListener implements Listener {
 
         PlayerInventory inv = player.getInventory();
         ItemStack item = inv.getItemInMainHand();
+
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
             if (NinjaOni2.containsNinja(player)) {
 

@@ -2,9 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +12,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ItemManager {
+public final class ItemManager {
 
     public static ItemStack createItem(Material material, String name) {
         ItemStack item = new ItemStack(material);

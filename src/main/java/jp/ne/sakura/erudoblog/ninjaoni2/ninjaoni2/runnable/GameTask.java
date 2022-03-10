@@ -80,6 +80,7 @@ public class GameTask extends BukkitRunnable {
                     stand.setInvisible(true);
                     stand.setSmall(true);
                     stand.setCollidable(false);
+                    stand.setCanPickupItems(false);
                     stand.setInvulnerable(true);
                     stand.setCustomName("money");
                     stand.setHelmet(ItemManager.getMoney());
