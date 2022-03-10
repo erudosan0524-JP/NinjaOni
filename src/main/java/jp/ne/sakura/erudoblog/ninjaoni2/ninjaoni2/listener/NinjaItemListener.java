@@ -8,10 +8,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -21,7 +18,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
@@ -94,7 +93,6 @@ public class NinjaItemListener implements Listener {
                                         inv.remove(inv.getItem(key));
                                     }
                                 }
-
                             }
 
                         }
@@ -272,37 +270,119 @@ public class NinjaItemListener implements Listener {
             if(ninja.getTeam() == Teams.PLAYER) {
                 if (e.getCurrentItem().getType() == ItemManager.getKemuri().getType() && e.getSlot() == 21) {
                     e.setCancelled(true);
-                    inv.addItem(ItemManager.getKemuri());
-                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+
+                    if(ninja.getMoney() > 0) {
+                        if (inv.contains(ItemManager.getMoney().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key == 18) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        inv.addItem(ItemManager.getKemuri());
+                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                        ninja.decMoney();
+                    }
+
                 } else if (e.getCurrentItem().getType() == ItemManager.getKakure().getType() && e.getSlot() == 20) {
                     e.setCancelled(true);
-                    inv.addItem(ItemManager.getKakure());
-                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+
+                    if(ninja.getMoney() > 0 ) {
+                        if (inv.contains(ItemManager.getMoney().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key == 18) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        inv.addItem(ItemManager.getKakure());
+                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                        ninja.decMoney();
+                    }
+                }else if(e.getCurrentItem().getType() == ItemManager.getMoney().getType() && e.getSlot() == 18) {
+                    e.setCancelled(true);
                 }
             }
 
             if(ninja.getTeam() == Teams.ONI) {
                 if (e.getCurrentItem().getType() == ItemManager.getKunai().getType() && e.getSlot() == 20) {
                     e.setCancelled(true);
-                    inv.addItem(ItemManager.getKunai());
-                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                    if(ninja.getMoney() > 0 ) {
+                        if (inv.contains(ItemManager.getMoney().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key == 18) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        inv.addItem(ItemManager.getKunai());
+                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                        ninja.decMoney();
+                    }
                 } else if (e.getCurrentItem().getType() == ItemManager.getKageoi().getType() && e.getSlot() == 21) {
                     e.setCancelled(true);
-                    inv.addItem(ItemManager.getKageoi());
-                    player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                    if(ninja.getMoney() > 0 ) {
+                        if (inv.contains(ItemManager.getMoney().getType())) {
+                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
+                            for (int key : indexs.keySet()) {
+                                if (key == 18) {
+                                    int amount = inv.getItem(key).getAmount();
+                                    if (amount > 1) {
+                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                                    } else {
+                                        inv.remove(inv.getItem(key));
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                        inv.addItem(ItemManager.getKageoi());
+                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+                        ninja.decMoney();
+                    }
+                }else if(e.getCurrentItem().getType() == ItemManager.getMoney().getType() && e.getSlot() == 18) {
+                    e.setCancelled(true);
                 }
             }
         }
     }
 
     @EventHandler
-    public void onItemPickUp(EntityPickupItemEvent e) {
-        if (plugin.getGameState() != GameState.INGAME) {
-            return;
-        }
-
-        if (e.getItem().getItemStack().getType() == Material.ARROW && e.getEntity() instanceof Player) {
-            e.setCancelled(true);
+    public void onItemPickUp(PlayerDropItemEvent e) {
+        Player player = e.getPlayer();
+        if(player.getGameMode() == GameMode.ADVENTURE || player.getGameMode() == GameMode.SURVIVAL) {
+            ItemStack item = e.getItemDrop().getItemStack().clone();
+            e.getItemDrop().remove();
+            player.getInventory().addItem(item);
         }
     }
 

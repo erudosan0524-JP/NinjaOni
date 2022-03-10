@@ -2,19 +2,30 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.boss.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class GameTask extends BukkitRunnable {
 
-    private final int PACKAGE_TIME = 60;
+    private final int PACKAGE_TIME = 30;
+    private final int PACKAGE_RANGE = 10;
 
     private int count;
     private final int MAX_COUNT;
@@ -43,11 +54,35 @@ public class GameTask extends BukkitRunnable {
             int oniCount = NinjaOni2.countNinja(Teams.ONI);
             int playerCount = NinjaOni2.countNinja(Teams.PLAYER);
 
-            if(count % PACKAGE_TIME == 0) {
+            if(count != MAX_COUNT && count % PACKAGE_TIME == 0) {
                 //マネパケ（マネーパッケージ）の処理
                 for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+                    List<Location> locs = new ArrayList<>();
                     Location loc = player.getLocation();
 
+                    for(int x = 1; x <= PACKAGE_RANGE; x++) {
+                        for(int z = 1; z <= PACKAGE_RANGE; z++) {
+                            locs.add(loc.clone().add(x, 0, z));
+                        }
+                    }
+
+                    for(int x = -1; x >= -PACKAGE_RANGE; x--) {
+                        for(int z = -1; z >= -PACKAGE_RANGE; z--) {
+                            locs.add(loc.clone().add(x,0,z));
+                        }
+                    }
+
+                    Collections.shuffle(locs);
+
+                    Entity entity = locs.get(0).getWorld().spawnEntity(locs.get(0), EntityType.ARMOR_STAND);
+                    ArmorStand stand = (ArmorStand) entity;
+                    stand.setBasePlate(false);
+                    stand.setInvisible(true);
+                    stand.setSmall(true);
+                    stand.setCollidable(false);
+                    stand.setInvulnerable(true);
+                    stand.setCustomName("money");
+                    stand.setHelmet(ItemManager.getMoney());
 
                 }
 

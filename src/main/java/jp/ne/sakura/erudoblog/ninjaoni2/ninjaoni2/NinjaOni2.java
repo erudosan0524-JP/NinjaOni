@@ -16,6 +16,8 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -164,6 +166,20 @@ public final class NinjaOni2 extends JavaPlugin {
                 inv.setBoots(ItemManager.getOniBoots());
             }
         }
+
+        //お金の消去
+        World world = ninjas.get(0).getPlayer().getWorld();
+        for(Entity entity : world.getEntities()) {
+            if(entity instanceof ArmorStand) {
+                ArmorStand stand = (ArmorStand) entity;
+                if(stand.getCustomName() != null) {
+                    if(stand.getCustomName().equals("money")) {
+                        stand.remove();
+                    }
+                }
+            }
+        }
+
 
         //Taskの実行
         new CountDownTask(countdownTime).runTaskTimer(this, 0L, 20L);

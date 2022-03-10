@@ -15,21 +15,31 @@ public class Ninja {
     private Teams team; //所属チーム
     private boolean isLocked; //捕まっているか
     private int hp;
+    private int money;
 
-    public Ninja(Player player, boolean isClimbing, boolean isLocked, int hp, Teams team) {
+    public Ninja(Player player, boolean isClimbing, boolean isLocked, int hp, Teams team, int money) {
         this.player = player;
         this.isClimbing = isClimbing;
         this.isLocked = isLocked;
         this.hp = hp;
+        this.money = money;
         this.team = team;
     }
 
     public Ninja(Player player, Teams team) {
-        this(player,false,false, 60, team);
+        this(player,false,false, 60, team, 0);
     }
 
     public void decHP() {
         this.hp -= 1;
+    }
+
+    public void incMoney() {
+        this.money += 1;
+    }
+
+    public void decMoney() {
+        this.money -= 1;
     }
 
     public void setLocked(boolean b) {

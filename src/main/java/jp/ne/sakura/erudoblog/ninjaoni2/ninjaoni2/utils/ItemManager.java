@@ -1,12 +1,18 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedSignedProperty;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class ItemManager {
 
@@ -46,6 +52,39 @@ public class ItemManager {
         return item;
     }
 
+    public static ItemStack createSkull(String url) {
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
+
+        SkullMeta meta = (SkullMeta)  skull.getItemMeta();
+        WrappedGameProfile profile = new WrappedGameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new WrappedSignedProperty("textures", url, null));
+        Field profileField;
+
+        try {
+            profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+
+        skull.setItemMeta(meta);
+        return skull;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static ItemStack createPlayerHead(String player_name, String item_name) {
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD,1);
+
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        meta.setDisplayName(item_name);
+        meta.setOwner(player_name);
+
+        head.setItemMeta(meta);
+        return head;
+    }
+
     public static ItemStack getOniHelmet() {
         return createItem(Material.DIAMOND_HELMET, "鬼ヘルメット", Enchantment.BINDING_CURSE, 1);
     }
@@ -76,5 +115,9 @@ public class ItemManager {
 
     public static ItemStack getKageoi() {
         return createItem(Material.HEART_OF_THE_SEA, "影追玉");
+    }
+
+    public static ItemStack getMoney() {
+       return createPlayerHead("MrSnowDK", "お金");
     }
 }
