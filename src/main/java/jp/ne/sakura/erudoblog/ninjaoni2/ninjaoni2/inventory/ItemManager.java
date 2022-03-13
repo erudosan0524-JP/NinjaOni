@@ -1,4 +1,4 @@
-package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
+package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;

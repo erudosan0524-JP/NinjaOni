@@ -10,7 +10,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.MovementTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.PlayerSneakTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;

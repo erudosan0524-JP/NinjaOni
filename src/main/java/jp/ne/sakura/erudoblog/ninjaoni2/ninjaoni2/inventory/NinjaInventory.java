@@ -1,6 +1,5 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
