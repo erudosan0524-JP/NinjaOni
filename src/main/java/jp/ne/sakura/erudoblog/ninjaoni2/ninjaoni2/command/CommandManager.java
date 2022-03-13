@@ -2,10 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.GetItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.Help;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.Start;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.Warp;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,6 +32,7 @@ public class CommandManager implements CommandExecutor {
         this.commands.add(new Start(plugin));
         this.commands.add(new Warp(plugin));
         this.commands.add(new GetItem(plugin));
+        this.commands.add(new RemoveMoney(plugin));
     }
 
     @Override
