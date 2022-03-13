@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.NinjaInventory;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
@@ -57,6 +58,7 @@ public class NinjaItemListener implements Listener {
 
         PlayerInventory inv = player.getInventory();
         ItemStack item = inv.getItemInMainHand();
+        NinjaInventory ninjaInventory = new NinjaInventory(inv);
 
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
             if (NinjaOni2.containsNinja(player)) {
@@ -66,22 +68,7 @@ public class NinjaItemListener implements Listener {
                 if (ninja.getTeam() == Teams.ONI) {
                     //クナイ
                     if (item.getType() == ItemManager.getKunai().getType()) {
-                        if (inv.contains(ItemManager.getKunai().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKunai().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key >= 0 && key <= 8) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-
-                            }
-
-                        }
-
+                        ninjaInventory.decrementHolderItem(ItemManager.getKunai());
 
                         Vector vec = player.getEyeLocation().getDirection().multiply(1.6);
                         player.launchProjectile(Arrow.class, vec);
@@ -90,20 +77,7 @@ public class NinjaItemListener implements Listener {
 
                     //影追玉の処理
                     if (item.getType() == ItemManager.getKageoi().getType()) {
-                        if (inv.contains(ItemManager.getKageoi().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKageoi().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key >= 0 && key <= 8) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-                            }
-
-                        }
+                        ninjaInventory.decrementHolderItem(ItemManager.getKageoi());
 
                         List<Player> glowPlayers = new ArrayList<>();
 
@@ -155,21 +129,7 @@ public class NinjaItemListener implements Listener {
                 if (ninja.getTeam() == Teams.PLAYER) {
                     //煙玉
                     if (item.getType() == ItemManager.getKemuri().getType()) {
-                        if (inv.contains(ItemManager.getKemuri().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKemuri().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key >= 0 && key <= 8) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-
-                            }
-
-                        }
+                        ninjaInventory.decrementHolderItem(ItemManager.getKemuri());
 
                         Slime slime = (Slime) player.getWorld().spawnEntity(player.getLocation(), EntityType.SLIME);
                         slime.setSize(1);
@@ -221,21 +181,7 @@ public class NinjaItemListener implements Listener {
 
                     //隠れ玉
                     if (item.getType() == ItemManager.getKakure().getType()) {
-                        if (inv.contains(ItemManager.getKakure().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getKakure().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key >= 0 && key <= 8) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-
-                            }
-
-                        }
+                        ninjaInventory.decrementHolderItem(ItemManager.getKakure());
 
                         player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 0.5f, 1);
                         player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 10, 1));
