@@ -2,7 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import net.md_5.bungee.api.ChatMessageType;

@@ -6,7 +6,7 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.NinjaInventory;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import org.bukkit.GameMode;

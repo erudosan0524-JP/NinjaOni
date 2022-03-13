@@ -2,7 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.ItemManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
