@@ -84,13 +84,7 @@ public final class ItemManager {
     }
 
     public static ItemStack getOniHelmet() {
-        ItemStack item = new NinjaItemBuilder(Material.DIAMOND_HELMET)
-                .name("鬼ヘルメット")
-                .amount(1)
-                .enchant(Enchantment.BINDING_CURSE,1)
-                .create();
-
-        return item;
+        return createItem(Material.DIAMOND_HELMET, "鬼ヘルメット", Enchantment.BINDING_CURSE, 1);
     }
 
     public static ItemStack getOniChestplate() {
@@ -104,6 +98,7 @@ public final class ItemManager {
     public static ItemStack getOniBoots() {
         return createItem(Material.DIAMOND_BOOTS, "鬼ブーツ", Enchantment.BINDING_CURSE, 1);
     }
+
 
     public static ItemStack getKunai() {
         return createItem(Material.ARROW, "クナイ");
