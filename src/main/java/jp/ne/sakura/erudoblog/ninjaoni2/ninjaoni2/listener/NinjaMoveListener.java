@@ -22,11 +22,15 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NinjaMoveListener implements Listener {
 
@@ -192,7 +196,7 @@ public class NinjaMoveListener implements Listener {
         double veloy = player.getVelocity().getY();
         double veloz = player.getVelocity().getZ();
 
-        if (!wxblock.getType().equals(Material.AIR) && !wxblock.getType().equals(Material.LADDER)) {
+        if (!wxblock.getType().equals(Material.AIR) && !Util.containsUnableClimbBlocks(wxblock.getType())) {
             if (yaw >= 50 && yaw <= 130) {
                 if (!np.isClimbing()) {
                     Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
@@ -202,7 +206,7 @@ public class NinjaMoveListener implements Listener {
                     np.setClimbing(true);
                 }
             }
-        } else if (!nxblock.getType().equals(Material.AIR) && !nxblock.getType().equals(Material.LADDER)) {
+        } else if (!nxblock.getType().equals(Material.AIR) && !Util.containsUnableClimbBlocks(nxblock.getType())) {
             if (yaw >= 140 && yaw <= 220) {
                 if (!np.isClimbing()) {
                     Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
@@ -214,7 +218,7 @@ public class NinjaMoveListener implements Listener {
 
 
             }
-        } else if (!exblock.getType().equals(Material.AIR) && !exblock.getType().equals(Material.LADDER)) {
+        } else if (!exblock.getType().equals(Material.AIR) && !Util.containsUnableClimbBlocks(exblock.getType())) {
             if (yaw >= 230 && yaw <= 310) {
                 if (!np.isClimbing()) {
                     Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
@@ -226,7 +230,7 @@ public class NinjaMoveListener implements Listener {
 
 
             }
-        } else if (!sxblock.getType().equals(Material.AIR) && !sxblock.getType().equals(Material.LADDER)) {
+        } else if (!sxblock.getType().equals(Material.AIR) && !Util.containsUnableClimbBlocks(sxblock.getType())) {
             if (yaw >= 320 && yaw <= 360 || yaw >= 0 && yaw <= 40) {
                 if (!np.isClimbing()) {
                     Vector vector = player.getLocation().getDirection().setY(0.45).setX(0).setZ(0);
@@ -384,6 +388,21 @@ class Util {
      */
     public static double normalAbsoluteAngleDegrees(double angle) {
         return (angle %= 360) >= 0 ? angle : (angle + 360);
+    }
+
+    public static boolean containsUnableClimbBlocks(Material m) {
+        List<Material> unableClimbBlocks = new ArrayList<Material>();
+
+        unableClimbBlocks.add(Material.LADDER);
+        unableClimbBlocks.add(Material.VINE);
+
+        for(Material material : Material.values()) {
+            if(material.name().endsWith("SLAB")) {
+                unableClimbBlocks.add(material);
+            }
+        }
+
+        return unableClimbBlocks.contains(m);
     }
 
 }
