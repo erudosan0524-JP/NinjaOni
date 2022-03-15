@@ -2,7 +2,8 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import org.bukkit.Bukkit;
@@ -23,13 +24,7 @@ public class PlayerSneakTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (plugin.getGameState() == GameState.NONE) {
-            this.cancel();
-        }
 
-        if (plugin.getGameState() != GameState.INGAME) {
-            return;
-        }
 
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             if (!NinjaOni2.containsNinja(player)) return;
@@ -54,12 +49,13 @@ public class PlayerSneakTask extends BukkitRunnable {
                         }
 
                         if (lockedNinja != null) {
-                            if (count < 0) {
+                            if (count <= 0) {
+                                count = MAX_COUNT;
                                 ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);
                                 ninja.getPlayer().sendTitle(ChatColor.RED + "解除完了", null, 10, 70, 2);
                                 lockedNinja.getPlayer().sendTitle(ChatColor.RED + "解除完了", null, 10, 70, 2);
+                                MessageManager.sendAll(ChatColor.RED + lockedNinja.getPlayer().getName() + ChatColor.WHITE + "が開放された！");
                                 lockedNinja.setLocked(false);
-                                count = MAX_COUNT;
                             } else if (count % 20 == 0) {
                                 String frame = ChatColor.RED + "◆";
                                 StringBuilder sb = new StringBuilder();
@@ -76,7 +72,6 @@ public class PlayerSneakTask extends BukkitRunnable {
                             } else {
                                 ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 0.3f, 10);
                             }
-                            count--;
                         }
                     }
 
@@ -90,7 +85,8 @@ public class PlayerSneakTask extends BukkitRunnable {
                             }
 
                             if (stand.getCustomName().equals("money")) {
-                                if (count < 0) {
+                                if (count <= 0) {
+                                    count = MAX_COUNT;
                                     Inventory inv = ninja.getPlayer().getInventory();
                                     if (inv.getItem(18) == null || inv.getItem(18).clone().getAmount() <= 0) {
                                         inv.setItem(18, ItemManager.getMoney());
@@ -105,7 +101,6 @@ public class PlayerSneakTask extends BukkitRunnable {
                                     ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 1);
                                     ninja.getPlayer().sendTitle(ChatColor.YELLOW + "取得完了", null, 10, 70, 2);
                                     ninja.incMoney();
-                                    count = MAX_COUNT;
                                 } else if (count % 20 == 0) {
                                     String frame = ChatColor.YELLOW + "◆";
                                     StringBuilder sb = new StringBuilder();
@@ -121,10 +116,10 @@ public class PlayerSneakTask extends BukkitRunnable {
                                 } else {
                                     ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 0.3F, 10);
                                 }
-                                count--;
                             }
                         }
                     }
+                    count--;
                 }
             }
         }

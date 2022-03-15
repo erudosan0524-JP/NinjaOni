@@ -2,7 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import net.md_5.bungee.api.ChatMessageType;
@@ -51,6 +51,7 @@ public class GameTask extends BukkitRunnable {
         if (plugin.getGameState() == GameState.INGAME) {
             int oniCount = NinjaOni2.countNinja(Teams.ONI);
             int playerCount = NinjaOni2.countNinja(Teams.PLAYER);
+            int lockedCount = NinjaOni2.countLockedPlayer();
 
             if(count != MAX_COUNT && count % PACKAGE_TIME == 0) {
                 //マネパケ（マネーパッケージ）の処理
@@ -87,10 +88,10 @@ public class GameTask extends BukkitRunnable {
 
             }
 
-            if (count == 0 || oniCount == 0 || playerCount == 0) {
+            if (count == 0 || oniCount == 0 || playerCount == 0 || lockedCount == playerCount) {
                 String subTitle = "";
 
-                if(oniCount > playerCount) {
+                if(oniCount > playerCount || lockedCount == playerCount) {
                     subTitle = "鬼の勝利！";
                 } else if(oniCount < playerCount) {
                     subTitle = "プレイヤーの勝利";
