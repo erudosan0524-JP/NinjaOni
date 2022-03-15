@@ -1,6 +1,8 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GetMoneyTask;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.PlayerOpenTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
@@ -10,6 +12,8 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,8 +21,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 public class NinjaMoveListener implements Listener {
@@ -315,11 +322,52 @@ public class NinjaMoveListener implements Listener {
 
 
     @EventHandler
-    public void onOpen(PlayerMoveEvent e) {
+    public void onSneak(PlayerToggleSneakEvent e) {
         if (plugin.getGameState() != GameState.INGAME) {
             return;
         }
 
+        Player player = e.getPlayer();
+
+        if(!NinjaOni2.containsNinja(player)) return;
+
+        Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+
+        if(ninja.isLocked()) {
+            return;
+        }
+
+        if(ninja.isClimbing()) {
+            return;
+        }
+
+        if(e.isSneaking()) {
+            for(Entity entity : player.getNearbyEntities(2, 0, 2)) {
+                if(entity instanceof ArmorStand) {
+                    ArmorStand stand = (ArmorStand) entity;
+
+                    if(stand.getCustomName() == null) {
+                        return;
+                    }
+
+                    if (stand.getCustomName().equals("money")) {
+                        new GetMoneyTask(ninja,stand,3).runTaskTimer(plugin,0L,1L);
+                    }
+
+                }else if(entity instanceof Player) {
+                    Player locked = (Player) entity;
+                    if(!NinjaOni2.containsNinja(locked)) return;
+
+                    Ninja nin = NinjaOni2.getNinjaPlayer(locked);
+
+                    if (nin.getTeam() == Teams.PLAYER) {
+                        if (nin.isLocked()) {
+                            new PlayerOpenTask(ninja,nin,3).runTaskTimer(plugin,0L,1L);
+                        }
+                    }
+                }
+            }
+        }
 
 
     }

@@ -7,7 +7,6 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.MovementTask;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.PlayerSneakTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
@@ -185,7 +184,6 @@ public final class NinjaOni2 extends JavaPlugin {
         new CountDownTask(countdownTime).runTaskTimer(this, 0L, 20L);
         new GameTask(gameTime).runTaskTimer(this, 0L, 20L);
         new MovementTask().runTaskTimer(this, 0L, 20L);
-        new PlayerSneakTask().runTaskTimer(this, 0L, 1L);
     }
 
     public void gameEnd() {
