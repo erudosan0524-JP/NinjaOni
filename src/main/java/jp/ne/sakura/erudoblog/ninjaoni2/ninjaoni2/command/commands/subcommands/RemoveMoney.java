@@ -26,6 +26,7 @@ public class RemoveMoney extends SubCommand {
                 }
             }
         }
+        player.sendMessage("お金をすべて削除しました");
     }
 
     @Override
