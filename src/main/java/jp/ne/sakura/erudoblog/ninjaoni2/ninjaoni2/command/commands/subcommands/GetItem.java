@@ -3,6 +3,10 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kageoi;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kakure;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kemuri;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kunai;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,19 +23,19 @@ public class GetItem extends SubCommand {
             switch (args[0]) {
                 case "kunai":
                     player.sendMessage("クナイをインベントリに追加しました");
-                    player.getInventory().addItem(ItemManager.getKunai());
+                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kunai()));
                     break;
                 case "kakure":
                     player.sendMessage("隠れ玉をインベントリに追加しました");
-                    player.getInventory().addItem(ItemManager.getKakure());
+                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kakure()));
                     break;
                 case "kemuri":
                     player.sendMessage("煙玉をインベントリに追加しました");
-                    player.getInventory().addItem(ItemManager.getKemuri());
+                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kemuri()));
                     break;
                 case "kageoi":
                     player.sendMessage("影追玉をインベントリに追加しました");
-                    player.getInventory().addItem(ItemManager.getKageoi());
+                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kageoi()));
                     break;
             }
         } else {

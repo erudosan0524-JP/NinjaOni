@@ -5,6 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.NinjaInventory;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
@@ -45,7 +46,7 @@ public class NinjaItemListener implements Listener {
 
     @EventHandler
     public void onInteractArmorStand(PlayerArmorStandManipulateEvent e) {
-        if(plugin.getGameState() == GameState.INGAME) {
+        if (plugin.getGameState() == GameState.INGAME) {
             e.setCancelled(true);
 
         }
@@ -58,134 +59,29 @@ public class NinjaItemListener implements Listener {
         PlayerInventory inv = player.getInventory();
         ItemStack item = inv.getItemInMainHand();
         NinjaInventory ninjaInventory = new NinjaInventory(inv);
+        ItemManager itemManager = plugin.getItemManager();
 
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
             if (NinjaOni2.containsNinja(player)) {
 
                 Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
-                if (ninja.getTeam() == Teams.ONI) {
-                    //クナイ
-                    if (item.getType() == ItemManager.getKunai().getType()) {
-                        ninjaInventory.decrementHolderItem(ItemManager.getKunai());
+                for (NinjaItem ninjaItem : itemManager.getNinjaItems()) {
+                    if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Teams.ONI) {
+                        if (item.getType() == ninjaItem.type()) {
+                            ninjaInventory.decrementHolderItem(itemManager.getItem(ninjaItem));
 
-                        Vector vec = player.getEyeLocation().getDirection().multiply(1.6);
-                        player.launchProjectile(Arrow.class, vec);
-                    }
-
-
-                    //影追玉の処理
-                    if (item.getType() == ItemManager.getKageoi().getType()) {
-                        ninjaInventory.decrementHolderItem(ItemManager.getKageoi());
-
-                        List<Player> glowPlayers = new ArrayList<>();
-
-                        //光らせるプレイヤーの設定
-                        for (Ninja nin : NinjaOni2.getNinjas()) {
-                            if (nin.getTeam() == Teams.PLAYER) {
-                                if(!glowPlayers.contains(nin.getPlayer())) {
-                                    glowPlayers.add(nin.getPlayer());
-                                }
-                            }
+                            ninjaItem.execute(ninja);
                         }
+                    } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Teams.PLAYER) {
+                        if (item.getType() == ninjaItem.type()) {
+                            ninjaInventory.decrementHolderItem(itemManager.getItem(ninjaItem));
 
-                        new BukkitRunnable() {
-
-                            int count = 8;
-
-                            @Override
-                            public void run() {
-                                if(count < 0) {
-                                    this.cancel();
-                                } else {
-                                    for (Player p : glowPlayers) {
-
-                                        PacketContainer glowPacket = plugin.getProtocol().createPacket(PacketType.Play.Server.ENTITY_METADATA);
-                                        glowPacket.getIntegers().write(0, p.getEntityId()); //光らせるプレイヤーのID
-                                        WrappedDataWatcher watcher = new WrappedDataWatcher(); //Create data watcher, the Entity Metadata packet requires this
-                                        WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class); //Found this through google, needed for some stupid reason
-                                        WrappedDataWatcher.Serializer serializer2 = WrappedDataWatcher.Registry.get(Integer.class);
-                                        watcher.setEntity(p); //光らせるプレイヤーを指定
-                                        watcher.setObject(0, serializer, (byte) (0x40)); //Set status to glowing, found on protocol page
-
-                                        glowPacket.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects()); //Make the packet's datawatcher the one we created
-
-                                        try {
-                                            plugin.getProtocol().sendServerPacket(player, glowPacket);
-                                        } catch (InvocationTargetException ex) {
-                                            ex.printStackTrace();
-                                        }
-                                    }
-                                }
-
-                                count--;
-                            }
-
-                        }.runTaskTimer(plugin, 0L, 20L);
+                            ninjaItem.execute(ninja);
+                        }
                     }
                 }
 
-                if (ninja.getTeam() == Teams.PLAYER) {
-                    //煙玉
-                    if (item.getType() == ItemManager.getKemuri().getType()) {
-                        ninjaInventory.decrementHolderItem(ItemManager.getKemuri());
-
-                        Slime slime = (Slime) player.getWorld().spawnEntity(player.getLocation(), EntityType.SLIME);
-                        slime.setSize(1);
-                        slime.setCanPickupItems(false);
-                        slime.setInvisible(true);
-
-                        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 0.5f, 1);
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 2, 1));
-
-                        new BukkitRunnable() {
-
-                            int count = 0;
-
-                            @Override
-                            public void run() {
-                                if (count >= 40) {
-                                    this.cancel();
-                                } else {
-                                    Location location1 = slime.getEyeLocation();
-                                    Location location2 = slime.getEyeLocation();
-                                    Location location3 = slime.getEyeLocation();
-                                    int particles = 30;
-                                    float radius = 0.7f;
-                                    for (int i = 0; i < particles; i++) {
-                                        double angle, x, z;
-
-                                        angle = 2 * Math.PI * i / particles;
-                                        x = Math.cos(angle) * radius;
-                                        z = Math.sin(angle) * radius;
-
-                                        location1.add(x, 0, z);
-                                        location2.add(x, 2, z);
-                                        location3.add(x, 5, z);
-
-                                        slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location1, 5, 0, 0, 0);
-                                        slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location2, 5, 0, 0, 0);
-                                        slime.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, location3, 5, 0, 0, 0);
-
-                                        location1.subtract(x, 0, z);
-                                        location2.subtract(x, 2, z);
-                                        location3.subtract(x, 5, z);
-
-                                    }
-                                    count++;
-                                }
-                            }
-                        }.runTaskTimer(plugin, 0, 1);
-                    }
-
-                    //隠れ玉
-                    if (item.getType() == ItemManager.getKakure().getType()) {
-                        ninjaInventory.decrementHolderItem(ItemManager.getKakure());
-
-                        player.playSound(player.getLocation(), Sound.ENTITY_WITHER_SHOOT, 0.5f, 1);
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20 * 10, 1));
-                    }
-                }
             }
         }
 
@@ -214,116 +110,36 @@ public class NinjaItemListener implements Listener {
         }
 
 
+        ItemStack item = e.getCurrentItem();
         Player player = (Player) e.getWhoClicked();
         PlayerInventory inv = (PlayerInventory) e.getClickedInventory();
+        NinjaInventory ninjaInventory = new NinjaInventory(inv);
+        ItemManager itemManager = plugin.getItemManager();
+
+
+        if (e.getCurrentItem().getType() == ItemManager.getMoney().getType() && e.getSlot() == 18) {
+            e.setCancelled(true);
+            return;
+        }
 
         if (NinjaOni2.containsNinja(player)) {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
-            if(ninja.getTeam() == Teams.PLAYER) {
-                if (e.getCurrentItem().getType() == ItemManager.getKemuri().getType() && e.getSlot() == 21) {
-                    e.setCancelled(true);
+            for (NinjaItem ninjaItem : itemManager.getNinjaItems()) {
+                if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Teams.ONI) {
+                    if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
+                        e.setCancelled(true);
+                        ninjaInventory.purchaseItem(ninja,itemManager.getItem(ninjaItem));
 
-                    if(ninja.getMoney() > 0) {
-                        if (inv.contains(ItemManager.getMoney().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key == 18) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                        inv.addItem(ItemManager.getKemuri());
-                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
-                        ninja.decMoney();
+                        inv.addItem(itemManager.getItem(ninjaItem));
                     }
+                } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Teams.PLAYER) {
+                    if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
+                        e.setCancelled(true);
 
-                } else if (e.getCurrentItem().getType() == ItemManager.getKakure().getType() && e.getSlot() == 20) {
-                    e.setCancelled(true);
-
-                    if(ninja.getMoney() > 0 ) {
-                        if (inv.contains(ItemManager.getMoney().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key == 18) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                        inv.addItem(ItemManager.getKakure());
-                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
-                        ninja.decMoney();
+                        ninjaInventory.purchaseItem(ninja,itemManager.getItem(ninjaItem));
+                        inv.addItem(itemManager.getItem(ninjaItem));
                     }
-                }else if(e.getCurrentItem().getType() == ItemManager.getMoney().getType() && e.getSlot() == 18) {
-                    e.setCancelled(true);
-                }
-            }
-
-            if(ninja.getTeam() == Teams.ONI) {
-                if (e.getCurrentItem().getType() == ItemManager.getKunai().getType() && e.getSlot() == 20) {
-                    e.setCancelled(true);
-                    if(ninja.getMoney() > 0 ) {
-                        if (inv.contains(ItemManager.getMoney().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key == 18) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                        inv.addItem(ItemManager.getKunai());
-                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
-                        ninja.decMoney();
-                    }
-                } else if (e.getCurrentItem().getType() == ItemManager.getKageoi().getType() && e.getSlot() == 21) {
-                    e.setCancelled(true);
-                    if(ninja.getMoney() > 0 ) {
-                        if (inv.contains(ItemManager.getMoney().getType())) {
-                            HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
-                            for (int key : indexs.keySet()) {
-                                if (key == 18) {
-                                    int amount = inv.getItem(key).getAmount();
-                                    if (amount > 1) {
-                                        inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
-                                    } else {
-                                        inv.remove(inv.getItem(key));
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                        inv.addItem(ItemManager.getKageoi());
-                        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
-                        ninja.decMoney();
-                    }
-                }else if(e.getCurrentItem().getType() == ItemManager.getMoney().getType() && e.getSlot() == 18) {
-                    e.setCancelled(true);
                 }
             }
         }
@@ -332,7 +148,7 @@ public class NinjaItemListener implements Listener {
     @EventHandler
     public void onItemPickUp(PlayerDropItemEvent e) {
         Player player = e.getPlayer();
-        if(player.getGameMode() == GameMode.ADVENTURE || player.getGameMode() == GameMode.SURVIVAL) {
+        if (player.getGameMode() == GameMode.ADVENTURE || player.getGameMode() == GameMode.SURVIVAL) {
             ItemStack item = e.getItemDrop().getItemStack().clone();
             e.getItemDrop().remove();
             player.getInventory().addItem(item);

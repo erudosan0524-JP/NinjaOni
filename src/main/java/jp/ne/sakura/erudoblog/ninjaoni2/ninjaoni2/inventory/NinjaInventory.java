@@ -1,5 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -37,6 +39,32 @@ public class NinjaInventory {
                 }
             }
         }
+    }
+
+    public void purchaseItem(Ninja ninja, ItemStack item) {
+        if(ninja.getMoney() > 0) {
+            PlayerInventory inv = ninja.getPlayer().getInventory();
+
+            if (inv.contains(ItemManager.getMoney().getType())) {
+                HashMap<Integer, ? extends ItemStack> indexs = inv.all(ItemManager.getMoney().getType());
+                for (int key : indexs.keySet()) {
+                    if (key == 18) {
+                        int amount = inv.getItem(key).getAmount();
+                        if (amount > 1) {
+                            inv.getItem(key).setAmount(inv.getItem(key).getAmount() - 1);
+                        } else {
+                            inv.remove(inv.getItem(key));
+                        }
+                    }
+
+                }
+
+            }
+
+            ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 0.3F, 1);
+            ninja.decMoney();
+        }
+
     }
 
 }
