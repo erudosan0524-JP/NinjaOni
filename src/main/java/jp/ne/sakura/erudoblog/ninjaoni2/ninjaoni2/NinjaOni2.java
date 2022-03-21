@@ -3,6 +3,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kageoi;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kakure;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kemuri;
@@ -147,33 +148,28 @@ public final class NinjaOni2 extends JavaPlugin {
 
             PlayerInventory inv = ninja.getPlayer().getInventory();
             if(ninja.getTeam() != ONI) {
-                Kemuri kemuri = new Kemuri();
-                Kakure kakure = new Kakure();
+                for(NinjaItem ninjaItem : itemManager.getNinjaItems()) {
+                    if(ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM) {
+                        ItemStack item = itemManager.getItem(ninjaItem);
+                        item.setAmount(64);
 
-                ItemStack kemuriItem = itemManager.getItem(kemuri);
-                ItemStack kakureItem = itemManager.getItem(kakure);
-
-                kemuriItem.setAmount(64);
-                kakureItem.setAmount(64);
+                        inv.setItem(ninjaItem.slot(), item);
+                    }
+                }
 
                 inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
                 inv.setItem(27, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
-                inv.setItem(kakure.slot(), kakureItem);
-                inv.setItem(kemuri.slot(), kemuriItem);
             } else {
-                Kunai kunai = new Kunai();
-                Kageoi kageoi = new Kageoi();
+                for(NinjaItem ninjaItem : itemManager.getNinjaItems()) {
+                    if(ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM) {
+                        ItemStack item = itemManager.getItem(ninjaItem);
+                        item.setAmount(64);
 
-                ItemStack kunaiItem = itemManager.getItem(kunai);
-                ItemStack kageoiItem = itemManager.getItem(kageoi);
-
-                kunaiItem.setAmount(64);
-                kageoiItem.setAmount(64);
-
+                        inv.setItem(ninjaItem.slot(), item);
+                    }
+                }
                 inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
                 inv.setItem(27, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
-                inv.setItem(kunai.slot(),kunaiItem);
-                inv.setItem(kageoi.slot(), kageoiItem);
 
                 inv.setHelmet(ItemManager.getOniHelmet());
                 inv.setChestplate(ItemManager.getOniChestplate());

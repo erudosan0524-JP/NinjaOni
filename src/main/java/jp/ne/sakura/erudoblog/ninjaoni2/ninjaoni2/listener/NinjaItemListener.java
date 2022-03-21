@@ -129,16 +129,20 @@ public class NinjaItemListener implements Listener {
                 if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Teams.ONI) {
                     if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
                         e.setCancelled(true);
-                        ninjaInventory.purchaseItem(ninja,itemManager.getItem(ninjaItem));
+                        if (ninja.getMoney() > 0) {
+                            ninjaInventory.purchaseItem(ninja, itemManager.getItem(ninjaItem));
 
-                        inv.addItem(itemManager.getItem(ninjaItem));
+                            inv.addItem(itemManager.getItem(ninjaItem));
+                        }
                     }
                 } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Teams.PLAYER) {
                     if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
                         e.setCancelled(true);
 
-                        ninjaInventory.purchaseItem(ninja,itemManager.getItem(ninjaItem));
-                        inv.addItem(itemManager.getItem(ninjaItem));
+                        if (ninja.getMoney() > 0) {
+                            ninjaInventory.purchaseItem(ninja, itemManager.getItem(ninjaItem));
+                            inv.addItem(itemManager.getItem(ninjaItem));
+                        }
                     }
                 }
             }
