@@ -1,10 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kageoi;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kakure;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kemuri;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kunai;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.*;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -28,6 +25,10 @@ public final class ItemManager {
         ninjaItems.add(new Kakure());
         ninjaItems.add(new Kemuri());
         ninjaItems.add(new Kunai());
+        ninjaItems.add(new Nenchaku());
+        ninjaItems.add(new Shukuchi());
+        ninjaItems.add(new Choyaku());
+        ninjaItems.add(new Musasabi());
     }
 
     public ItemStack getItem(NinjaItem ninjaItem) {

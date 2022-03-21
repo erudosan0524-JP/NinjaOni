@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.boss.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -115,6 +116,7 @@ public class GameTask extends BukkitRunnable {
                     if (NinjaOni2.getNinjaPlayer(player) != null) {
                         Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
+                        //表示処理
                         bar.addPlayer(player);
                         bar.setVisible(true);
                         bar.setProgress((float) count / MAX_COUNT);
@@ -149,6 +151,24 @@ public class GameTask extends BukkitRunnable {
                         component.setText(sb.toString());
 
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, component);
+
+                        //鬼が近づいてきたときの処理
+                        if(ninja.getTeam() == Teams.PLAYER) {
+                            for(Entity entity : ninja.getPlayer().getNearbyEntities(12,12,12)) {
+                                if(!(entity instanceof Player)) {
+                                    continue;
+                                }
+
+                                Player p = (Player) entity;
+                                if (NinjaOni2.getNinjaPlayer(p) != null) {
+                                    Ninja nin = NinjaOni2.getNinjaPlayer(p);
+
+                                    if(nin.getTeam() == Teams.ONI) {
+                                        ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BASEDRUM, 1, 0.5f);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

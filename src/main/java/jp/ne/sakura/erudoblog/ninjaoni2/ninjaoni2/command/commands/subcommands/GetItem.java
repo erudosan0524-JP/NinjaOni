@@ -3,10 +3,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kageoi;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kakure;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kemuri;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kunai;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -36,6 +33,14 @@ public class GetItem extends SubCommand {
                 case "kageoi":
                     player.sendMessage("影追玉をインベントリに追加しました");
                     player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kageoi()));
+                    break;
+                case "nenchaku":
+                    player.sendMessage("粘着玉をインベントリに追加しました");
+                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Nenchaku()));
+                    break;
+                case "shukuchi":
+                    player.sendMessage("縮地をインベントリに追加しました");
+                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Shukuchi()));
                     break;
             }
         } else {

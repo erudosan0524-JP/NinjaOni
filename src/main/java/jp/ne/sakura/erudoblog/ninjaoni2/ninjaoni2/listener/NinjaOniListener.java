@@ -9,10 +9,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 //プレイヤーと鬼に関するリスナー
 public class NinjaOniListener implements Listener {
@@ -66,6 +69,7 @@ public class NinjaOniListener implements Listener {
             return;
         }
 
+        //クナイの処理
         if (e.getEntity() instanceof Arrow) {
             if (e.getHitEntity() == null) {
                 e.getEntity().remove();
@@ -99,6 +103,40 @@ public class NinjaOniListener implements Listener {
                     MessageManager.sendAll(ChatColor.RED + ninja.getPlayer().getName() + ChatColor.WHITE + "は" + ChatColor.DARK_AQUA + shooter.getName() + ChatColor.WHITE + "に確保された！");
                     ninja.setLocked(true);
                 }
+            }
+        }
+
+        //粘着玉の処理
+        if(e.getEntity() instanceof Snowball) {
+            if (e.getHitEntity() == null) {
+                e.getEntity().remove();
+                e.setCancelled(true);
+            } else {
+                Snowball snowball = (Snowball) e.getEntity();
+                Player player = (Player) e.getHitEntity();
+
+                if(snowball.getShooter() == null) {
+                    return;
+                }
+
+                if(!(snowball.getShooter() instanceof Player)) {
+                    return;
+                }
+
+                if(!NinjaOni2.containsNinja(player)) {
+                    return;
+                }
+
+                Player shooter = (Player) snowball.getShooter();
+                Ninja ninja =NinjaOni2.getNinjaPlayer(player);
+
+                if(ninja.getTeam() != Teams.ONI) {
+                    return;
+                }
+
+                shooter.playSound(shooter.getLocation(),Sound.BLOCK_SLIME_BLOCK_STEP, 0.8f,1f);
+                player.playSound(player.getLocation(),Sound.BLOCK_SLIME_BLOCK_STEP, 0.8f,1f);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 5, 4),true);
             }
         }
     }

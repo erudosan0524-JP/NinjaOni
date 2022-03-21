@@ -105,7 +105,7 @@ public class NinjaItemListener implements Listener {
             return;
         }
 
-        if (plugin.getGameState() != GameState.INGAME) {
+        if (plugin.getGameState() == GameState.NONE) {
             return;
         }
 
