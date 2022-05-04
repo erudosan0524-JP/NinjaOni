@@ -7,9 +7,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.boss.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -55,26 +53,12 @@ public class GameTask extends BukkitRunnable {
             int lockedCount = NinjaOni2.countLockedPlayer();
 
             if(count != MAX_COUNT && count % PACKAGE_TIME == 0) {
-                //マネパケ（マネーパッケージ）の処理
-                for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    List<Location> locs = new ArrayList<>();
-                    Location loc = player.getLocation();
 
-                    for(int x = 1; x <= PACKAGE_RANGE; x++) {
-                        for(int z = 1; z <= PACKAGE_RANGE; z++) {
-                            locs.add(loc.clone().add(x, 0, z));
-                        }
-                    }
+                Location locs[] = plugin.getMoneyLocs();
 
-                    for(int x = -1; x >= -PACKAGE_RANGE; x--) {
-                        for(int z = -1; z >= -PACKAGE_RANGE; z--) {
-                            locs.add(loc.clone().add(x,0,z));
-                        }
-                    }
-
-                    Collections.shuffle(locs);
-
-                    Entity entity = locs.get(0).getWorld().spawnEntity(locs.get(0), EntityType.ARMOR_STAND);
+                for(Location loc : locs) {
+                    //アーマースタンド出現
+                    Entity entity = loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
                     ArmorStand stand = (ArmorStand) entity;
                     stand.setBasePlate(false);
                     stand.setInvisible(true);
@@ -84,7 +68,6 @@ public class GameTask extends BukkitRunnable {
                     stand.setInvulnerable(true);
                     stand.setCustomName("money");
                     stand.setHelmet(ItemManager.getMoney());
-
                 }
 
             }

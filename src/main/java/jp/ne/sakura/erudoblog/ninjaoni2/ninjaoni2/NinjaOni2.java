@@ -32,6 +32,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams.*;
@@ -67,6 +68,12 @@ public final class NinjaOni2 extends JavaPlugin {
     private static Team pl;
     private static Team lockedpl;
     private static Team spectator;
+
+    //WorldBorder
+    @Getter
+    private final int moneyAmount = 10;
+    @Getter
+    private final Location[] moneyLocs = new Location[moneyAmount];
 
     @Override
     public void onEnable() {
@@ -144,6 +151,7 @@ public final class NinjaOni2 extends JavaPlugin {
 
         //インベントリの設定
         for(Ninja ninja : ninjas) {
+            ninja.setMoney(0);
             ninja.getPlayer().getInventory().clear(); //インベントリ初期化
 
             PlayerInventory inv = ninja.getPlayer().getInventory();
@@ -181,8 +189,7 @@ public final class NinjaOni2 extends JavaPlugin {
         //お金の消去
         World world = ninjas.get(0).getPlayer().getWorld();
         for(Entity entity : world.getEntities()) {
-            if(entity instanceof ArmorStand) {
-                ArmorStand stand = (ArmorStand) entity;
+            if(entity instanceof ArmorStand stand) {
                 if(stand.getCustomName() != null) {
                     if(stand.getCustomName().equals("money")) {
                         stand.remove();
@@ -191,6 +198,26 @@ public final class NinjaOni2 extends JavaPlugin {
             }
         }
 
+        //WorldBorderの設定
+        //中心座標の取得
+        WorldBorder border = world.getWorldBorder();
+        Location center = border.getCenter();
+
+        double x = center.getX() - (border.getSize() / 2);
+        double z = center.getZ() - (border.getSize() / 2);
+
+        List<Location> locs = new ArrayList<>();
+
+        for(double dx=0; dx < border.getSize(); dx += 5) {
+            for(double dz=0; dz < border.getSize(); dz += 5) {
+                locs.add(new Location(world,x + dx, 150.0, z + dz));
+            }
+        }
+        Collections.shuffle(locs);
+
+        for(int i=0; i < moneyAmount; i++) {
+            moneyLocs[i] = locs.get(i);
+        }
 
         //Taskの実行
         new CountDownTask(countdownTime).runTaskTimer(this, 0L, 20L);
@@ -220,6 +247,7 @@ public final class NinjaOni2 extends JavaPlugin {
 
         for (Ninja np : getNinjas()) {
             np.setHp(60);
+            np.setMoney(0);
             np.setLocked(false);
             np.setTeam(NONE);
         }
@@ -331,8 +359,7 @@ public final class NinjaOni2 extends JavaPlugin {
         Ninja result = null;
 
         if (containsNinja(player)) {
-            for (int i = 0; i < ninjas.size(); i++) {
-                Ninja np = ninjas.get(i);
+            for (Ninja np : ninjas) {
                 if (np.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
                     result = np;
                 }

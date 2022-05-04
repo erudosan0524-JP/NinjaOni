@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
+import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
 
 public class Help extends SubCommand {
@@ -16,6 +17,9 @@ public class Help extends SubCommand {
                 "===================",
                 "HELP",
                 "===================");
+
+        WorldBorder border = player.getWorld().getWorldBorder();
+        player.sendMessage("Size: " + border.getSize());
     }
 
     @Override
