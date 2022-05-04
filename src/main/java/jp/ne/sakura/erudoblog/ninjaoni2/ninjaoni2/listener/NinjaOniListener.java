@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -106,7 +107,12 @@ public class NinjaOniListener implements Listener {
                 }
             }
         }
+    }
 
+    //壁掛けが壊れないように
+    @EventHandler
+    public void onHangingBreak(HangingBreakEvent e) {
+        e.setCancelled(true);
     }
 
 }
