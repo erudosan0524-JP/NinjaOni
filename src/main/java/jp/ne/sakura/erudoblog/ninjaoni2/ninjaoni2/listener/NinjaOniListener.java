@@ -112,7 +112,9 @@ public class NinjaOniListener implements Listener {
     //壁掛けが壊れないように
     @EventHandler
     public void onHangingBreak(HangingBreakEvent e) {
-        e.setCancelled(true);
+        if(plugin.getGameState() != GameState.NONE) {
+            e.setCancelled(true);
+        }
     }
 
 }
