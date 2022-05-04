@@ -71,9 +71,8 @@ public final class NinjaOni2 extends JavaPlugin {
 
     //WorldBorder
     @Getter
-    private final int moneyAmount = 10;
-    @Getter
-    private final Location[] moneyLocs = new Location[moneyAmount];
+    private final List<Location> locs = new ArrayList<>();
+
 
     @Override
     public void onEnable() {
@@ -206,17 +205,11 @@ public final class NinjaOni2 extends JavaPlugin {
         double x = center.getX() - (border.getSize() / 2);
         double z = center.getZ() - (border.getSize() / 2);
 
-        List<Location> locs = new ArrayList<>();
 
         for(double dx=0; dx < border.getSize(); dx += 5) {
             for(double dz=0; dz < border.getSize(); dz += 5) {
                 locs.add(new Location(world,x + dx, 150.0, z + dz));
             }
-        }
-        Collections.shuffle(locs);
-
-        for(int i=0; i < moneyAmount; i++) {
-            moneyLocs[i] = locs.get(i);
         }
 
         //Taskの実行

@@ -9,15 +9,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -111,9 +111,11 @@ public class NinjaOniListener implements Listener {
 
     //壁掛けが壊れないように
     @EventHandler
-    public void onHangingBreak(HangingBreakEvent e) {
-        if(plugin.getGameState() != GameState.NONE) {
-            e.setCancelled(true);
+    public void onEntityDamage(EntityDamageByEntityEvent e) {
+        if(e.getEntity() instanceof ItemFrame) {
+            if(plugin.getGameState() != GameState.NONE) {
+                e.setCancelled(true);
+            }
         }
     }
 

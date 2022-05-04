@@ -21,6 +21,9 @@ public class Config {
     @Getter
     private Location TPLocationOni, TPLocationPlayer;
 
+    @Getter
+    private int moneyAmount;
+
     public Config(Plugin plugin) {
         this.plugin = plugin;
 
@@ -54,9 +57,12 @@ public class Config {
         double pz = config.getDouble(("tp-location.player.z"));
         TPLocationPlayer = new Location(null, px,py,pz);
 
+        moneyAmount = config.getInt("money-amount", 20);
+
     }
 
     public void reload() {
         plugin.reloadConfig();
     }
+
 }

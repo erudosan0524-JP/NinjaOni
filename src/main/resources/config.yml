@@ -4,10 +4,11 @@ warp-block-type-oni: DIAMOND_BLOCK
 warp-block-type-spec: IRON_BLOCK
 tp-location:
   oni:
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 75.0
+    y: 4.0
+    z: -60.0
   player:
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 75.0
+    y: 4.0
+    z: -60.0
+money-amount: 20

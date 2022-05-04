@@ -13,6 +13,8 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class GameTask extends BukkitRunnable {
     private NinjaOni2 plugin;
     private BossBar bar;
 
+    private final int moneyAmount;
+
     public GameTask(int count) {
         this.plugin = NinjaOni2.getInstance();
 
@@ -41,8 +45,9 @@ public class GameTask extends BukkitRunnable {
             this.MAX_COUNT = plugin.getMyConfig().getGameTime();
         }
 
-        this.bar = Bukkit.getServer().createBossBar("残り時間:" + this.MAX_COUNT, BarColor.BLUE, BarStyle.SEGMENTED_10, BarFlag.CREATE_FOG);
+        this.moneyAmount = plugin.getMyConfig().getMoneyAmount();
 
+        this.bar = Bukkit.getServer().createBossBar("残り時間:" + this.MAX_COUNT, BarColor.BLUE, BarStyle.SEGMENTED_10, BarFlag.CREATE_FOG);
     }
 
     @Override
@@ -54,9 +59,14 @@ public class GameTask extends BukkitRunnable {
 
             if(count != MAX_COUNT && count % PACKAGE_TIME == 0) {
 
-                Location locs[] = plugin.getMoneyLocs();
 
-                for(Location loc : locs) {
+                List<Location> locList = plugin.getLocs();
+
+                Collections.shuffle(locList);
+
+                for(int i=0; i < moneyAmount; i++) {
+                    Location loc = locList.get(i);
+
                     //アーマースタンド出現
                     Entity entity = loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
                     ArmorStand stand = (ArmorStand) entity;
