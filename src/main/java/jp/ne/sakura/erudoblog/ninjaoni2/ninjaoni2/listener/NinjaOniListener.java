@@ -6,14 +6,18 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -21,6 +25,32 @@ import org.bukkit.potion.PotionEffectType;
 public class NinjaOniListener implements Listener {
 
     private NinjaOni2 plugin;
+
+    private final Material[] GUIBlocks = {
+            Material.CRAFTING_TABLE,
+            Material.FURNACE,
+            Material.FURNACE_MINECART,
+            Material.ANVIL,
+            Material.BREWING_STAND,
+            Material.HOPPER,
+            Material.HOPPER_MINECART,
+            Material.BEACON,
+            Material.ENCHANTING_TABLE,
+            Material.CHEST,
+            Material.CHEST_MINECART,
+            Material.FLETCHING_TABLE,
+            Material.ENDER_CHEST,
+            Material.DISPENSER,
+            Material.DROPPER,
+            Material.SMOKER,
+            Material.BLAST_FURNACE,
+            Material.LOOM,
+            Material.BARREL,
+            Material.CARTOGRAPHY_TABLE,
+            Material.GRINDSTONE,
+            Material.SMITHING_TABLE,
+            Material.STONECUTTER
+    };
 
     public NinjaOniListener(NinjaOni2 plugin) {
         this.plugin = plugin;
@@ -63,5 +93,20 @@ public class NinjaOniListener implements Listener {
         }
     }
 
+    //GUIが存在するブロックを開いた時キャンセル
+    @EventHandler
+    public void onClickGUIBlock(PlayerInteractEvent e) {
+        if(e.getClickedBlock() == null) return;
+
+        if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Block block = e.getClickedBlock();
+            for(Material m : GUIBlocks) {
+                if(block.getType() == m) {
+                    e.setCancelled(true);
+                }
+            }
+        }
+
+    }
 
 }
