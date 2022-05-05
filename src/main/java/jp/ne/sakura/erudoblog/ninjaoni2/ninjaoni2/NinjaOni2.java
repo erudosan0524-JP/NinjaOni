@@ -100,6 +100,7 @@ public final class NinjaOni2 extends JavaPlugin {
         new NinjaMoveListener(getInstance());
         new NinjaOniListener(getInstance());
         new NinjaItemListener(getInstance());
+        new ShopListener(getInstance());
 
         //アイテムの設定
         itemManager = new ItemManager();
