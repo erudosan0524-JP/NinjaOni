@@ -44,6 +44,7 @@ public final class ItemManager {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ninjaItem.name());
         meta.setUnbreakable(true);
+        meta.setLore(ninjaItem.lore());
         item.setItemMeta(meta);
 
         return item;
