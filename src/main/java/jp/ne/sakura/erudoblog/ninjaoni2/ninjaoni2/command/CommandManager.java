@@ -33,6 +33,7 @@ public class CommandManager implements CommandExecutor {
         this.commands.add(new Warp(plugin));
         this.commands.add(new GetItem(plugin));
         this.commands.add(new RemoveMoney(plugin));
+        this.commands.add(new SpawnShop(plugin));
     }
 
     @Override

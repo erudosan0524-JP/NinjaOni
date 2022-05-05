@@ -35,8 +35,6 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.7.0"
-
-    implementation 'LibsDisguises:LibsDisguises:10.0.26'
 }
 
 def targetJavaVersion = 16
