@@ -19,7 +19,7 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        NinjaManager.getInstance().addNinjaPlayer(new Ninja(player, Game.Teams.NONE));
+        NinjaManager.getInstance().addNinjaPlayer(new Ninja(player, Game.Teams.PLAYER));
     }
 
     @EventHandler

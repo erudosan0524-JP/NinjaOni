@@ -150,7 +150,7 @@ public class Game {
             np.setHp(60);
             np.setMoney(0);
             np.setLocked(false);
-            np.setTeam(NONE);
+            np.setTeam(PLAYER);
         }
     }
 
@@ -256,8 +256,7 @@ public class Game {
         ONI("oni","§c", "§f"), //鬼チーム
         PLAYER("player", "§9", "§f"), //プレイヤーチーム
         LOCKEDPLAYER("lockedplayer", "",""), //捕まっているプレイヤーチーム
-        SPECTATOR("spectator", "§7", "§f"), //観戦者チーム
-        NONE("","",""); //どこにも所属していない
+        SPECTATOR("spectator", "§7", "§f"); //観戦者チーム
 
         private String teamName;
         private String prefix;
