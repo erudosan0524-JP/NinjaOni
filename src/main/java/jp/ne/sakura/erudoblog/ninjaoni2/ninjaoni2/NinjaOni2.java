@@ -155,30 +155,18 @@ public final class NinjaOni2 extends JavaPlugin {
             ninja.getPlayer().getInventory().clear(); //インベントリ初期化
 
             PlayerInventory inv = ninja.getPlayer().getInventory();
-            if(ninja.getTeam() != ONI) {
-                for(NinjaItem ninjaItem : itemManager.getNinjaItems()) {
-                    if(ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM) {
-                        ItemStack item = itemManager.getItem(ninjaItem);
-                        item.setAmount(64);
 
-                        inv.setItem(ninjaItem.slot(), item);
-                    }
-                }
+            for(NinjaItem ninjaItem : ninja.getItems()) {
+                ItemStack item = itemManager.getItem(ninjaItem);
+                item.setAmount(64);
+                inv.setItem(ninjaItem.slot(), item);
+            }
 
-                inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
-                inv.setItem(27, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
-            } else {
-                for(NinjaItem ninjaItem : itemManager.getNinjaItems()) {
-                    if(ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM) {
-                        ItemStack item = itemManager.getItem(ninjaItem);
-                        item.setAmount(64);
+            inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
+            inv.setItem(27, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
 
-                        inv.setItem(ninjaItem.slot(), item);
-                    }
-                }
-                inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
-                inv.setItem(27, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));
 
+             if(ninja.getTeam() == ONI){
                 inv.setHelmet(ItemManager.getOniHelmet());
                 inv.setChestplate(ItemManager.getOniChestplate());
                 inv.setLeggings(ItemManager.getOniLeggings());

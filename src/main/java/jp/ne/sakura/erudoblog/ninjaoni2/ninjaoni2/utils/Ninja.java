@@ -1,11 +1,15 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class Ninja {
@@ -17,6 +21,8 @@ public class Ninja {
     private int hp;
     private int money;
 
+    private List<NinjaItem> items;
+
     public Ninja(Player player, boolean isClimbing, boolean isLocked, int hp, Teams team, int money) {
         this.player = player;
         this.isClimbing = isClimbing;
@@ -24,6 +30,7 @@ public class Ninja {
         this.hp = hp;
         this.money = money;
         this.team = team;
+        this.items = new ArrayList<>();
     }
 
     public Ninja(Player player, Teams team) {
@@ -49,6 +56,12 @@ public class Ninja {
             NinjaOni2.addPlayerToTeam(this.player, Teams.LOCKEDPLAYER);
         }else {
             NinjaOni2.addPlayerToTeam(this.player, Teams.PLAYER);
+        }
+    }
+
+    public void addNinjaItem(NinjaItem item) {
+        if(this.items.size() > 4) {
+            this.items.add(item);
         }
     }
 }

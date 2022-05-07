@@ -3,18 +3,23 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentIteratorType;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ShopListener implements Listener {
@@ -78,8 +83,57 @@ public class ShopListener implements Listener {
                     }
                 }
 
+
                 player.openInventory(inv);
             }
+        }
+    }
+
+    @EventHandler
+    public void onInvClick(InventoryClickEvent e) {
+        if(!(e.getWhoClicked() instanceof Player)) {
+            return;
+        }
+
+        Inventory inv = e.getClickedInventory();
+        String title = ChatColor.stripColor(e.getView().getTitle());
+        ItemStack clickedItem = e.getCurrentItem();
+
+        Player player = (Player) e.getWhoClicked();
+        Ninja ninja = null;
+        ItemManager im = new ItemManager();
+
+        if(clickedItem == null) {
+            return;
+        }
+        if(!clickedItem.hasItemMeta()) {
+            return;
+        }
+
+        String itemName = clickedItem.getItemMeta().getDisplayName();
+
+        for(Ninja ninja1 : NinjaOni2.getNinjas()) {
+            if(ninja1.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
+                ninja = ninja1;
+                break;
+            }
+        }
+
+        if(ninja != null) {
+            player.sendMessage(title);
+
+            if(title.equals("鬼専用ショップ")
+                    || title.equals("プレイヤー専用ショップ")) {
+                for(NinjaItem ni : im.getNinjaItems()) {
+                    if(ni.name().equals(itemName)) {
+                        ninja.addNinjaItem(ni);
+                        ninja.getPlayer().sendMessage(ni.name() + "を追加しました");
+                    }
+                }
+            }
+
+            NinjaOni2.updateNinjaPlayer(ninja);
+            e.setCancelled(true);
         }
     }
 }
