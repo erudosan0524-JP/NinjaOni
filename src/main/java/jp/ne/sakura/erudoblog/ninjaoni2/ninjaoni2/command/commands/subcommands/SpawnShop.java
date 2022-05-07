@@ -19,22 +19,20 @@ public class SpawnShop extends SubCommand {
         Location loc = player.getLocation();
 
         if(args.length > 0) {
+            Villager villager = (Villager) player.getWorld().spawnEntity(loc, EntityType.VILLAGER);
+            villager.setAI(false);
+            villager.setAdult();
+            villager.setCanPickupItems(false);
+            villager.setCustomNameVisible(true);
+            villager.setGravity(true);
+            villager.setSilent(true);
+            villager.setInvulnerable(true);
+            villager.setRotation(player.getLocation().getYaw(), player.getLocation().getPitch());
+
             if(args[0].equalsIgnoreCase("oni")) {
-                Villager villager = (Villager) player.getWorld().spawnEntity(loc, EntityType.VILLAGER);
-                villager.setAI(false);
-                villager.setAdult();
-                villager.setCanPickupItems(false);
                 villager.setCustomName(ChatColor.GREEN + "鬼専用ショップ");
-                villager.setCustomNameVisible(true);
-                villager.setGravity(true);
             } else if (args[0].equalsIgnoreCase("player")){
-                Villager villager = (Villager) player.getWorld().spawnEntity(loc, EntityType.VILLAGER);
-                villager.setAI(false);
-                villager.setAdult();
-                villager.setCanPickupItems(false);
                 villager.setCustomName(ChatColor.GREEN + "プレイヤー専用ショップ");
-                villager.setCustomNameVisible(true);
-                villager.setGravity(true);
             }
         }
     }

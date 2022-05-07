@@ -6,6 +6,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,6 +30,7 @@ public class ShopListener implements Listener {
         }
 
         Villager villager = (Villager) e.getRightClicked();
+        Player player = e.getPlayer();
         ItemManager im = new ItemManager();
         if(villager.getCustomName() != null) {
             String customName = ChatColor.stripColor(villager.getCustomName());
@@ -44,11 +46,16 @@ public class ShopListener implements Listener {
                     }
                 }
 
-                for(int slot = 0; slot < 10; slot+=2) {
-                    for(ItemStack item : items) {
-                        inv.setItem(slot, item);
+                int slot = 0;
+                for(ItemStack item : items) {
+                    inv.setItem(slot, item);
+                    slot+= 2;
+                    if(slot > 10) {
+                        break;
                     }
                 }
+
+                player.openInventory(inv);
 
             } else if(customName.equals("プレイヤー専用ショップ")) {
                 Inventory inv = Bukkit.createInventory(null, 9, customName);
@@ -62,11 +69,16 @@ public class ShopListener implements Listener {
                     }
                 }
 
-                for(int slot = 0; slot < 10; slot+=2) {
-                    for(ItemStack item : items) {
-                        inv.setItem(slot, item);
+                int slot = 0;
+                for(ItemStack item : items) {
+                    inv.setItem(slot, item);
+                    slot+= 2;
+                    if(slot > 10) {
+                        break;
                     }
                 }
+
+                player.openInventory(inv);
             }
         }
     }
