@@ -56,8 +56,9 @@ public class Ninja {
     }
 
     public void addNinjaItem(NinjaItem item) {
-        if(this.items.size() > 4) {
+        if(this.items.size() < 4) {
             this.items.add(item);
+            getPlayer().sendMessage(item.name() + "を追加しました");
         }
     }
 }

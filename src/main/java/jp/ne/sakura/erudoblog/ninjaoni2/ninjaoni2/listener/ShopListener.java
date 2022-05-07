@@ -117,20 +117,18 @@ public class ShopListener implements Listener {
         }
 
         if(ninja != null) {
-            player.sendMessage(title);
 
             if(title.equals("鬼専用ショップ")
                     || title.equals("プレイヤー専用ショップ")) {
                 for(NinjaItem ni : im.getNinjaItems()) {
                     if(ni.name().equals(itemName)) {
                         ninja.addNinjaItem(ni);
-                        ninja.getPlayer().sendMessage(ni.name() + "を追加しました");
                     }
                 }
-            }
 
-            NinjaManager.getInstance().updateNinjaPlayer(ninja);
-            e.setCancelled(true);
+                NinjaManager.getInstance().updateNinjaPlayer(ninja);
+                e.setCancelled(true);
+            }
         }
     }
 }
