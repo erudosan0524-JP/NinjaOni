@@ -1,10 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -21,11 +18,11 @@ public class MovementTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if(plugin.getGameState() == GameState.NONE) {
+        if(plugin.getGameState() == Game.GameState.NONE) {
             this.cancel();
         }
 
-        if(plugin.getGameState() != GameState.INGAME) {
+        if(plugin.getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -34,7 +31,7 @@ public class MovementTask extends BukkitRunnable {
 
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
-            if(ninja.getTeam() == Teams.PLAYER) {
+            if(ninja.getTeam() == Game.Teams.PLAYER) {
                 if(ninja.isLocked()) { //捕まっている時の処理
                     if(ninja.getHp() > 0) {
                         ninja.decHP();
@@ -48,9 +45,9 @@ public class MovementTask extends BukkitRunnable {
                         }
 
                         MessageManager.sendAll(ChatColor.RED + ninja.getPlayer().getName() + "が脱落した");
-                        ninja.setTeam(Teams.SPECTATOR);
+                        ninja.setTeam(Game.Teams.SPECTATOR);
                         NinjaOni2.updateNinjaPlayer(ninja);
-                        NinjaOni2.addPlayerToTeam(ninja.getPlayer(), Teams.SPECTATOR);
+                        NinjaOni2.addPlayerToTeam(ninja.getPlayer(), Game.Teams.SPECTATOR);
                         ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
                     }
                 }

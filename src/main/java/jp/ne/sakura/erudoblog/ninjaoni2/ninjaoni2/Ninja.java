@@ -1,7 +1,5 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import lombok.Data;
 import org.bukkit.entity.Player;
@@ -14,14 +12,14 @@ public class Ninja {
 
     private Player player;
     private boolean isClimbing; //壁を上っているか
-    private Teams team; //所属チーム
+    private Game.Teams team; //所属チーム
     private boolean isLocked; //捕まっているか
     private int hp;
     private int money;
 
     private List<NinjaItem> items;
 
-    public Ninja(Player player, boolean isClimbing, boolean isLocked, int hp, Teams team, int money) {
+    public Ninja(Player player, boolean isClimbing, boolean isLocked, int hp, Game.Teams team, int money) {
         this.player = player;
         this.isClimbing = isClimbing;
         this.isLocked = isLocked;
@@ -31,7 +29,7 @@ public class Ninja {
         this.items = new ArrayList<>();
     }
 
-    public Ninja(Player player, Teams team) {
+    public Ninja(Player player, Game.Teams team) {
         this(player,false,false, 60, team, 0);
     }
 
@@ -51,9 +49,9 @@ public class Ninja {
         this.isLocked = b;
 
         if(b) {
-            NinjaOni2.addPlayerToTeam(this.player, Teams.LOCKEDPLAYER);
+            NinjaOni2.addPlayerToTeam(this.player, Game.Teams.LOCKEDPLAYER);
         }else {
-            NinjaOni2.addPlayerToTeam(this.player, Teams.PLAYER);
+            NinjaOni2.addPlayerToTeam(this.player, Game.Teams.PLAYER);
         }
     }
 

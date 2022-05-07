@@ -1,6 +1,6 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.GameState;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,13 +26,13 @@ public class CountDownTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if(plugin.getGameState() == GameState.COUNTDOWN) {
+        if(plugin.getGameState() == Game.GameState.COUNTDOWN) {
             if(count < 0) {
                 this.cancel();
             }
 
             if (count == 0) {
-                plugin.setGameState(GameState.INGAME);
+                plugin.setGameState(Game.GameState.INGAME);
                 for(Player player : Bukkit.getServer().getOnlinePlayers()) {
                     player.sendTitle("GAME START!", null, 10, 70, 2);
                 }

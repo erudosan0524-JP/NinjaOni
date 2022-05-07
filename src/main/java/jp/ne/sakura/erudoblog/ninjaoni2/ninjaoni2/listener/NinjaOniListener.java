@@ -1,10 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -54,7 +51,7 @@ public class NinjaOniListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (plugin.getGameState() != GameState.INGAME) {
+        if (plugin.getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -69,11 +66,11 @@ public class NinjaOniListener implements Listener {
             Ninja damagerNinja = NinjaOni2.getNinjaPlayer(damager);
             Ninja playerNinja = NinjaOni2.getNinjaPlayer(player);
 
-            if (damagerNinja.getTeam() != Teams.ONI) {
+            if (damagerNinja.getTeam() != Game.Teams.ONI) {
                 return;
             }
 
-            if (playerNinja.getTeam() != Teams.PLAYER) {
+            if (playerNinja.getTeam() != Game.Teams.PLAYER) {
                 return;
             }
 
@@ -107,7 +104,7 @@ public class NinjaOniListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e) {
         if(e.getEntity() instanceof ItemFrame) {
-            if(plugin.getGameState() != GameState.NONE) {
+            if(plugin.getGameState() != Game.GameState.NONE) {
                 e.setCancelled(true);
             }
         }

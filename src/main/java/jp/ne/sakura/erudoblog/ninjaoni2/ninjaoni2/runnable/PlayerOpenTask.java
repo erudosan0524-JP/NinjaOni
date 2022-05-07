@@ -1,8 +1,8 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,7 +30,7 @@ public class PlayerOpenTask extends BukkitRunnable {
             return;
         }
 
-        if (ninja.getTeam() == Teams.PLAYER) {
+        if (ninja.getTeam() == Game.Teams.PLAYER) {
 
             if (locked != null) {
                 if (count == 0) {

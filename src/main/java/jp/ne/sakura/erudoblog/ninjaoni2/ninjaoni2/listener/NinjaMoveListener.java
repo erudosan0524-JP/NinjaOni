@@ -1,11 +1,8 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GetMoneyTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.PlayerOpenTask;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -52,7 +49,7 @@ public class NinjaMoveListener implements Listener {
         if (NinjaOni2.containsNinja(player)) {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
-            if (ninja.getTeam() == Teams.PLAYER) {
+            if (ninja.getTeam() == Game.Teams.PLAYER) {
                 if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
 
                     if (ninja.getPlayer().isSneaking()) {
@@ -71,7 +68,7 @@ public class NinjaMoveListener implements Listener {
     //壁ジャンプ
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
+        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -160,7 +157,7 @@ public class NinjaMoveListener implements Listener {
     //壁よじ登り
     @EventHandler
     public void onClimb(PlayerMoveEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
+        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -243,7 +240,7 @@ public class NinjaMoveListener implements Listener {
     //梯子高速上り
     @EventHandler
     public void onClimbLadder(PlayerMoveEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
+        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -301,7 +298,7 @@ public class NinjaMoveListener implements Listener {
     //トランポリン
     @EventHandler
     public void onJump(PlayerMoveEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != GameState.INGAME) {
+        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -324,7 +321,7 @@ public class NinjaMoveListener implements Listener {
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
-        if (plugin.getGameState() != GameState.INGAME) {
+        if (plugin.getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -361,7 +358,7 @@ public class NinjaMoveListener implements Listener {
 
                     Ninja nin = NinjaOni2.getNinjaPlayer(locked);
 
-                    if (nin.getTeam() == Teams.PLAYER) {
+                    if (nin.getTeam() == Game.Teams.PLAYER) {
                         if (nin.isLocked()) {
                             new PlayerOpenTask(ninja,nin,3).runTaskTimer(plugin,0L,1L);
                         }

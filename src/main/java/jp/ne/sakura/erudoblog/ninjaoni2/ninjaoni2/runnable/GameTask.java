@@ -1,10 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -49,9 +46,9 @@ public class GameTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (plugin.getGameState() == GameState.INGAME) {
-            int oniCount = NinjaOni2.countNinja(Teams.ONI);
-            int playerCount = NinjaOni2.countNinja(Teams.PLAYER);
+        if (plugin.getGameState() == Game.GameState.INGAME) {
+            int oniCount = NinjaOni2.countNinja(Game.Teams.ONI);
+            int playerCount = NinjaOni2.countNinja(Game.Teams.PLAYER);
             int lockedCount = NinjaOni2.countLockedPlayer();
 
             if(count != MAX_COUNT && count % PACKAGE_TIME == 0) {
@@ -113,13 +110,13 @@ public class GameTask extends BukkitRunnable {
                         bar.setTitle("残り時間: " + count);
 
                         StringBuilder sb = new StringBuilder();
-                        if(ninja.getTeam() == Teams.PLAYER) {
+                        if(ninja.getTeam() == Game.Teams.PLAYER) {
                             sb.append("残り逃走者: ");
                             sb.append(playerCount);
                             sb.append(" | ");
                             sb.append("残りHP: ");
                             sb.append(ninja.getHp());
-                        }else if(ninja.getTeam() == Teams.ONI) {
+                        }else if(ninja.getTeam() == Game.Teams.ONI) {
                             sb.append("残り逃走者: ");
                             sb.append(playerCount);
                             sb.append(" | ");
@@ -143,7 +140,7 @@ public class GameTask extends BukkitRunnable {
                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, component);
 
                         //鬼が近づいてきたときの処理
-                        if(ninja.getTeam() == Teams.PLAYER) {
+                        if(ninja.getTeam() == Game.Teams.PLAYER) {
                             for(Entity entity : ninja.getPlayer().getNearbyEntities(12,12,12)) {
                                 if(!(entity instanceof Player)) {
                                     continue;
@@ -153,7 +150,7 @@ public class GameTask extends BukkitRunnable {
                                 if (NinjaOni2.getNinjaPlayer(p) != null) {
                                     Ninja nin = NinjaOni2.getNinjaPlayer(p);
 
-                                    if(nin.getTeam() == Teams.ONI) {
+                                    if(nin.getTeam() == Game.Teams.ONI) {
                                         ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BASEDRUM, 1, 0.5f);
                                     }
                                 }

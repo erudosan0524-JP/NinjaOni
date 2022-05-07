@@ -27,7 +27,7 @@ import org.bukkit.scoreboard.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams.*;
+import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game.Teams.*;
 
 public final class NinjaOni2 extends JavaPlugin {
 
@@ -36,7 +36,7 @@ public final class NinjaOni2 extends JavaPlugin {
 
     @Getter
     @Setter
-    private GameState gameState;
+    private Game.GameState gameState;
 
     @Getter
     private Config myConfig;
@@ -71,7 +71,7 @@ public final class NinjaOni2 extends JavaPlugin {
         instance = this;
 
         //ゲーム状態の設定
-        gameState = GameState.NONE;
+        gameState = Game.GameState.NONE;
 
         //ProtocolLibの設定
         protocol = ProtocolLibrary.getProtocolManager();
@@ -115,7 +115,7 @@ public final class NinjaOni2 extends JavaPlugin {
     }
 
     public void gameStart(int countdownTime, int gameTime) {
-        setGameState(GameState.COUNTDOWN);
+        setGameState(Game.GameState.COUNTDOWN);
 
         //チームの設定
         for (Ninja ninja : ninjas) {
@@ -132,7 +132,7 @@ public final class NinjaOni2 extends JavaPlugin {
                 player.teleport(loc);
             } else {
                 //プレイヤーの場合
-                ninja.setTeam(Teams.PLAYER);
+                ninja.setTeam(Game.Teams.PLAYER);
                 Player player = ninja.getPlayer();
                 addPlayerToTeam(ninja.getPlayer(), PLAYER);
                 Location loc = getMyConfig().getTPLocationPlayer().clone();
@@ -212,7 +212,7 @@ public final class NinjaOni2 extends JavaPlugin {
         }
 
         //ゲーム状態変更
-        setGameState(GameState.NONE);
+        setGameState(Game.GameState.NONE);
 
         //全員のゲームモード変更
         for(Player player : Bukkit.getServer().getOnlinePlayers()) {
@@ -281,7 +281,7 @@ public final class NinjaOni2 extends JavaPlugin {
         spectator.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
     }
 
-    public static void addPlayerToTeam(Player player, Teams team) {
+    public static void addPlayerToTeam(Player player, Game.Teams team) {
         switch (team) {
             case ONI:
                 oni.addEntry(player.getName());
@@ -344,7 +344,7 @@ public final class NinjaOni2 extends JavaPlugin {
         return result;
     }
 
-    public static int countNinja(Teams team) {
+    public static int countNinja(Game.Teams team) {
         int result = 0;
         for (Ninja ninja : ninjas) {
             if (ninja.getTeam() == team) {

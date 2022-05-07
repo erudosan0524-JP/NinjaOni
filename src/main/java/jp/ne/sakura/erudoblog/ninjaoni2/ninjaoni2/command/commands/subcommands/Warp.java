@@ -1,8 +1,8 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
@@ -18,10 +18,10 @@ public class Warp extends SubCommand {
         for(Player p : Bukkit.getServer().getOnlinePlayers()) {
             System.out.println(p.getName());
             if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeOni()) {
-                NinjaOni2.updateNinjaPlayer(new Ninja(p, Teams.ONI));
+                NinjaOni2.updateNinjaPlayer(new Ninja(p, Game.Teams.ONI));
                 p.sendMessage("あなたは鬼になりました");
             } else if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockTypeSpec()) {
-                NinjaOni2.updateNinjaPlayer(new Ninja(p, Teams.SPECTATOR));
+                NinjaOni2.updateNinjaPlayer(new Ninja(p, Game.Teams.SPECTATOR));
                 p.sendMessage("あなたは観戦者になりました");
             }
         }

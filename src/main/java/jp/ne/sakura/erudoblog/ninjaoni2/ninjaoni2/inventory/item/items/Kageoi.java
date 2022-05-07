@@ -3,10 +3,10 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ public class Kageoi implements NinjaItem {
 
         //光らせるプレイヤーの設定
         for (Ninja nin : NinjaOni2.getNinjas()) {
-            if (nin.getTeam() == Teams.PLAYER) {
+            if (nin.getTeam() == Game.Teams.PLAYER) {
                 if(!glowPlayers.contains(nin.getPlayer())) {
                     glowPlayers.add(nin.getPlayer());
                 }

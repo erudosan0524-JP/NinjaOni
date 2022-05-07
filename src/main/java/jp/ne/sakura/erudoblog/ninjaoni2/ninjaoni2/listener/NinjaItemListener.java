@@ -1,13 +1,10 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.GameState;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.NinjaInventory;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.MessageManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -40,7 +37,7 @@ public class NinjaItemListener implements Listener {
 
     @EventHandler
     public void onInteractArmorStand(PlayerArmorStandManipulateEvent e) {
-        if (plugin.getGameState() == GameState.INGAME) {
+        if (plugin.getGameState() == Game.GameState.INGAME) {
             e.setCancelled(true);
 
         }
@@ -61,13 +58,13 @@ public class NinjaItemListener implements Listener {
                 Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
                 for (NinjaItem ninjaItem : itemManager.getNinjaItems()) {
-                    if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Teams.ONI) {
+                    if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Game.Teams.ONI) {
                         if (item.getType() == ninjaItem.type()) {
                             ninjaInventory.decrementHolderItem(itemManager.getItem(ninjaItem));
 
                             ninjaItem.execute(ninja);
                         }
-                    } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Teams.PLAYER) {
+                    } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Game.Teams.PLAYER) {
                         if (item.getType() == ninjaItem.type()) {
                             ninjaInventory.decrementHolderItem(itemManager.getItem(ninjaItem));
 
@@ -99,7 +96,7 @@ public class NinjaItemListener implements Listener {
             return;
         }
 
-        if (plugin.getGameState() == GameState.NONE) {
+        if (plugin.getGameState() == Game.GameState.NONE) {
             return;
         }
 
@@ -120,7 +117,7 @@ public class NinjaItemListener implements Listener {
             Ninja ninja = NinjaOni2.getNinjaPlayer(player);
 
             for (NinjaItem ninjaItem : itemManager.getNinjaItems()) {
-                if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Teams.ONI) {
+                if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Game.Teams.ONI) {
                     if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
                         e.setCancelled(true);
                         if (ninja.getMoney() > 0) {
@@ -129,7 +126,7 @@ public class NinjaItemListener implements Listener {
                             inv.addItem(itemManager.getItem(ninjaItem));
                         }
                     }
-                } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Teams.PLAYER) {
+                } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Game.Teams.PLAYER) {
                     if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
                         e.setCancelled(true);
 
@@ -155,7 +152,7 @@ public class NinjaItemListener implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent e) {
-        if (plugin.getGameState() != GameState.INGAME) {
+        if (plugin.getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -183,7 +180,7 @@ public class NinjaItemListener implements Listener {
                 Player shooter = (Player) arrow.getShooter();
                 Ninja ninja =NinjaOni2.getNinjaPlayer(player);
 
-                if(ninja.getTeam() != Teams.PLAYER) {
+                if(ninja.getTeam() != Game.Teams.PLAYER) {
                     return;
                 }
 
@@ -220,7 +217,7 @@ public class NinjaItemListener implements Listener {
                 Player shooter = (Player) snowball.getShooter();
                 Ninja ninja =NinjaOni2.getNinjaPlayer(player);
 
-                if(ninja.getTeam() != Teams.ONI) {
+                if(ninja.getTeam() != Game.Teams.ONI) {
                     return;
                 }
 
