@@ -49,9 +49,9 @@ public class Ninja {
         this.isLocked = b;
 
         if(b) {
-            NinjaOni2.addPlayerToTeam(this.player, Game.Teams.LOCKEDPLAYER);
+            NinjaOniAPI.getInstance().getGame().addEntry(this.player, Game.Teams.LOCKEDPLAYER);
         }else {
-            NinjaOni2.addPlayerToTeam(this.player, Game.Teams.PLAYER);
+            NinjaOniAPI.getInstance().getGame().addEntry(this.player, Game.Teams.PLAYER);
         }
     }
 
