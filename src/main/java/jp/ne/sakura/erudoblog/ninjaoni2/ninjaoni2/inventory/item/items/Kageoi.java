@@ -16,10 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Kageoi implements NinjaItem {
-    @Override
-    public int slot() {
-        return 21;
-    }
 
     @Override
     public Material type() {

@@ -189,10 +189,12 @@ public class Game {
 
             PlayerInventory inv = ninja.getPlayer().getInventory();
 
+            int slot = 20;
             for(NinjaItem ninjaItem : ninja.getItems()) {
                 ItemStack item = NinjaOniAPI.getInstance().getItemManager().getItem(ninjaItem);
                 item.setAmount(64);
-                inv.setItem(ninjaItem.slot(), item);
+                inv.setItem(slot, item);
+                slot++;
             }
 
             inv.setItem(9, new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1));

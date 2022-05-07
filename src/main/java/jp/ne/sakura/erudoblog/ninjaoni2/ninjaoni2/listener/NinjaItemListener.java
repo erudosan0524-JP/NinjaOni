@@ -21,6 +21,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -102,6 +103,7 @@ public class NinjaItemListener implements Listener {
 
 
         ItemStack item = e.getCurrentItem();
+        ItemMeta meta = item.getItemMeta();
         Player player = (Player) e.getWhoClicked();
         PlayerInventory inv = (PlayerInventory) e.getClickedInventory();
         NinjaInventory ninjaInventory = new NinjaInventory(inv);
@@ -118,7 +120,7 @@ public class NinjaItemListener implements Listener {
 
             for (NinjaItem ninjaItem : itemManager.getNinjaItems()) {
                 if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Game.Teams.ONI) {
-                    if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
+                    if (item.getType() == ninjaItem.type() && meta.getDisplayName().equals(ninjaItem.name())) {
                         e.setCancelled(true);
                         if (ninja.getMoney() > 0) {
                             ninjaInventory.purchaseItem(ninja, itemManager.getItem(ninjaItem));
@@ -127,18 +129,18 @@ public class NinjaItemListener implements Listener {
                         }
                     }
                 } else if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.PLAYER_ITEM && ninja.getTeam() == Game.Teams.PLAYER) {
-                    if (item.getType() == ninjaItem.type() && e.getSlot() == ninjaItem.slot()) {
-                        e.setCancelled(true);
+                    if (item.getType() == ninjaItem.type() && meta.getDisplayName().equals(ninjaItem.name())) {
+                    e.setCancelled(true);
 
-                        if (ninja.getMoney() > 0) {
-                            ninjaInventory.purchaseItem(ninja, itemManager.getItem(ninjaItem));
-                            inv.addItem(itemManager.getItem(ninjaItem));
-                        }
+                    if (ninja.getMoney() > 0) {
+                        ninjaInventory.purchaseItem(ninja, itemManager.getItem(ninjaItem));
+                        inv.addItem(itemManager.getItem(ninjaItem));
                     }
                 }
             }
         }
     }
+}
 
     @EventHandler
     public void onItemPickUp(PlayerDropItemEvent e) {

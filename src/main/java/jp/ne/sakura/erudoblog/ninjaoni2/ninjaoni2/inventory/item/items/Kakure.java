@@ -14,11 +14,6 @@ import java.util.HashMap;
 public class Kakure implements NinjaItem {
 
     @Override
-    public int slot() {
-        return 20;
-    }
-
-    @Override
     public Material type() {
         return Material.SLIME_BALL;
     }

@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface NinjaItem {
-    //設置スロット
-    int slot();
 
     //Material
     Material type();

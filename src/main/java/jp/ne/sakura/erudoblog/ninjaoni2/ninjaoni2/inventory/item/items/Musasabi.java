@@ -14,10 +14,6 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 
 public class Musasabi implements NinjaItem {
-    @Override
-    public int slot() {
-        return 23;
-    }
 
     @Override
     public Material type() {

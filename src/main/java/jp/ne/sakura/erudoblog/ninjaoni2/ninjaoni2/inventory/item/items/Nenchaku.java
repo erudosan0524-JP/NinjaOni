@@ -12,10 +12,6 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 
 public class Nenchaku implements NinjaItem {
-    @Override
-    public int slot() {
-        return 22;
-    }
 
     @Override
     public Material type() {

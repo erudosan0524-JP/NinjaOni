@@ -11,10 +11,6 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 
 public class Kunai implements NinjaItem {
-    @Override
-    public int slot() {
-        return 20;
-    }
 
     @Override
     public Material type() {
