@@ -60,12 +60,9 @@ public enum NinjaManager {
         }
 
         Ninja oldNinja = getNinjaPlayer(ninja.getPlayer());
-        ninjaPlayers.remove(oldNinja);
-
         oldNinja.setClimbing(ninja.isClimbing());
         oldNinja.setTeam(ninja.getTeam());
-
-        ninjaPlayers.add(oldNinja);
+        NinjaOniAPI.getInstance().getGame().addEntry(ninja.getPlayer(), ninja.getTeam());
     }
 
     public int countNinja(Game.Teams team) {

@@ -31,7 +31,7 @@ public enum NinjaOniAPI {
     private ItemManager itemManager;
 
     @Getter
-    private NinjaManager ninjaManager;
+    private NinjaManager ninjaManager = NinjaManager.getInstance();
 
 
     public static void setInstance(NinjaOni2 plugin) {

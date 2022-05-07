@@ -27,10 +27,6 @@ import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game.Teams.SPECTATOR;
 /* ゲームにまつわる処理の根幹を担うクラス*/
 public class Game {
 
-    /*
-    staticフィールド
-     */
-    public static final List<Ninja> ninjaPlayers = new ArrayList<>();
 
     /*
     フィールド
@@ -146,7 +142,7 @@ public class Game {
             player.setGameMode(GameMode.ADVENTURE);
         }
 
-        for (Ninja np : ninjaPlayers) {
+        for (Ninja np : NinjaManager.getInstance().ninjaPlayers) {
             np.setHp(60);
             np.setMoney(0);
             np.setLocked(false);
@@ -163,7 +159,7 @@ public class Game {
         gameState = Game.GameState.COUNTDOWN;
 
         //チームの設定
-        for (Ninja ninja : Game.ninjaPlayers) {
+        for (Ninja ninja : NinjaManager.getInstance().ninjaPlayers) {
             if (ninja.getTeam() == SPECTATOR) {
                 //観戦者チームにいた場合
                 addEntry(ninja.getPlayer(), SPECTATOR);
@@ -187,7 +183,7 @@ public class Game {
         }
 
         //インベントリの設定
-        for(Ninja ninja : Game.ninjaPlayers) {
+        for(Ninja ninja : NinjaManager.getInstance().ninjaPlayers) {
             ninja.setMoney(0);
             ninja.getPlayer().getInventory().clear(); //インベントリ初期化
 
@@ -212,7 +208,7 @@ public class Game {
         }
 
         //お金の消去
-        World world = Game.ninjaPlayers.get(0).getPlayer().getWorld();
+        World world = NinjaManager.getInstance().ninjaPlayers.get(0).getPlayer().getWorld();
         for(Entity entity : world.getEntities()) {
             if(entity instanceof ArmorStand stand) {
                 if(stand.getCustomName() != null) {
