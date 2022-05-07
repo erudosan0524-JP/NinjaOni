@@ -1,6 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOniAPI;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.*;
@@ -20,27 +21,27 @@ public class GetItem extends SubCommand {
             switch (args[0]) {
                 case "kunai":
                     player.sendMessage("クナイをインベントリに追加しました");
-                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kunai()));
+                    player.getInventory().addItem(NinjaOniAPI.getInstance().getItemManager().getItem(new Kunai()));
                     break;
                 case "kakure":
                     player.sendMessage("隠れ玉をインベントリに追加しました");
-                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kakure()));
+                    player.getInventory().addItem(NinjaOniAPI.getInstance().getItemManager().getItem(new Kakure()));
                     break;
                 case "kemuri":
                     player.sendMessage("煙玉をインベントリに追加しました");
-                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kemuri()));
+                    player.getInventory().addItem(NinjaOniAPI.getInstance().getItemManager().getItem(new Kemuri()));
                     break;
                 case "kageoi":
                     player.sendMessage("影追玉をインベントリに追加しました");
-                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Kageoi()));
+                    player.getInventory().addItem(NinjaOniAPI.getInstance().getItemManager().getItem(new Kageoi()));
                     break;
                 case "nenchaku":
                     player.sendMessage("粘着玉をインベントリに追加しました");
-                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Nenchaku()));
+                    player.getInventory().addItem(NinjaOniAPI.getInstance().getItemManager().getItem(new Nenchaku()));
                     break;
                 case "shukuchi":
                     player.sendMessage("縮地をインベントリに追加しました");
-                    player.getInventory().addItem(getPlugin().getItemManager().getItem(new Shukuchi()));
+                    player.getInventory().addItem(NinjaOniAPI.getInstance().getItemManager().getItem(new Shukuchi()));
                     break;
             }
         } else {

@@ -3,10 +3,8 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -45,7 +43,7 @@ public class Kageoi implements NinjaItem {
         List<Player> glowPlayers = new ArrayList<>();
 
         //光らせるプレイヤーの設定
-        for (Ninja nin : NinjaOni2.getNinjas()) {
+        for (Ninja nin : NinjaManager.getInstance().ninjaPlayers) {
             if (nin.getTeam() == Game.Teams.PLAYER) {
                 if(!glowPlayers.contains(nin.getPlayer())) {
                     glowPlayers.add(nin.getPlayer());
@@ -64,7 +62,7 @@ public class Kageoi implements NinjaItem {
                 } else {
                     for (Player p : glowPlayers) {
 
-                        PacketContainer glowPacket = NinjaOni2.getInstance().getProtocol().createPacket(PacketType.Play.Server.ENTITY_METADATA);
+                        PacketContainer glowPacket = NinjaOniAPI.getInstance().getProtocol().createPacket(PacketType.Play.Server.ENTITY_METADATA);
                         glowPacket.getIntegers().write(0, p.getEntityId()); //光らせるプレイヤーのID
                         WrappedDataWatcher watcher = new WrappedDataWatcher(); //Create data watcher, the Entity Metadata packet requires this
                         WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class); //Found this through google, needed for some stupid reason
@@ -75,7 +73,7 @@ public class Kageoi implements NinjaItem {
                         glowPacket.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects()); //Make the packet's datawatcher the one we created
 
                         try {
-                            NinjaOni2.getInstance().getProtocol().sendServerPacket(player, glowPacket);
+                            NinjaOniAPI.getInstance().getProtocol().sendServerPacket(player, glowPacket);
                         } catch (InvocationTargetException ex) {
                             ex.printStackTrace();
                         }
@@ -85,7 +83,7 @@ public class Kageoi implements NinjaItem {
                 count--;
             }
 
-        }.runTaskTimer(NinjaOni2.getInstance(), 0L, 20L);
+        }.runTaskTimer(NinjaOniAPI.getInstance().getPlugin(), 0L, 20L);
     }
 
     @Override

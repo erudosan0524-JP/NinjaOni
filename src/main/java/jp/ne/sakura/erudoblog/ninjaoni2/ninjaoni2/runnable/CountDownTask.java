@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOniAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -15,24 +16,24 @@ public class CountDownTask extends BukkitRunnable {
     private final String symbol_right = "&e<";
 
     public CountDownTask(int count) {
-        this.plugin = NinjaOni2.getInstance();
+        this.plugin = NinjaOniAPI.INSTANCE.getPlugin();
 
         if(count > 0) {
             this.count = count;
         } else {
-            this.count = plugin.getMyConfig().getCountdownTime();
+            this.count = NinjaOniAPI.getInstance().getMyConfig().getCountdownTime();
         }
     }
 
     @Override
     public void run() {
-        if(plugin.getGameState() == Game.GameState.COUNTDOWN) {
+        if(NinjaOniAPI.getInstance().getGame().getGameState() == Game.GameState.COUNTDOWN) {
             if(count < 0) {
                 this.cancel();
             }
 
             if (count == 0) {
-                plugin.setGameState(Game.GameState.INGAME);
+                NinjaOniAPI.getInstance().getGame().setGameState(Game.GameState.INGAME);
                 for(Player player : Bukkit.getServer().getOnlinePlayers()) {
                     player.sendTitle("GAME START!", null, 10, 70, 2);
                 }

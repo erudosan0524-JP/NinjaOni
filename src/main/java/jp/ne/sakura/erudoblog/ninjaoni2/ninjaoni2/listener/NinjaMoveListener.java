@@ -46,8 +46,8 @@ public class NinjaMoveListener implements Listener {
 
         e.setCancelled(true);
 
-        if (NinjaOni2.containsNinja(player)) {
-            Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+        if (NinjaManager.getInstance().containsNinja(player)) {
+            Ninja ninja = NinjaManager.getInstance().getNinjaPlayer(player);
 
             if (ninja.getTeam() == Game.Teams.PLAYER) {
                 if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
@@ -68,7 +68,7 @@ public class NinjaMoveListener implements Listener {
     //壁ジャンプ
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -157,13 +157,13 @@ public class NinjaMoveListener implements Listener {
     //壁よじ登り
     @EventHandler
     public void onClimb(PlayerMoveEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
         Player player = e.getPlayer();
 
-        if (NinjaOni2.getNinjaPlayer(player) == null) {
+        if (NinjaManager.getInstance().getNinjaPlayer(player) == null) {
             System.out.println("Ninja is null");
             return;
         }
@@ -172,7 +172,7 @@ public class NinjaMoveListener implements Listener {
             return;
         }
 
-        Ninja np = NinjaOni2.getNinjaPlayer(player);
+        Ninja np = NinjaManager.getInstance().getNinjaPlayer(player);
 
         //player is on ground
         if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
@@ -240,13 +240,13 @@ public class NinjaMoveListener implements Listener {
     //梯子高速上り
     @EventHandler
     public void onClimbLadder(PlayerMoveEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
         Player player = e.getPlayer();
 
-        if (NinjaOni2.getNinjaPlayer(player) == null) {
+        if (NinjaManager.getInstance().getNinjaPlayer(player) == null) {
             System.out.println("Ninja is null");
             return;
         }
@@ -255,7 +255,7 @@ public class NinjaMoveListener implements Listener {
             return;
         }
 
-        Ninja np = NinjaOni2.getNinjaPlayer(player);
+        Ninja np = NinjaManager.getInstance().getNinjaPlayer(player);
 
         Block wxblock = player.getWorld().getBlockAt(player.getLocation().subtract(1.05, 0, 0));
         Block nxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, 1.05));
@@ -298,13 +298,13 @@ public class NinjaMoveListener implements Listener {
     //トランポリン
     @EventHandler
     public void onJump(PlayerMoveEvent e) {
-        if (NinjaOni2.getInstance().getGameState() != Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
         Player player = e.getPlayer();
 
-        if (NinjaOni2.getNinjaPlayer(player) == null) {
+        if (NinjaManager.getInstance().getNinjaPlayer(player) == null) {
             System.out.println("Ninja is null");
             return;
         }
@@ -321,15 +321,15 @@ public class NinjaMoveListener implements Listener {
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
-        if (plugin.getGameState() != Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
         Player player = e.getPlayer();
 
-        if(!NinjaOni2.containsNinja(player)) return;
+        if(!NinjaManager.getInstance().containsNinja(player)) return;
 
-        Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+        Ninja ninja = NinjaManager.getInstance().getNinjaPlayer(player);
 
         if(ninja.isLocked()) {
             return;
@@ -354,9 +354,9 @@ public class NinjaMoveListener implements Listener {
 
                 }else if(entity instanceof Player) {
                     Player locked = (Player) entity;
-                    if(!NinjaOni2.containsNinja(locked)) return;
+                    if(!NinjaManager.getInstance().containsNinja(locked)) return;
 
-                    Ninja nin = NinjaOni2.getNinjaPlayer(locked);
+                    Ninja nin = NinjaManager.getInstance().getNinjaPlayer(locked);
 
                     if (nin.getTeam() == Game.Teams.PLAYER) {
                         if (nin.isLocked()) {

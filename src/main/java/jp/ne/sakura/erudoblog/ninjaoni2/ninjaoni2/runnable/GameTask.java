@@ -29,32 +29,32 @@ public class GameTask extends BukkitRunnable {
     private final int moneyAmount;
 
     public GameTask(int count) {
-        this.plugin = NinjaOni2.getInstance();
+        this.plugin = NinjaOniAPI.INSTANCE.getPlugin();
 
         if (count > 0) {
             this.count = count;
             this.MAX_COUNT = count;
         } else {
-            this.count = plugin.getMyConfig().getGameTime();
-            this.MAX_COUNT = plugin.getMyConfig().getGameTime();
+            this.count = NinjaOniAPI.getInstance().getMyConfig().getGameTime();
+            this.MAX_COUNT = NinjaOniAPI.getInstance().getMyConfig().getGameTime();
         }
 
-        this.moneyAmount = plugin.getMyConfig().getMoneyAmount();
+        this.moneyAmount = NinjaOniAPI.getInstance().getMyConfig().getMoneyAmount();
 
         this.bar = Bukkit.getServer().createBossBar("残り時間:" + this.MAX_COUNT, BarColor.BLUE, BarStyle.SEGMENTED_10, BarFlag.CREATE_FOG);
     }
 
     @Override
     public void run() {
-        if (plugin.getGameState() == Game.GameState.INGAME) {
-            int oniCount = NinjaOni2.countNinja(Game.Teams.ONI);
-            int playerCount = NinjaOni2.countNinja(Game.Teams.PLAYER);
-            int lockedCount = NinjaOni2.countLockedPlayer();
+        if (NinjaOniAPI.getInstance().getGame().getGameState() == Game.GameState.INGAME) {
+            int oniCount = NinjaManager.getInstance().countNinja(Game.Teams.ONI);
+            int playerCount = NinjaManager.getInstance().countNinja(Game.Teams.PLAYER);
+            int lockedCount = NinjaManager.getInstance().countNinja(Game.Teams.LOCKEDPLAYER);
 
             if(count != MAX_COUNT && count % PACKAGE_TIME == 0) {
 
 
-                List<Location> locList = plugin.getLocs();
+                List<Location> locList = NinjaOniAPI.getInstance().getGame().getBorderLocs();
 
                 Collections.shuffle(locList);
 
@@ -87,7 +87,7 @@ public class GameTask extends BukkitRunnable {
                     subTitle = "引き分け！";
                 }
 
-                plugin.gameEnd();
+                NinjaOniAPI.getInstance().getGame().gameEnd();
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     player.sendTitle("GAME OVER!", subTitle, 10, 70, 2);
                 }
@@ -100,8 +100,8 @@ public class GameTask extends BukkitRunnable {
                 this.cancel();
             } else {
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    if (NinjaOni2.getNinjaPlayer(player) != null) {
-                        Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+                    if (NinjaManager.getInstance().getNinjaPlayer(player) != null) {
+                        Ninja ninja = NinjaManager.getInstance().getNinjaPlayer(player);
 
                         //表示処理
                         bar.addPlayer(player);
@@ -147,8 +147,8 @@ public class GameTask extends BukkitRunnable {
                                 }
 
                                 Player p = (Player) entity;
-                                if (NinjaOni2.getNinjaPlayer(p) != null) {
-                                    Ninja nin = NinjaOni2.getNinjaPlayer(p);
+                                if (NinjaManager.getInstance().getNinjaPlayer(p) != null) {
+                                    Ninja nin = NinjaManager.getInstance().getNinjaPlayer(p);
 
                                     if(nin.getTeam() == Game.Teams.ONI) {
                                         ninja.getPlayer().playSound(ninja.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_BASEDRUM, 1, 0.5f);

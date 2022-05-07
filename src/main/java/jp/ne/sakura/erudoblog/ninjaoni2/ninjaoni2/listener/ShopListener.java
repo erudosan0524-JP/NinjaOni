@@ -1,5 +1,6 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
@@ -108,7 +109,7 @@ public class ShopListener implements Listener {
 
         String itemName = clickedItem.getItemMeta().getDisplayName();
 
-        for(Ninja ninja1 : NinjaOni2.getNinjas()) {
+        for(Ninja ninja1 : NinjaManager.getInstance().ninjaPlayers) {
             if(ninja1.getPlayer().getUniqueId().toString().equals(player.getUniqueId().toString())) {
                 ninja = ninja1;
                 break;
@@ -128,7 +129,7 @@ public class ShopListener implements Listener {
                 }
             }
 
-            NinjaOni2.updateNinjaPlayer(ninja);
+            NinjaManager.getInstance().updateNinjaPlayer(ninja);
             e.setCancelled(true);
         }
     }

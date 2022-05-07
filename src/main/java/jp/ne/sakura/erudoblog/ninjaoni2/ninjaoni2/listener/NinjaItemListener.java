@@ -37,7 +37,7 @@ public class NinjaItemListener implements Listener {
 
     @EventHandler
     public void onInteractArmorStand(PlayerArmorStandManipulateEvent e) {
-        if (plugin.getGameState() == Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() == Game.GameState.INGAME) {
             e.setCancelled(true);
 
         }
@@ -50,12 +50,12 @@ public class NinjaItemListener implements Listener {
         PlayerInventory inv = player.getInventory();
         ItemStack item = inv.getItemInMainHand();
         NinjaInventory ninjaInventory = new NinjaInventory(inv);
-        ItemManager itemManager = plugin.getItemManager();
+        ItemManager itemManager =NinjaOniAPI.getInstance().getItemManager();
 
         if (e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-            if (NinjaOni2.containsNinja(player)) {
+            if (NinjaManager.getInstance().containsNinja(player)) {
 
-                Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+                Ninja ninja = NinjaManager.getInstance().getNinjaPlayer(player);
 
                 for (NinjaItem ninjaItem : itemManager.getNinjaItems()) {
                     if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Game.Teams.ONI) {
@@ -96,7 +96,7 @@ public class NinjaItemListener implements Listener {
             return;
         }
 
-        if (plugin.getGameState() == Game.GameState.NONE) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() == Game.GameState.NONE) {
             return;
         }
 
@@ -105,7 +105,7 @@ public class NinjaItemListener implements Listener {
         Player player = (Player) e.getWhoClicked();
         PlayerInventory inv = (PlayerInventory) e.getClickedInventory();
         NinjaInventory ninjaInventory = new NinjaInventory(inv);
-        ItemManager itemManager = plugin.getItemManager();
+        ItemManager itemManager =NinjaOniAPI.getInstance().getItemManager();
 
 
         if (e.getCurrentItem().getType() == ItemManager.getMoney().getType() && e.getSlot() == 18) {
@@ -113,8 +113,8 @@ public class NinjaItemListener implements Listener {
             return;
         }
 
-        if (NinjaOni2.containsNinja(player)) {
-            Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+        if (NinjaManager.getInstance().containsNinja(player)) {
+            Ninja ninja = NinjaManager.getInstance().getNinjaPlayer(player);
 
             for (NinjaItem ninjaItem : itemManager.getNinjaItems()) {
                 if (ninjaItem.ninjaItemType() == NinjaItem.NinjaItemType.ONI_ITEM && ninja.getTeam() == Game.Teams.ONI) {
@@ -152,7 +152,7 @@ public class NinjaItemListener implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent e) {
-        if (plugin.getGameState() != Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -173,12 +173,12 @@ public class NinjaItemListener implements Listener {
                     return;
                 }
 
-                if(!NinjaOni2.containsNinja(player)) {
+                if(!NinjaManager.getInstance().containsNinja(player)) {
                     return;
                 }
 
                 Player shooter = (Player) arrow.getShooter();
-                Ninja ninja =NinjaOni2.getNinjaPlayer(player);
+                Ninja ninja =NinjaManager.getInstance().getNinjaPlayer(player);
 
                 if(ninja.getTeam() != Game.Teams.PLAYER) {
                     return;
@@ -210,12 +210,12 @@ public class NinjaItemListener implements Listener {
                     return;
                 }
 
-                if(!NinjaOni2.containsNinja(player)) {
+                if(!NinjaManager.getInstance().containsNinja(player)) {
                     return;
                 }
 
                 Player shooter = (Player) snowball.getShooter();
-                Ninja ninja =NinjaOni2.getNinjaPlayer(player);
+                Ninja ninja =NinjaManager.getInstance().getNinjaPlayer(player);
 
                 if(ninja.getTeam() != Game.Teams.ONI) {
                     return;

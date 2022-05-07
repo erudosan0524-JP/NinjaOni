@@ -14,22 +14,22 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class MovementTask extends BukkitRunnable {
 
-    private final NinjaOni2 plugin = NinjaOni2.getInstance();
+    private final NinjaOni2 plugin = NinjaOniAPI.INSTANCE.getPlugin();
 
     @Override
     public void run() {
-        if(plugin.getGameState() == Game.GameState.NONE) {
+        if(NinjaOniAPI.getInstance().getGame().getGameState() == Game.GameState.NONE) {
             this.cancel();
         }
 
-        if(plugin.getGameState() != Game.GameState.INGAME) {
+        if(NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
         for(Player player : Bukkit.getServer().getOnlinePlayers()) {
-            if(!NinjaOni2.containsNinja(player)) return;
+            if(!NinjaManager.getInstance().containsNinja(player)) return;
 
-            Ninja ninja = NinjaOni2.getNinjaPlayer(player);
+            Ninja ninja = NinjaManager.getInstance().getNinjaPlayer(player);
 
             if(ninja.getTeam() == Game.Teams.PLAYER) {
                 if(ninja.isLocked()) { //捕まっている時の処理
@@ -46,8 +46,8 @@ public class MovementTask extends BukkitRunnable {
 
                         MessageManager.sendAll(ChatColor.RED + ninja.getPlayer().getName() + "が脱落した");
                         ninja.setTeam(Game.Teams.SPECTATOR);
-                        NinjaOni2.updateNinjaPlayer(ninja);
-                        NinjaOni2.addPlayerToTeam(ninja.getPlayer(), Game.Teams.SPECTATOR);
+                        NinjaManager.getInstance().updateNinjaPlayer(ninja);
+                        NinjaOniAPI.getInstance().getGame().addEntry(ninja.getPlayer(), Game.Teams.SPECTATOR);
                         ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
                     }
                 }

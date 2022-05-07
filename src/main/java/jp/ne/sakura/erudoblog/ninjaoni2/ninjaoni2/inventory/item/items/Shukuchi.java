@@ -1,6 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOniAPI;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Material;
@@ -58,7 +59,7 @@ public class Shukuchi implements NinjaItem {
                 count--;
 
             }
-        }.runTaskTimer(NinjaOni2.getInstance(), 0L, 20L);
+        }.runTaskTimer(NinjaOniAPI.getInstance().getPlugin(), 0L, 20L);
     }
 
     @Override

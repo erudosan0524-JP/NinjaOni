@@ -1,6 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.entity.Player;
@@ -18,12 +19,12 @@ public class JoinQuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        NinjaOni2.addNinjaPlayer(new Ninja(player, Game.Teams.NONE));
+        NinjaManager.getInstance().addNinjaPlayer(new Ninja(player, Game.Teams.NONE));
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        NinjaOni2.getNinjas().removeIf(np -> np.getPlayer().getName().equals(player.getName()));
+        NinjaManager.getInstance().ninjaPlayers.removeIf(np -> np.getPlayer().getName().equals(player.getName()));
     }
 }

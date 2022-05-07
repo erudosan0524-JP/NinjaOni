@@ -6,6 +6,7 @@ import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.MovementTask;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -35,6 +36,7 @@ public class Game {
     フィールド
      */
     @Getter
+    @Setter
     private GameState gameState;
 
     @Getter

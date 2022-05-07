@@ -1,6 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOniAPI;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
 import org.bukkit.entity.Player;
 
@@ -24,7 +25,7 @@ public class Start extends SubCommand {
             }
         }
 
-        getPlugin().gameStart(countdownTime,gameTime);
+        NinjaOniAPI.getInstance().getGame().gameStart(countdownTime,gameTime);
     }
 
     @Override

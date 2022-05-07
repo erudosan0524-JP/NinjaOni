@@ -11,7 +11,7 @@ public enum NinjaManager {
 
     INSTANCE;
 
-    private List<Ninja> ninjaPlayers;
+    public List<Ninja> ninjaPlayers;
 
     public static NinjaManager getInstance() {
         if(INSTANCE.ninjaPlayers == null) {
@@ -60,12 +60,15 @@ public enum NinjaManager {
         }
 
         Ninja oldNinja = getNinjaPlayer(ninja.getPlayer());
+        ninjaPlayers.remove(oldNinja);
+
         oldNinja.setClimbing(ninja.isClimbing());
         oldNinja.setTeam(ninja.getTeam());
-        NinjaOniAPI.getInstance().getGame().addEntry(ninja.getPlayer(), ninja.getTeam());
+
+        ninjaPlayers.add(oldNinja);
     }
 
-    public static int countNinja(Game.Teams team) {
+    public int countNinja(Game.Teams team) {
         int result = 0;
         for (Ninja ninja : INSTANCE.ninjaPlayers) {
             if (ninja.getTeam() == team) {

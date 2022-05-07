@@ -51,7 +51,7 @@ public class NinjaOniListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (plugin.getGameState() != Game.GameState.INGAME) {
+        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
             return;
         }
 
@@ -59,12 +59,12 @@ public class NinjaOniListener implements Listener {
             Player damager = (Player) e.getDamager();
             Player player = (Player) e.getEntity();
 
-            if (!NinjaOni2.containsNinja(damager) || !NinjaOni2.containsNinja(player)) {
+            if (!NinjaManager.getInstance().containsNinja(damager) || !NinjaManager.getInstance().containsNinja(player)) {
                 return;
             }
 
-            Ninja damagerNinja = NinjaOni2.getNinjaPlayer(damager);
-            Ninja playerNinja = NinjaOni2.getNinjaPlayer(player);
+            Ninja damagerNinja = NinjaManager.getInstance().getNinjaPlayer(damager);
+            Ninja playerNinja = NinjaManager.getInstance().getNinjaPlayer(player);
 
             if (damagerNinja.getTeam() != Game.Teams.ONI) {
                 return;
@@ -104,7 +104,7 @@ public class NinjaOniListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e) {
         if(e.getEntity() instanceof ItemFrame) {
-            if(plugin.getGameState() != Game.GameState.NONE) {
+            if(NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.NONE) {
                 e.setCancelled(true);
             }
         }

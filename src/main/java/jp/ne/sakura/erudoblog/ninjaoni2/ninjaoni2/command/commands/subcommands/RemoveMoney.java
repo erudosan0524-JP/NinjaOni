@@ -1,6 +1,8 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.subcommands;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOniAPI;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.commands.SubCommand;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
@@ -15,7 +17,7 @@ public class RemoveMoney extends SubCommand {
 
     @Override
     public void onCommand(Player player, String[] args) {
-        World world = NinjaOni2.getNinjas().get(0).getPlayer().getWorld();
+        World world = NinjaManager.getInstance().ninjaPlayers.get(0).getPlayer().getWorld();
         for(Entity entity : world.getEntities()) {
             if(entity instanceof ArmorStand) {
                 ArmorStand stand = (ArmorStand) entity;
