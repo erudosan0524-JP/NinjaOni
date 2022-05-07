@@ -1,7 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;

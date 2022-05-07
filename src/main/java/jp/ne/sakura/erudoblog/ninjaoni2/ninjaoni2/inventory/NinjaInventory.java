@@ -1,6 +1,6 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;

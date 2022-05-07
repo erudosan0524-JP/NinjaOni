@@ -1,7 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;

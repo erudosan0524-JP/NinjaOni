@@ -2,7 +2,7 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;

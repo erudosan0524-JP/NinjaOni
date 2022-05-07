@@ -1,8 +1,8 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

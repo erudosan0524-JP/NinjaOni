@@ -1,11 +1,9 @@
-package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils;
+package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

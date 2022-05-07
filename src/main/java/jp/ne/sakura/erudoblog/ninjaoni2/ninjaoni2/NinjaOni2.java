@@ -4,19 +4,12 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kageoi;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kakure;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kemuri;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items.Kunai;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener.*;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.CountDownTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.runnable.MovementTask;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.*;
@@ -32,10 +25,9 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Teams.*;
+import static jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Teams.*;
 
 public final class NinjaOni2 extends JavaPlugin {
 
@@ -373,6 +365,5 @@ public final class NinjaOni2 extends JavaPlugin {
 
         return count;
     }
-
 
 }

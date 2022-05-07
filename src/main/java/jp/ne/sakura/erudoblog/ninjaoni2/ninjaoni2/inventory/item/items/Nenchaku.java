@@ -1,13 +1,10 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
-import org.bukkit.Bukkit;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.data.type.Snow;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.util.Vector;

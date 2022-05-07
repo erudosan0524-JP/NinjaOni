@@ -1,6 +1,6 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item;
 
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 

@@ -1,7 +1,7 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.items;
 
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.item.NinjaItem;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Ninja;
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Ninja;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
