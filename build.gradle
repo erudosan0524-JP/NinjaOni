@@ -34,6 +34,9 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 
+    compileOnly "dev.jorel:commandapi-annotations:8.4.1"
+    annotationProcessor "dev.jorel:commandapi-annotations:8.4.1"
+
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.7.0"
 }
 
