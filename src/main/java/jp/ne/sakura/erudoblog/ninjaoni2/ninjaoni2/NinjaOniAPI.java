@@ -2,7 +2,6 @@ package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.command.CommandManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.utils.Config;
 import lombok.Getter;
@@ -20,9 +19,6 @@ public enum NinjaOniAPI {
 
     @Getter
     private Config myConfig;
-
-    @Getter
-    private CommandManager command;
 
     @Getter
     private ProtocolManager protocol;
@@ -48,10 +44,6 @@ public enum NinjaOniAPI {
         }
         if(INSTANCE.myConfig == null) {
             INSTANCE.myConfig = new Config(INSTANCE.plugin);
-        }
-        if(INSTANCE.command == null) {
-            INSTANCE.command = new CommandManager(INSTANCE.plugin);
-            INSTANCE.command.setup();
         }
         if(INSTANCE.protocol == null) {
             INSTANCE.protocol = ProtocolLibrary.getProtocolManager();
