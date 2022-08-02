@@ -33,6 +33,7 @@ public class NinjaCommand {
 
     @Subcommand("start")
     public static void start(
+            Player player,
             @AIntegerArgument int gameTime) {
 
         NinjaOniAPI.getInstance().getGame().gameStart(5, gameTime);
