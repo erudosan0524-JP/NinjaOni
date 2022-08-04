@@ -147,6 +147,7 @@ public class Game {
             np.setMoney(0);
             np.setLocked(false);
             np.setTeam(PLAYER);
+            np.setItems(new ArrayList<>());
         }
     }
 

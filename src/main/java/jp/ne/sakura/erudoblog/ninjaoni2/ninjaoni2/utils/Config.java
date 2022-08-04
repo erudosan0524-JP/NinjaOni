@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.Objects;
 
 public class Config {
-    private Plugin plugin;
+    private final Plugin plugin;
     private FileConfiguration config;
 
     @Getter
