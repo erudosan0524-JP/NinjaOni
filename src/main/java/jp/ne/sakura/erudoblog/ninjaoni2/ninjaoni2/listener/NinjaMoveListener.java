@@ -75,10 +75,10 @@ public class NinjaMoveListener implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = e.getPlayer();
 
-            Block wxblock = player.getWorld().getBlockAt(player.getLocation().subtract(1.05, 0, 0));
-            Block nxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, 1.05));
-            Block exblock = player.getWorld().getBlockAt(player.getLocation().subtract(-1.05, 0, 0));
-            Block sxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, -1.05));
+            Block wxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0.98, 0, 0));
+            Block nxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, 0.98));
+            Block exblock = player.getWorld().getBlockAt(player.getLocation().subtract(-0.98, 0, 0));
+            Block sxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, -0.98));
 
             double angle = player.getLocation().getYaw();
             double yaw = Util.normalAbsoluteAngleDegrees(angle);
