@@ -1,5 +1,6 @@
 package jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.listener;
 
+import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.Game;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaManager;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.NinjaOni2;
 import jp.ne.sakura.erudoblog.ninjaoni2.ninjaoni2.inventory.ItemManager;
@@ -92,7 +93,6 @@ public class ShopListener implements Listener {
             return;
         }
 
-        Inventory inv = e.getClickedInventory();
         String title = ChatColor.stripColor(e.getView().getTitle());
         ItemStack clickedItem = e.getCurrentItem();
 
@@ -118,17 +118,23 @@ public class ShopListener implements Listener {
 
         if(ninja != null) {
 
-            if(title.equals("鬼専用ショップ")
-                    || title.equals("プレイヤー専用ショップ")) {
+            if(title.equals("鬼専用ショップ") && ninja.getTeam() == Game.Teams.ONI) {
                 for(NinjaItem ni : im.getNinjaItems()) {
                     if(ni.name().equals(itemName)) {
                         ninja.addNinjaItem(ni);
                     }
                 }
-
-                NinjaManager.getInstance().updateNinjaPlayer(ninja);
-                e.setCancelled(true);
             }
+            if(title.equals("プレイヤー専用ショップ") && ninja.getTeam() == Game.Teams.PLAYER) {
+                for(NinjaItem ni : im.getNinjaItems()) {
+                    if(ni.name().equals(itemName)) {
+                        ninja.addNinjaItem(ni);
+                    }
+                }
+            }
+
+            NinjaManager.getInstance().updateNinjaPlayer(ninja);
+            e.setCancelled(true);
         }
     }
 }
