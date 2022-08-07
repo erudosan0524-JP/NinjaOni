@@ -68,17 +68,17 @@ public class NinjaMoveListener implements Listener {
     //壁ジャンプ
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
-        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
-            return;
-        }
+//        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
+//            return;
+//        }
 
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = e.getPlayer();
 
-            Block wxblock = player.getWorld().getBlockAt(player.getLocation().subtract(1.05, 0, 0));
-            Block nxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, 1.05));
-            Block exblock = player.getWorld().getBlockAt(player.getLocation().subtract(-1.05, 0, 0));
-            Block sxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, -1.05));
+            Block wxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0.95, 0, 0));
+            Block nxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, 0.95));
+            Block exblock = player.getWorld().getBlockAt(player.getLocation().subtract(-0.95, 0, 0));
+            Block sxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, -0.95));
 
             double angle = player.getLocation().getYaw();
             double yaw = Util.normalAbsoluteAngleDegrees(angle);
@@ -87,14 +87,14 @@ public class NinjaMoveListener implements Listener {
             double veloz = player.getVelocity().getZ();
 
             if (!wxblock.getType().equals(Material.AIR)) {
-                if (yaw >= 50 && yaw <= 130) {
-                    if (velox <= -0.01 && velox >= -1.0 && veloz <= -0.01 && veloz >= -1.0) {
+                if (yaw >= 50 && yaw <= 130) { //xプラス方向の判定
+                    if (velox <= -0.01 && velox >= -1.0 && veloz <= 0 && veloz >= -1.0) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(1, 0, 0);
                         player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP, 1, 1);
                         player.spawnParticle(Particle.CRIT_MAGIC, location, 20);
-                    } else if (velox <= -0.01 && velox >= -1.0 && veloz <= 1.0 && veloz >= 0.01) {
+                    } else if (velox <= -0.01 && velox >= -1.0 && veloz <= 1.0 && veloz >= 0) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(1, 0, 0);
@@ -104,13 +104,13 @@ public class NinjaMoveListener implements Listener {
                 }
             } else if (!nxblock.getType().equals(Material.AIR)) {
                 if (yaw >= 140 && yaw <= 220) {
-                    if (velox <= 1.0 && velox >= 0.01 && veloz <= -0.01 && veloz >= -1.0) {
+                    if (velox <= 1.0 && velox >= 0 && veloz <= -0.01 && veloz >= -1.0) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(0, 0, 1);
                         player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP, 1, 1);
                         player.spawnParticle(Particle.CRIT_MAGIC, location, 20);
-                    } else if (velox <= -0.01 && velox >= -1.0 && veloz <= -0.01 && veloz >= -1.0) {
+                    } else if (velox <= 0 && velox >= -1.0 && veloz <= -0.01 && veloz >= -1.0) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(0, 0, 1);
@@ -120,13 +120,13 @@ public class NinjaMoveListener implements Listener {
                 }
             } else if (!exblock.getType().equals(Material.AIR)) {
                 if (yaw >= 230 && yaw <= 310) {
-                    if (velox <= 1.0 && velox >= 0.01 && veloz <= 1.0 && veloz >= 0.01) {
+                    if (velox <= 1.0 && velox >= 0.01 && veloz <= 1.0 && veloz >= 0) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(-1, 0, 0);
                         player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP, 1, 1);
                         player.spawnParticle(Particle.CRIT_MAGIC, location, 20);
-                    } else if (velox <= 1.0 && velox >= 0.01 && veloz <= -0.01 && veloz >= -1.0) {
+                    } else if (velox <= 1.0 && velox >= 0.01 && veloz <= 0 && veloz >= -1.0) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(-1, 0, 0);
@@ -136,13 +136,13 @@ public class NinjaMoveListener implements Listener {
                 }
             } else if (!sxblock.getType().equals(Material.AIR)) {
                 if (yaw >= 320 && yaw <= 360 || yaw >= 0 && yaw <= 40) {
-                    if (velox <= -0.01 && velox >= -1.0 && veloz <= 1.0 && veloz >= 0.01) {
+                    if (velox <= 0 && velox >= -1.0 && veloz <= 1.0 && veloz >= 0.01) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(0, 0, -1);
                         player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP, 1, 1);
                         player.spawnParticle(Particle.CRIT_MAGIC, location, 20);
-                    } else if (velox <= 1.0 && velox >= 0.01 && veloz <= 1.0 && veloz >= 0.01) {
+                    } else if (velox <= 1.0 && velox >= 0 && veloz <= 1.0 && veloz >= 0.01) {
                         Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
                         player.setVelocity(vector);
                         Location location = player.getLocation().subtract(0, 0, -1);
@@ -157,9 +157,9 @@ public class NinjaMoveListener implements Listener {
     //壁よじ登り
     @EventHandler
     public void onClimb(PlayerMoveEvent e) {
-        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
-            return;
-        }
+//        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
+//            return;
+//        }
 
         Player player = e.getPlayer();
 
@@ -240,9 +240,9 @@ public class NinjaMoveListener implements Listener {
     //梯子高速上り
     @EventHandler
     public void onClimbLadder(PlayerMoveEvent e) {
-        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
-            return;
-        }
+//        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
+//            return;
+//        }
 
         Player player = e.getPlayer();
 
@@ -264,9 +264,6 @@ public class NinjaMoveListener implements Listener {
 
         double angle = player.getLocation().getYaw();
         double yaw = Util.normalAbsoluteAngleDegrees(angle);
-        double velox = player.getVelocity().getX();
-        double veloy = player.getVelocity().getY();
-        double veloz = player.getVelocity().getZ();
 
         if (wxblock.getType().equals(Material.LADDER)) {
             if (yaw >= 50 && yaw <= 130) {
@@ -298,9 +295,9 @@ public class NinjaMoveListener implements Listener {
     //トランポリン
     @EventHandler
     public void onJump(PlayerMoveEvent e) {
-        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
-            return;
-        }
+//        if (NinjaOniAPI.getInstance().getGame().getGameState() != Game.GameState.INGAME) {
+//            return;
+//        }
 
         Player player = e.getPlayer();
 
