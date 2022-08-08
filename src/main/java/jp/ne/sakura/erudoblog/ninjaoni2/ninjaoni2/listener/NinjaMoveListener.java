@@ -388,7 +388,8 @@ class Util {
         unableClimbBlocks.add(Material.VINE);
 
         for(Material material : Material.values()) {
-            if(material.name().endsWith("SLAB")) {
+            if(material.name().endsWith("SLAB")
+            || material.name().endsWith("CARPET")) {
                 unableClimbBlocks.add(material);
             }
         }
