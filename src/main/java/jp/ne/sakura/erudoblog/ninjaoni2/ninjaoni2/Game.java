@@ -149,6 +149,12 @@ public class Game {
             np.setTeam(PLAYER);
             np.setItems(new ArrayList<>());
         }
+
+        //インベントリ初期化
+        for(Ninja ninja : NinjaManager.getInstance().ninjaPlayers) {
+            ninja.setMoney(0);
+            ninja.getPlayer().getInventory().clear(); //インベントリ初期化
+        }
     }
 
     /**
