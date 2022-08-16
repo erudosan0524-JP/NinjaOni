@@ -108,6 +108,13 @@ public class Game {
         spectator.setDisplayName(SPECTATOR.getTeamName());
         spectator.setAllowFriendlyFire(false);
         spectator.setNameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS);
+
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            pl.addEntry(player.getName());
+            lockedpl.removeEntry(player.getName());
+            spectator.removeEntry(player.getName());
+            oni.removeEntry(player.getName());
+        }
     }
 
     public void addEntry(Player player, Teams team) {
